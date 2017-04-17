@@ -11,8 +11,8 @@ import net.minecraft.item.*;
 import net.minecraftforge.items.*;
 
 public class ContTEBreeder extends Container {
-	private TEBreeder te;
-	private EntityPlayer player;
+	private final TEBreeder te;
+	private final EntityPlayer player;
 	
 	private int fuel = 0, product = 0;
 	private double temp = 0.0;

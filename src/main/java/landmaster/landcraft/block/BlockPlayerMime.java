@@ -7,6 +7,7 @@ import javax.annotation.*;
 
 import com.google.common.base.*;
 
+import landmaster.landcraft.*;
 import landmaster.landcraft.tile.*;
 import landmaster.landcraft.util.*;
 import net.minecraft.block.*;
@@ -14,6 +15,9 @@ import net.minecraft.block.material.*;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.player.*;
+import net.minecraft.item.*;
+import net.minecraft.tileentity.*;
+import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraftforge.common.*;
@@ -34,6 +38,19 @@ public class BlockPlayerMime extends Block {
         this.setSoundType(SoundType.STONE);
         this.setUnlocalizedName("player_mime").setRegistryName("player_mime");
 	}
+	@Override
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side,
+            float hitX, float hitY, float hitZ) {
+		if (world.isRemote) {
+            return true;
+        }
+		TileEntity te = world.getTileEntity(pos);
+		if (!(te instanceof TEPlayerMime)) {
+			return false;
+		}
+		player.openGui(LandCraft.INSTANCE, 0, world, pos.getX(), pos.getY(), pos.getZ());
+		return true;
+	}
 	
 	@Override
 	public boolean hasTileEntity(IBlockState state) {
@@ -49,6 +66,7 @@ public class BlockPlayerMime extends Block {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void death(LivingDeathEvent event) {
 		if (event.getEntity().worldObj.isRemote) return;
+		
 		List<TEPlayerMime> tiles = Utils.getTileEntitiesWithinAABB(
 				event.getEntity().worldObj, TEPlayerMime.class,
 				new AxisAlignedBB(event.getEntity().getPositionVector().subtract(2, 2, 2),
@@ -56,9 +74,11 @@ public class BlockPlayerMime extends Block {
 		if (recentlyHit(event.getEntityLiving()) < 22
 				|| attackingPlayer(event.getEntityLiving()) == null) {
 			for (TEPlayerMime te: tiles) {
-				if (te.extractEnergy(null, 1000, true) >= 1000) {
+				if (te.isEnabled(te)
+						&& te.extractEnergy(null, 1000, true) >= 1000
+						&& !event.getEntity().worldObj.isBlockPowered(te.getPos())) {
 					te.extractEnergy(null, 1000, false);
-					recentlyHit(event.getEntityLiving(), 60);
+					recentlyHit(event.getEntityLiving(), 100);
 					FakePlayer fake = FakePlayerFactory.getMinecraft((WorldServer)event.getEntity().worldObj);
 					attackingPlayer(event.getEntityLiving(), fake);
 				}

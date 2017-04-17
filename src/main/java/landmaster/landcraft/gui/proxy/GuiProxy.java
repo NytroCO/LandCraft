@@ -16,6 +16,8 @@ public class GuiProxy implements IGuiHandler {
 		TileEntity te = world.getTileEntity(pos);
 		if (te instanceof TEBreeder) {
 			return new ContTEBreeder(player, (TEBreeder)te);
+		} else if (te instanceof TEPlayerMime) {
+			return new ContTEPlayerMime(player, (TEPlayerMime)te);
 		}
 		return null;
 	}
@@ -26,6 +28,8 @@ public class GuiProxy implements IGuiHandler {
 		TileEntity te = world.getTileEntity(pos);
 		if (te instanceof TEBreeder) {
 			return new GuiTEBreeder(new ContTEBreeder(player, (TEBreeder)te));
+		} else if (te instanceof TEPlayerMime) {
+			return new GuiTEPlayerMime(new ContTEPlayerMime(player, (TEPlayerMime)te));
 		}
 		return null;
 	}

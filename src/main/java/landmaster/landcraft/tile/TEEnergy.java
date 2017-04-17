@@ -1,7 +1,7 @@
 package landmaster.landcraft.tile;
 
 import cofh.api.energy.*;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.*;
@@ -28,6 +28,10 @@ public class TEEnergy extends TileEntity implements IEnergyReceiver, IEnergyProv
 	
 	public TEEnergy(int capacity, int maxReceive, int maxExtract) {
 		es = new Storage(capacity, maxReceive, maxExtract);
+	}
+	
+	public void setEnergyStored(EnumFacing facing, int energy) {
+		es.setEnergyStored(energy);
 	}
 	
 	@Override

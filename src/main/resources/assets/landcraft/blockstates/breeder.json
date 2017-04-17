@@ -2,15 +2,17 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-        	"all": "landcraft:blocks/breeder"
+        	"top": "landcraft:blocks/breeder_tb",
+            "bottom": "landcraft:blocks/breeder_tb",
+            "side": "landcraft:blocks/breeder_side"
         }
     },
     "variants": {
         "normal": {
-            "model": "cube_all"
+            "model": "cube_bottom_top"
         },
         "inventory": {
-            "model": "cube_all"
+            "model": "cube_bottom_top"
         }
     }
 }

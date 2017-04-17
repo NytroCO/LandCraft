@@ -11,5 +11,6 @@ public class PacketHandler {
 	public static void init() {
 		int msgInd = 0;
 		INSTANCE.registerMessage(PacketUpdateTEBreeder.class, PacketUpdateTEBreeder.class, msgInd++, Side.CLIENT);
+		INSTANCE.registerMessage(PacketUpdateClientEnergy.class, PacketUpdateClientEnergy.class, msgInd++, Side.CLIENT);
 	}
 }
