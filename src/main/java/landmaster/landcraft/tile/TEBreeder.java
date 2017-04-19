@@ -17,7 +17,8 @@ import net.minecraftforge.items.*;
 import net.minecraftforge.oredict.*;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")
-public class TEBreeder extends TileEntity implements ITickable, SimpleComponent {
+public class TEBreeder extends TileEntity
+implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder> {
 	private ItemStackHandler ish;
 	private double temperature;
 	private int fuel, product;
@@ -50,19 +51,26 @@ public class TEBreeder extends TileEntity implements ITickable, SimpleComponent 
 		tag.setInteger("Product", product);
 		return tag;
 	}
+	
+	public double maxTemp() {
+		return 50000;
+	}
+	
 	@Override
 	public void update() {
-		if (worldObj.isRemote) return;
+		if (worldObj.isRemote || !isEnabled(this)) return;
 		ItemStack reactant = ItemStack.copyItemStack(ish.getStackInSlot(Slots.REACTANT.ordinal()));
 		if (reactant != null && ArrayUtils.contains(OreDictionary.getOreIDs(reactant), OreDictionary.getOreID("ingotThorium"))) {
 			int consume = Math.min(reactant.stackSize, (MAX_FUEL - fuel)/THORIUM_SCALAR);
 			fuel += consume * THORIUM_SCALAR;
 			ish.extractItem(Slots.REACTANT.ordinal(), consume, false);
+			markDirty();
 		}
 		if (fuel > 0) {
 			int fuelConsumption = 8;
 			fuel -= fuelConsumption;
 			temperature += getTempFromFuel(fuelConsumption);
+			markDirty();
 		}
 		ItemStack feedstock = ItemStack.copyItemStack(ish.getStackInSlot(Slots.FEEDSTOCK.ordinal()));
 		int mass, temp;
@@ -73,6 +81,7 @@ public class TEBreeder extends TileEntity implements ITickable, SimpleComponent 
 				if (feed != null && feed.stackSize >= 1) {
 					temperature -= temp;
 					product += mass;
+					markDirty();
 				}
 			}
 		}
@@ -83,12 +92,26 @@ public class TEBreeder extends TileEntity implements ITickable, SimpleComponent 
 					Item.REGISTRY.getObject(new ResourceLocation("landcore:item_ingot")), thoriumProduct, 0), false);
 			int remSize = rem != null ? rem.stackSize : 0;
 			product = remSize * THORIUM_SCALAR + thoriumRem;
+			markDirty();
 		}
-		temperature = Math.max(temperature-5, 0);
+		
+		if (temperature > 0) {
+			temperature = Math.max(temperature-5, 0);
+			markDirty();
+		}
+		
+		if (temperature > maxTemp()) {
+			worldObj.newExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 3, true, true);
+			worldObj.destroyBlock(pos, true);
+		}
+	}
+	
+	public int getFuelConsumption() {
+		return 8;
 	}
 	
 	public double getTempFromFuel(int fuelConsumption) {
-		return fuelConsumption;
+		return 20+700*Math.exp(-0.0001*Math.pow(temperature/200-100,2))*fuelConsumption/8.0;
 	}
 	
 	@Override
@@ -159,5 +182,9 @@ public class TEBreeder extends TileEntity implements ITickable, SimpleComponent 
     @Optional.Method(modid = "OpenComputers")
     public Object[] getProduct(Context context, Arguments args) {
 		return new Object[] {product};
+	}
+	@Override
+	public RedstoneControl.State getRedstoneState() {
+		return RedstoneControl.State.CONTINUOUS;
 	}
 }

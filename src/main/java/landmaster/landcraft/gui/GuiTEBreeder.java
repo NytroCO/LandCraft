@@ -34,7 +34,11 @@ public class GuiTEBreeder extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		fontRendererObj.drawString(I18n.format("tile.breeder.name"), 8, 6, 0x404040);
 		fontRendererObj.drawString(cont.getPlayerInv().getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
-		fontRendererObj.drawString(String.format("F: %s; T: %s; P: %s",
-				fuel, temperature, product), 8, 18, 0x0000FF);
+		fontRendererObj.drawString(I18n.format("info.breeder.fuel",
+				fuel), 15, 50, 0x00FF00);
+		fontRendererObj.drawString(I18n.format("info.breeder.temp",
+				temperature, cont.getTE().maxTemp()), 15, 60, 0xFF0000);
+		fontRendererObj.drawString(I18n.format("info.breeder.product",
+				product), 90, 50, 0x0000FF);
 	}
 }

@@ -1,2 +1,6 @@
 tile.breeder.name=Breeder Reactor
 tile.player_mime.name=Player Mime
+
+info.breeder.fuel=Fuel loaded: %d
+info.breeder.temp=Temp.: %.1f/%.1f
+info.breeder.product=Spare output: %d

@@ -1,13 +1,13 @@
 package landmaster.landcraft.api;
 
-import java.util.*;
-
+import gnu.trove.map.*;
+import gnu.trove.map.hash.*;
 import net.minecraft.item.*;
 import net.minecraftforge.oredict.*;
 
 public class BreederFeedstock {
-	private static final Map<Integer, Integer> feedstockMassDict = new HashMap<>(),
-			feedstockTempDict = new HashMap<>();
+	private static final TIntIntMap feedstockMassDict = new TIntIntHashMap(),
+			feedstockTempDict = new TIntIntHashMap();
 	
 	public static void addOreDict(String ore, int mass, int temp) {
 		if (OreDictionary.doesOreNameExist(ore)) {
