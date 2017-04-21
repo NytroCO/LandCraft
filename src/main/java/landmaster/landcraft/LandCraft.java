@@ -34,6 +34,7 @@ public class LandCraft {
 	public static final BlockBreeder breeder = new BlockBreeder();
 	public static final BlockPlayerMime player_mime = new BlockPlayerMime();
 	public static final BlockThoriumGenerator thorium_generator = new BlockThoriumGenerator();
+	public static final Item redstone_component = new Item().setUnlocalizedName("redstone_component").setRegistryName("redstone_component");
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -62,6 +63,9 @@ public class LandCraft {
 			proxy.registerItemRenderer(thorium_generator_item, 0, "thorium_generator");
 			GameRegistry.registerTileEntity(TEThoriumGenerator.class, MODID+"_thorium_generator");
 		}
+		
+		GameRegistry.register(redstone_component);
+		proxy.registerItemRenderer(redstone_component, 0, "redstone_component");
 	}
 	
 	@EventHandler
@@ -83,9 +87,22 @@ public class LandCraft {
 		
 		if (Config.player_mime) {
 			GameRegistry.addRecipe(new ShapedOreRecipe(player_mime,
-					" S ", "hOh", "www",
+					"rSr", "hOh", "www",
 					'S', Items.DIAMOND_SWORD, 'h', "ingotThorium",
-					'O', Blocks.OBSIDIAN, 'w', "ingotTungsten"));
+					'O', Blocks.OBSIDIAN, 'w', "ingotTungsten",
+					'r', redstone_component));
 		}
+		
+		if (Config.thorium_generator) {
+			GameRegistry.addRecipe(new ShapedOreRecipe(thorium_generator,
+					"rzr", "wFw", "ara",
+					'w', "ingotTungsten", 'r', redstone_component,
+					'F', Blocks.FURNACE, 'z', "gemLapis", 'a', "ingotGold"));
+		}
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(redstone_component,
+				"fdh",
+				'f', "ingotIron", 'd', "dustRedstone",
+				'h', "ingotThorium"));
 	}
 }

@@ -23,11 +23,11 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEThoriumGenerat
 	private int progress = -1;
 	
 	public static final int THORIUM_BURN_TIME = 400;
-	public static final int ENERGY_PER_TICK = 400;
-	public static final int WATER_PER_TICK = 25;
+	public static final int ENERGY_PER_TICK = 1000;
+	public static final int WATER_PER_TICK = 10;
 	
 	public TEThoriumGenerator() {
-		super(240000, 1000, 1000);
+		super(240000, ENERGY_PER_TICK, ENERGY_PER_TICK);
 		ish = new ItemStackHandler(1);
 		ft = new FluidTank(8*Fluid.BUCKET_VOLUME) {
 			@Override
