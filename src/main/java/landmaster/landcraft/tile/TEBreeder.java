@@ -7,8 +7,6 @@ import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.*;
 import net.minecraft.item.*;
 import net.minecraft.nbt.*;
-import net.minecraft.network.*;
-import net.minecraft.network.play.server.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.*;
@@ -137,29 +135,6 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder> {
 	public void setTemp(double arg) { temperature = arg; }
 	public void setFuel(int arg) { fuel = arg; }
 	public void setProduct(int arg) { product = arg; }
-	
-	@Override
-	public NBTTagCompound getUpdateTag() {
-		NBTTagCompound tag = super.getUpdateTag();
-		return writeToNBT(tag);
-	}
-	
-	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
-		super.handleUpdateTag(tag);
-	}
-	
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		return new SPacketUpdateTileEntity(pos, getBlockMetadata(), getUpdateTag());
-	}
-	
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-		if (net.getDirection() == EnumPacketDirection.CLIENTBOUND) {
-			readFromNBT(pkt.getNbtCompound());
-		}
-	}
 	
 	@Override
 	public String getComponentName() {

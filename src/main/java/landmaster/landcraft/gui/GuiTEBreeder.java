@@ -1,5 +1,7 @@
 package landmaster.landcraft.gui;
 
+import java.text.*;
+
 import landmaster.landcraft.*;
 import landmaster.landcraft.container.*;
 import net.minecraft.client.gui.inventory.*;
@@ -36,8 +38,10 @@ public class GuiTEBreeder extends GuiContainer {
 		fontRendererObj.drawString(cont.getPlayerInv().getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
 		fontRendererObj.drawString(I18n.format("info.breeder.fuel",
 				fuel), 15, 50, 0x00FF00);
+		NumberFormat nf = NumberFormat.getIntegerInstance();
+		nf.setMaximumFractionDigits(1);
 		fontRendererObj.drawString(I18n.format("info.breeder.temp",
-				temperature, cont.getTE().maxTemp()), 15, 60, 0xFF0000);
+				nf.format(temperature), nf.format(cont.getTE().maxTemp())), 15, 60, 0xFF0000);
 		fontRendererObj.drawString(I18n.format("info.breeder.product",
 				product), 90, 50, 0x0000FF);
 	}

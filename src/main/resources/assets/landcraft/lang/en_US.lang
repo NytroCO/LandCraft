@@ -1,6 +1,7 @@
 tile.breeder.name=Breeder Reactor
 tile.player_mime.name=Player Mime
+tile.thorium_generator.name=Thorium Generator
 
 info.breeder.fuel=Fuel loaded: %d
-info.breeder.temp=Temp.: %.1f/%.1f
+info.breeder.temp=Temp.: %s/%s
 info.breeder.product=Spare output: %d

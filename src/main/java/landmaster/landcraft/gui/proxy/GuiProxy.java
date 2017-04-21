@@ -18,6 +18,8 @@ public class GuiProxy implements IGuiHandler {
 			return new ContTEBreeder(player, (TEBreeder)te);
 		} else if (te instanceof TEPlayerMime) {
 			return new ContTEPlayerMime(player, (TEPlayerMime)te);
+		} else if (te instanceof TEThoriumGenerator) {
+			return new ContTEThoriumGenerator(player, (TEThoriumGenerator)te);
 		}
 		return null;
 	}
@@ -30,6 +32,8 @@ public class GuiProxy implements IGuiHandler {
 			return new GuiTEBreeder(new ContTEBreeder(player, (TEBreeder)te));
 		} else if (te instanceof TEPlayerMime) {
 			return new GuiTEPlayerMime(new ContTEPlayerMime(player, (TEPlayerMime)te));
+		} else if (te instanceof TEThoriumGenerator) {
+			return new GuiTEThoriumGenerator(new ContTEThoriumGenerator(player, (TEThoriumGenerator)te));
 		}
 		return null;
 	}

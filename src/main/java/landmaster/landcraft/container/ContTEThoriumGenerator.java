@@ -8,54 +8,44 @@ import landmaster.landcraft.tile.*;
 import net.minecraft.entity.player.*;
 import net.minecraft.inventory.*;
 import net.minecraft.item.*;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.items.*;
 
-public class ContTEBreeder extends Container {
-	private final TEBreeder te;
-	private final EntityPlayer player;
+public class ContTEThoriumGenerator extends ContEnergy {
+	private int progress = 0;
+	private FluidStack fs;
+	private TEThoriumGenerator te;
 	
-	private int fuel = 0, product = 0;
-	private double temp = 0.0;
-	
-	public ContTEBreeder(EntityPlayer player, TEBreeder te) {
+	public ContTEThoriumGenerator(EntityPlayer player, TEThoriumGenerator te) {
+		super(player, te);
 		this.te = te;
-		this.player = player;
 		addOwnSlots();
 		addPlayerSlots(player.inventory);
 	}
-	public TEBreeder getTE() {
-		return te;
-	}
-	public EntityPlayer getPlayer() {
-		return player;
-	}
-	public IInventory getPlayerInv() {
-		return player.inventory;
-	}
 	
-	
-	@Override
-	public boolean canInteractWith(EntityPlayer player) {
-		return true;
-	}
 	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
-		if (temp != te.getTemp() || fuel != te.getFuel() || product != te.getProduct()) {
-			if (player instanceof EntityPlayerMP) {
-				PacketHandler.INSTANCE.sendTo(new PacketUpdateTEBreeder(te), (EntityPlayerMP)player);
+		FluidStack nfs = te.getFluid();
+		if ((fs != null && !fs.isFluidStackIdentical(nfs)) || (fs == null && nfs != null)) {
+			if (this.player instanceof EntityPlayerMP) {
+				fs = nfs;
+				if (fs != null) fs = fs.copy();
+				PacketHandler.INSTANCE.sendTo(new PacketUpdateClientFluid(fs),
+						(EntityPlayerMP)player);
 			}
-			temp = te.getTemp();
-			fuel = te.getFuel();
-			product = te.getProduct();
+		}
+		if (progress != te.getProgress()) {
+			if (this.player instanceof EntityPlayerMP) {
+				progress = te.getProgress();
+				PacketHandler.INSTANCE.sendTo(new PacketUpdateTEThoriumGenerator(progress),
+						(EntityPlayerMP)player);
+			}
 		}
 	}
 	
-	
 	private void addOwnSlots() {
-		addSlotToContainer(new SlotFeedstock(te, 16, 30));
-		addSlotToContainer(new SlotThorium(te, TEBreeder.Slots.REACTANT.ordinal(), 35, 30));
-		addSlotToContainer(new SlotOutput(te, 116, 30));
+		addSlotToContainer(new SlotThorium(te, 0, 35, 30));
 	}
 	private void addPlayerSlots(IInventory playerInv) {
 		int slotY;

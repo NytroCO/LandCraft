@@ -10,7 +10,7 @@ public class RedstoneControl {
 	}
 	
 	public static interface Provider<T extends TileEntity & Provider<T>> {
-		@Nonnull State getRedstoneState();
+		@Nonnull RedstoneControl.State getRedstoneState();
 		default boolean isEnabledPulse(T tile) {
 			return true;
 		}
