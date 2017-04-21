@@ -19,9 +19,9 @@ import net.minecraftforge.oredict.*;
 @Mod(modid = LandCraft.MODID, name = LandCraft.NAME, version = LandCraft.VERSION, dependencies = LandCraft.DEPENDS)
 public class LandCraft {
 	public static final String MODID = "landcraft";
-	public static final String NAME = "LandCraft";
+	public static final String NAME = "Land Craft";
 	public static final String VERSION = "1.0.0.0";
-	public static final String DEPENDS = "required-after:landcore@[1.3.0.0,)";
+	public static final String DEPENDS = "required-after:landcore@[1.3.0.0,);after:OpenComputers";
 	
 	@Mod.Instance(MODID)
 	public static LandCraft INSTANCE;
