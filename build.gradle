@@ -20,6 +20,12 @@ compileJava {
     sourceCompatibility = targetCompatibility = "1.8"
 }
 
+repositories {
+	maven { // McJtyLib
+        url "http://maven.k-4u.nl"
+    }
+}
+
 minecraft {
     version = "1.10.2-12.18.3.2185"
     runDir = "run"
@@ -55,6 +61,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
     
+    deobfCompile "com.github.mcjty:compatlayer:1.10-0.2.7"
 }
 
 processResources

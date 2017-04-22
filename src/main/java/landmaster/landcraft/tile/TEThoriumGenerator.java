@@ -4,6 +4,9 @@ import org.apache.commons.lang3.*;
 
 import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.*;
+import mcjty.lib.compat.*;
+import mcjty.lib.tools.*;
+import net.minecraft.entity.player.*;
 import net.minecraft.item.*;
 import net.minecraft.nbt.*;
 import net.minecraft.util.*;
@@ -16,7 +19,7 @@ import net.minecraftforge.oredict.*;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")
 public class TEThoriumGenerator extends TEEnergy
-implements ITickable, SimpleComponent, RedstoneControl.Provider<TEThoriumGenerator> {
+implements ITickable, SimpleComponent, RedstoneControl.Provider<TEThoriumGenerator>, CompatInventory {
 	private ItemStackHandler ish;
 	private FluidTank ft;
 	
@@ -27,7 +30,7 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEThoriumGenerat
 	public static final int WATER_PER_TICK = 10;
 	
 	public TEThoriumGenerator() {
-		super(240000, ENERGY_PER_TICK, ENERGY_PER_TICK);
+		super(400000, ENERGY_PER_TICK, ENERGY_PER_TICK);
 		ish = new ItemStackHandler(1);
 		ft = new FluidTank(8*Fluid.BUCKET_VOLUME) {
 			@Override
@@ -82,10 +85,10 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEThoriumGenerat
 
 	@Override
 	public void update() {
-		if (!this.isEnabled(this)) return;
+		if (getWorld().isRemote || !this.isEnabled(this)) return;
 		if (progress < 0) {
 			ItemStack is = ish.extractItem(0, 1, true);
-			if (is != null && ArrayUtils.contains(OreDictionary.getOreIDs(is), OreDictionary.getOreID("ingotThorium"))) {
+			if (!ItemStackTools.isEmpty(is) && ArrayUtils.contains(OreDictionary.getOreIDs(is), OreDictionary.getOreID("ingotThorium"))) {
 				ish.extractItem(0, 1, false);
 				++progress;
 				markDirty();
@@ -129,5 +132,69 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEThoriumGenerat
 	@Override
 	public RedstoneControl.State getRedstoneState() {
 		return RedstoneControl.State.CONTINUOUS;
+	}
+	
+	@Override
+	public String getName() {
+		return getComponentName();
+	}
+	@Override
+	public boolean hasCustomName() {
+		return true;
+	}
+	@Override
+	public int getSizeInventory() {
+		return ish.getSlots();
+	}
+	@Override
+	public ItemStack getStackInSlot(int index) {
+		return ish.getStackInSlot(index);
+	}
+	@Override
+	public ItemStack decrStackSize(int index, int count) {
+		return ish.extractItem(index, count, false);
+	}
+	@Override
+	public ItemStack removeStackFromSlot(int index) {
+		return ish.extractItem(index, Integer.MAX_VALUE, false);
+	}
+	@Override
+	public void setInventorySlotContents(int index, ItemStack stack) {
+		ish.setStackInSlot(index, stack);
+	}
+	@Override
+	public int getInventoryStackLimit() {
+		return 64;
+	}
+	@Override
+	public boolean isUsable(EntityPlayer player) {
+		return true;
+	}
+	@Override
+	public void openInventory(EntityPlayer player) {
+	}
+	@Override
+	public void closeInventory(EntityPlayer player) {
+	}
+	@Override
+	public boolean isItemValidForSlot(int index, ItemStack stack) {
+		return true;
+	}
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
+	@Override
+	public void setField(int id, int value) {
+	}
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+	@Override
+	public void clear() {
+		for (int i=0; i<ish.getSlots(); ++i) {
+			ish.setStackInSlot(i, ItemStackTools.getEmptyStack());
+		}
 	}
 }

@@ -4,6 +4,8 @@ import javax.annotation.*;
 
 import landmaster.landcraft.*;
 import landmaster.landcraft.tile.*;
+import mcjty.lib.compat.*;
+import mcjty.lib.tools.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
 import net.minecraft.block.state.*;
@@ -16,7 +18,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraftforge.items.*;
 
-public class BlockThoriumGenerator extends Block {
+public class BlockThoriumGenerator extends CompatBlock {
 	public BlockThoriumGenerator() {
 		super(Material.ROCK);
 		this.setHarvestLevel("pickaxe", 0);
@@ -24,9 +26,10 @@ public class BlockThoriumGenerator extends Block {
         this.setResistance(10.0F);
         this.setSoundType(SoundType.STONE);
         this.setUnlocalizedName("thorium_generator").setRegistryName("thorium_generator");
+        this.setCreativeTab(LandCraft.creativeTab);
 	}
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side,
+	protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side,
             float hitX, float hitY, float hitZ) {
 		if (world.isRemote) {
             return true;
@@ -46,7 +49,7 @@ public class BlockThoriumGenerator extends Block {
 					CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 			for (int i=0; i<handler.getSlots(); ++i) {
 				ItemStack is = handler.getStackInSlot(i);
-				if (is != null) {
+				if (!ItemStackTools.isEmpty(is)) {
 					EntityItem ent = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), is);
 					world.spawnEntityInWorld(ent);
 				}

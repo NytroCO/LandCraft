@@ -7,6 +7,7 @@ import landmaster.landcraft.gui.proxy.*;
 import landmaster.landcraft.net.*;
 import landmaster.landcraft.proxy.*;
 import landmaster.landcraft.tile.*;
+import mcjty.lib.compat.*;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
 import net.minecraftforge.fml.common.*;
@@ -16,12 +17,12 @@ import net.minecraftforge.fml.common.network.*;
 import net.minecraftforge.fml.common.registry.*;
 import net.minecraftforge.oredict.*;
 
-@Mod(modid = LandCraft.MODID, name = LandCraft.NAME, version = LandCraft.VERSION, dependencies = LandCraft.DEPENDS)
+@Mod(modid = LandCraft.MODID, name = LandCraft.NAME, version = LandCraft.VERSION, dependencies = LandCraft.DEPENDS, useMetadata = true, acceptedMinecraftVersions = "[1.9,1.12)")
 public class LandCraft {
 	public static final String MODID = "landcraft";
 	public static final String NAME = "Land Craft";
 	public static final String VERSION = "1.0.0.0";
-	public static final String DEPENDS = "required-after:landcore@[1.3.0.0,);after:OpenComputers";
+	public static final String DEPENDS = "required-after:landcore@[1.3.0.1,);required-after:compatlayer;after:OpenComputers";
 	
 	@Mod.Instance(MODID)
 	public static LandCraft INSTANCE;
@@ -31,10 +32,17 @@ public class LandCraft {
 	@SidedProxy(serverSide = "landmaster.landcraft.proxy.CommonProxy", clientSide = "landmaster.landcraft.proxy.ClientProxy")
 	public static CommonProxy proxy;
 	
+	public static final CompatCreativeTabs creativeTab = new CompatCreativeTabs(MODID) {
+		@Override
+		public Item getItem() {
+			return redstone_component;
+		}
+	};
+	
 	public static final BlockBreeder breeder = new BlockBreeder();
 	public static final BlockPlayerMime player_mime = new BlockPlayerMime();
 	public static final BlockThoriumGenerator thorium_generator = new BlockThoriumGenerator();
-	public static final Item redstone_component = new Item().setUnlocalizedName("redstone_component").setRegistryName("redstone_component");
+	public static final Item redstone_component = new CompatItem().setUnlocalizedName("redstone_component").setRegistryName("redstone_component").setCreativeTab(creativeTab);
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {

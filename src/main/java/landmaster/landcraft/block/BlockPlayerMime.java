@@ -10,12 +10,12 @@ import com.google.common.base.*;
 import landmaster.landcraft.*;
 import landmaster.landcraft.tile.*;
 import landmaster.landcraft.util.*;
+import mcjty.lib.compat.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.player.*;
-import net.minecraft.item.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
@@ -25,7 +25,7 @@ import net.minecraftforge.common.util.*;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.fml.common.eventhandler.*;
 
-public class BlockPlayerMime extends Block {
+public class BlockPlayerMime extends CompatBlock {
 	static {
 		MinecraftForge.EVENT_BUS.register(BlockPlayerMime.class);
 	}
@@ -37,9 +37,10 @@ public class BlockPlayerMime extends Block {
         this.setResistance(10.0F);
         this.setSoundType(SoundType.STONE);
         this.setUnlocalizedName("player_mime").setRegistryName("player_mime");
+        this.setCreativeTab(LandCraft.creativeTab);
 	}
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side,
+	protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side,
             float hitX, float hitY, float hitZ) {
 		if (world.isRemote) {
             return true;
@@ -65,10 +66,10 @@ public class BlockPlayerMime extends Block {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void death(LivingDeathEvent event) {
-		if (event.getEntity().worldObj.isRemote) return;
+		if (event.getEntity().getEntityWorld().isRemote) return;
 		
 		List<TEPlayerMime> tiles = Utils.getTileEntitiesWithinAABB(
-				event.getEntity().worldObj, TEPlayerMime.class,
+				event.getEntity().getEntityWorld(), TEPlayerMime.class,
 				new AxisAlignedBB(event.getEntity().getPositionVector().subtract(2, 2, 2),
 						event.getEntity().getPositionVector().addVector(2, 2, 2)));
 		if (recentlyHit(event.getEntityLiving()) < 22
@@ -76,10 +77,10 @@ public class BlockPlayerMime extends Block {
 			for (TEPlayerMime te: tiles) {
 				if (te.isEnabled(te)
 						&& te.extractEnergy(null, 1000, true) >= 1000
-						&& !event.getEntity().worldObj.isBlockPowered(te.getPos())) {
+						&& !event.getEntity().getEntityWorld().isBlockPowered(te.getPos())) {
 					te.extractEnergy(null, 1000, false);
 					recentlyHit(event.getEntityLiving(), 100);
-					FakePlayer fake = FakePlayerFactory.getMinecraft((WorldServer)event.getEntity().worldObj);
+					FakePlayer fake = FakePlayerFactory.getMinecraft((WorldServer)event.getEntity().getEntityWorld());
 					attackingPlayer(event.getEntityLiving(), fake);
 				}
 			}

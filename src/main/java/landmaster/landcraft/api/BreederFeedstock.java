@@ -2,6 +2,7 @@ package landmaster.landcraft.api;
 
 import gnu.trove.map.*;
 import gnu.trove.map.hash.*;
+import mcjty.lib.tools.*;
 import net.minecraft.item.*;
 import net.minecraftforge.oredict.*;
 
@@ -26,20 +27,24 @@ public class BreederFeedstock {
 	}
 	
 	public static int getMass(ItemStack is) {
-		int[] arr = OreDictionary.getOreIDs(is);
-		for (int i=0; i<arr.length; ++i) {
-			if (feedstockMassDict.containsKey(arr[i])) {
-				return feedstockMassDict.get(arr[i]);
+		if (!ItemStackTools.isEmpty(is)) {
+			int[] arr = OreDictionary.getOreIDs(is);
+			for (int i=0; i<arr.length; ++i) {
+				if (feedstockMassDict.containsKey(arr[i])) {
+					return feedstockMassDict.get(arr[i]);
+				}
 			}
 		}
 		return 0;
 	}
 	
 	public static int getTemp(ItemStack is) {
-		int[] arr = OreDictionary.getOreIDs(is);
-		for (int i=0; i<arr.length; ++i) {
-			if (feedstockTempDict.containsKey(arr[i])) {
-				return feedstockTempDict.get(arr[i]);
+		if (!ItemStackTools.isEmpty(is)) {
+			int[] arr = OreDictionary.getOreIDs(is);
+			for (int i=0; i<arr.length; ++i) {
+				if (feedstockTempDict.containsKey(arr[i])) {
+					return feedstockTempDict.get(arr[i]);
+				}
 			}
 		}
 		return 0;

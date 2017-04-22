@@ -5,6 +5,9 @@ import org.apache.commons.lang3.*;
 import landmaster.landcraft.api.*;
 import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.*;
+import mcjty.lib.compat.*;
+import mcjty.lib.tools.*;
+import net.minecraft.entity.player.*;
 import net.minecraft.item.*;
 import net.minecraft.nbt.*;
 import net.minecraft.tileentity.*;
@@ -16,7 +19,7 @@ import net.minecraftforge.oredict.*;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")
 public class TEBreeder extends TileEntity
-implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder> {
+implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder>, CompatInventory {
 	private ItemStackHandler ish;
 	private double temperature;
 	private int fuel, product;
@@ -56,27 +59,27 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder> {
 	
 	@Override
 	public void update() {
-		if (worldObj.isRemote || !isEnabled(this)) return;
-		ItemStack reactant = ItemStack.copyItemStack(ish.getStackInSlot(Slots.REACTANT.ordinal()));
-		if (reactant != null && ArrayUtils.contains(OreDictionary.getOreIDs(reactant), OreDictionary.getOreID("ingotThorium"))) {
-			int consume = Math.min(reactant.stackSize, (MAX_FUEL - fuel)/THORIUM_SCALAR);
+		if (getWorld().isRemote || !isEnabled(this)) return;
+		ItemStack reactant = ItemStackTools.safeCopy(ish.getStackInSlot(Slots.REACTANT.ordinal()));
+		if (!ItemStackTools.isEmpty(reactant) && ArrayUtils.contains(OreDictionary.getOreIDs(reactant), OreDictionary.getOreID("ingotThorium"))) {
+			int consume = Math.min(ItemStackTools.getStackSize(reactant), (MAX_FUEL - fuel)/THORIUM_SCALAR);
 			fuel += consume * THORIUM_SCALAR;
 			ish.extractItem(Slots.REACTANT.ordinal(), consume, false);
 			markDirty();
 		}
 		if (fuel > 0) {
-			int fuelConsumption = 8;
+			int fuelConsumption = getFuelConsumption();
 			fuel -= fuelConsumption;
 			temperature += getTempFromFuel(fuelConsumption);
 			markDirty();
 		}
-		ItemStack feedstock = ItemStack.copyItemStack(ish.getStackInSlot(Slots.FEEDSTOCK.ordinal()));
+		ItemStack feedstock = ItemStackTools.safeCopy(ish.getStackInSlot(Slots.FEEDSTOCK.ordinal()));
 		int mass, temp;
-		if (feedstock != null && (mass = BreederFeedstock.getMass(feedstock)) > 0) {
+		if (!ItemStackTools.isEmpty(feedstock) && (mass = BreederFeedstock.getMass(feedstock)) > 0) {
 			temp = BreederFeedstock.getTemp(feedstock);
 			if (temp < temperature) {
 				ItemStack feed = ish.extractItem(Slots.FEEDSTOCK.ordinal(), 1, false);
-				if (feed != null && feed.stackSize >= 1) {
+				if (ItemStackTools.getStackSize(feed) >= 1) {
 					temperature -= temp;
 					product += mass;
 					markDirty();
@@ -88,7 +91,7 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder> {
 		if (thoriumProduct > 0) {
 			ItemStack rem = ish.insertItem(Slots.OUTPUT.ordinal(), new ItemStack(
 					Item.REGISTRY.getObject(new ResourceLocation("landcore:item_ingot")), thoriumProduct, 0), false);
-			int remSize = rem != null ? rem.stackSize : 0;
+			int remSize = ItemStackTools.getStackSize(rem);
 			product = remSize * THORIUM_SCALAR + thoriumRem;
 			markDirty();
 		}
@@ -99,8 +102,8 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder> {
 		}
 		
 		if (temperature > maxTemp()) {
-			worldObj.newExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 3, true, true);
-			worldObj.destroyBlock(pos, true);
+			getWorld().newExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 3, true, true);
+			getWorld().destroyBlock(pos, true);
 		}
 	}
 	
@@ -161,5 +164,68 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder> {
 	@Override
 	public RedstoneControl.State getRedstoneState() {
 		return RedstoneControl.State.CONTINUOUS;
+	}
+	@Override
+	public String getName() {
+		return getComponentName();
+	}
+	@Override
+	public boolean hasCustomName() {
+		return true;
+	}
+	@Override
+	public int getSizeInventory() {
+		return ish.getSlots();
+	}
+	@Override
+	public ItemStack getStackInSlot(int index) {
+		return ish.getStackInSlot(index);
+	}
+	@Override
+	public ItemStack decrStackSize(int index, int count) {
+		return ish.extractItem(index, count, false);
+	}
+	@Override
+	public ItemStack removeStackFromSlot(int index) {
+		return ish.extractItem(index, Integer.MAX_VALUE, false);
+	}
+	@Override
+	public void setInventorySlotContents(int index, ItemStack stack) {
+		ish.setStackInSlot(index, stack);
+	}
+	@Override
+	public int getInventoryStackLimit() {
+		return 64;
+	}
+	@Override
+	public boolean isUsable(EntityPlayer player) {
+		return true;
+	}
+	@Override
+	public void openInventory(EntityPlayer player) {
+	}
+	@Override
+	public void closeInventory(EntityPlayer player) {
+	}
+	@Override
+	public boolean isItemValidForSlot(int index, ItemStack stack) {
+		return true;
+	}
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
+	@Override
+	public void setField(int id, int value) {
+	}
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+	@Override
+	public void clear() {
+		for (int i=0; i<ish.getSlots(); ++i) {
+			ish.setStackInSlot(i, ItemStackTools.getEmptyStack());
+		}
 	}
 }

@@ -1,9 +1,10 @@
 package landmaster.landcraft.container.slots;
 
+import mcjty.lib.compat.*;
 import net.minecraft.tileentity.*;
 import net.minecraftforge.items.*;
 
-public class SlotItemHandlerBase extends SlotItemHandler {
+public class SlotItemHandlerBase extends CompatSlotItemHandler {
 	protected TileEntity te;
 	
 	public SlotItemHandlerBase(TileEntity te, int index, int xPosition, int yPosition) {
