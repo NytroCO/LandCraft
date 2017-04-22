@@ -2,7 +2,7 @@
 {
   "modid": "landcraft",
   "name": "Land Craft",
-  "description": "Minecraft mod adding miscellaneous stuff",
+  "description": "Minecraft mod adding various machines and other doohickeys",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "https://minecraft.curseforge.com/projects/land-craft",
