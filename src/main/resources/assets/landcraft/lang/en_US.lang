@@ -6,6 +6,6 @@ tile.thorium_generator.name=Thorium Generator
 
 item.redstone_component.name=Redstone Component
 
-info.breeder.fuel=Fuel loaded: %d
+info.breeder.fuel=Fuel: %d
 info.breeder.temp=Temp.: %s/%s
 info.breeder.product=Spare output: %d
