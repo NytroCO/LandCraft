@@ -1,2 +1,2 @@
 # LandCraft
-Minecraft mod adding miscellaneous stuff
+Minecraft mod adding various machines and other doohickeys
