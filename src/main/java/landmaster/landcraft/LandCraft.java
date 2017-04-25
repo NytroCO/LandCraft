@@ -4,9 +4,11 @@ import landmaster.landcraft.api.*;
 import landmaster.landcraft.block.*;
 import landmaster.landcraft.config.*;
 import landmaster.landcraft.gui.proxy.*;
+import landmaster.landcraft.item.*;
 import landmaster.landcraft.net.*;
 import landmaster.landcraft.proxy.*;
 import landmaster.landcraft.tile.*;
+import landmaster.landcraft.world.*;
 import mcjty.lib.compat.*;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
@@ -22,7 +24,7 @@ public class LandCraft {
 	public static final String MODID = "landcraft";
 	public static final String NAME = "Land Craft";
 	public static final String VERSION = "1.0.0.1";
-	public static final String DEPENDS = "required-after:landcore@[1.3.0.1,);required-after:compatlayer;after:OpenComputers";
+	public static final String DEPENDS = "required-after:landcore@[1.3.1.0,);required-after:compatlayer;after:OpenComputers";
 	
 	@Mod.Instance(MODID)
 	public static LandCraft INSTANCE;
@@ -42,6 +44,9 @@ public class LandCraft {
 	public static final BlockBreeder breeder = new BlockBreeder();
 	public static final BlockPlayerMime player_mime = new BlockPlayerMime();
 	public static final BlockThoriumGenerator thorium_generator = new BlockThoriumGenerator();
+	
+	public static final ItemWrench wrench = new ItemWrench();
+	
 	public static final Item redstone_component = new CompatItem().setUnlocalizedName("redstone_component").setRegistryName("redstone_component").setCreativeTab(creativeTab);
 	
 	@EventHandler
@@ -72,8 +77,17 @@ public class LandCraft {
 			GameRegistry.registerTileEntity(TEThoriumGenerator.class, MODID+"_thorium_generator");
 		}
 		
+		if (Config.wrench) {
+			GameRegistry.register(wrench);
+			proxy.registerItemRenderer(wrench, 0, "item_wrench");
+		}
+		
 		GameRegistry.register(redstone_component);
 		proxy.registerItemRenderer(redstone_component, 0, "redstone_component");
+		
+		LandcraftBiomes.init();
+		
+		LandiaWorldProvider.register();
 	}
 	
 	@EventHandler
@@ -106,6 +120,13 @@ public class LandCraft {
 					"rzr", "wFw", "ara",
 					'w', "ingotTungsten", 'r', redstone_component,
 					'F', Blocks.FURNACE, 'z', "gemLapis", 'a', "ingotGold"));
+		}
+		
+		if (Config.wrench) {
+			GameRegistry.addRecipe(new ShapedOreRecipe(wrench,
+					"w", "f", "z",
+					'w', "ingotTungsten", 'f', "ingotIron",
+					'z', "gemLapis"));
 		}
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(redstone_component,

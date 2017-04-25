@@ -10,14 +10,11 @@ import com.google.common.base.*;
 import landmaster.landcraft.*;
 import landmaster.landcraft.tile.*;
 import landmaster.landcraft.util.*;
-import mcjty.lib.compat.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.player.*;
-import net.minecraft.tileentity.*;
-import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraftforge.common.*;
@@ -25,7 +22,7 @@ import net.minecraftforge.common.util.*;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.fml.common.eventhandler.*;
 
-public class BlockPlayerMime extends CompatBlock {
+public class BlockPlayerMime extends BlockMachineBase {
 	static {
 		MinecraftForge.EVENT_BUS.register(BlockPlayerMime.class);
 	}
@@ -38,19 +35,6 @@ public class BlockPlayerMime extends CompatBlock {
         this.setSoundType(SoundType.STONE);
         this.setUnlocalizedName("player_mime").setRegistryName("player_mime");
         this.setCreativeTab(LandCraft.creativeTab);
-	}
-	@Override
-	protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side,
-            float hitX, float hitY, float hitZ) {
-		if (world.isRemote) {
-            return true;
-        }
-		TileEntity te = world.getTileEntity(pos);
-		if (!(te instanceof TEPlayerMime)) {
-			return false;
-		}
-		player.openGui(LandCraft.INSTANCE, 0, world, pos.getX(), pos.getY(), pos.getZ());
-		return true;
 	}
 	
 	@Override

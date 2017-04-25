@@ -4,6 +4,8 @@ tile.breeder.name=Breeder Reactor
 tile.player_mime.name=Player Mime
 tile.thorium_generator.name=Thorium Generator
 
+item.item_wrench.name=Wrench
+
 item.redstone_component.name=Redstone Component
 
 info.breeder.fuel=Fuel: %d

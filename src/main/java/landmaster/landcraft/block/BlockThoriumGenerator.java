@@ -4,21 +4,18 @@ import javax.annotation.*;
 
 import landmaster.landcraft.*;
 import landmaster.landcraft.tile.*;
-import mcjty.lib.compat.*;
 import mcjty.lib.tools.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.item.*;
-import net.minecraft.entity.player.*;
 import net.minecraft.item.*;
 import net.minecraft.tileentity.*;
-import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraftforge.items.*;
 
-public class BlockThoriumGenerator extends CompatBlock {
+public class BlockThoriumGenerator extends BlockMachineBase {
 	public BlockThoriumGenerator() {
 		super(Material.ROCK);
 		this.setHarvestLevel("pickaxe", 0);
@@ -27,19 +24,6 @@ public class BlockThoriumGenerator extends CompatBlock {
         this.setSoundType(SoundType.STONE);
         this.setUnlocalizedName("thorium_generator").setRegistryName("thorium_generator");
         this.setCreativeTab(LandCraft.creativeTab);
-	}
-	@Override
-	protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side,
-            float hitX, float hitY, float hitZ) {
-		if (world.isRemote) {
-            return true;
-        }
-		TileEntity te = world.getTileEntity(pos);
-		if (!(te instanceof TEThoriumGenerator)) {
-			return false;
-		}
-		player.openGui(LandCraft.INSTANCE, 0, world, pos.getX(), pos.getY(), pos.getZ());
-		return true;
 	}
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
