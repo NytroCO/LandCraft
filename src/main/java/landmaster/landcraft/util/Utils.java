@@ -1,16 +1,22 @@
 package landmaster.landcraft.util;
 
+import java.lang.invoke.*;
 import java.lang.reflect.*;
 import java.util.*;
 
 import com.google.common.base.*;
 import com.google.common.collect.*;
 
+import net.minecraft.block.state.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 
 public class Utils {
+	public static AxisAlignedBB AABBfromVecs(Vec3d v1, Vec3d v2) {
+		return new AxisAlignedBB(v1.xCoord, v1.yCoord, v1.zCoord, v2.xCoord, v2.yCoord, v2.zCoord);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static <T extends TileEntity> List<T> getTileEntitiesWithinAABB(World world, Class<? extends T> tileEntityClass, AxisAlignedBB aabb)
 	{
@@ -33,7 +39,7 @@ public class Utils {
 						TileEntity te = iterator.next();
 						if(tileEntityClass.isInstance(te))
 						{
-							if (te.getRenderBoundingBox().intersectsWith(aabb))
+							if (world.getBlockState(te.getPos()).getBoundingBox(world, te.getPos()).offset(te.getPos()).intersectsWith(aabb))
 			                {
 								arraylist.add((T)te);
 			                }
@@ -45,12 +51,37 @@ public class Utils {
 		return arraylist;
 	}
 	
-	private static final Method isChunkLoadedM;
+	private static final MethodHandle getCollisionBoundingBoxM;
+	
 	static {
 		try {
-			isChunkLoadedM = World.class.getDeclaredMethod("func_175680_a"/*isChunkLoaded*/,
+			MethodHandle temp;
+			try {
+				temp = MethodHandles.lookup().findVirtual(IBlockState.class, "func_185890_d", MethodType.methodType(AxisAlignedBB.class, IBlockAccess.class, BlockPos.class));
+			} catch (NoSuchMethodException e) {
+				temp = MethodHandles.lookup().findVirtual(IBlockState.class, "func_185890_d", MethodType.methodType(AxisAlignedBB.class, World.class, BlockPos.class));
+			}
+			getCollisionBoundingBoxM = temp;
+		} catch (Throwable e) {
+			throw Throwables.propagate(e);
+		}
+	}
+	
+	public static AxisAlignedBB getCollisionBoundingBox(IBlockState state, World world, BlockPos pos) {
+		try {
+			return (AxisAlignedBB)getCollisionBoundingBoxM.invoke(state, world, pos);
+		} catch (Throwable e) {
+			throw Throwables.propagate(e);
+		}
+	}
+	
+	private static final MethodHandle isChunkLoadedM;
+	static {
+		try {
+			Method temp = World.class.getDeclaredMethod("func_175680_a"/*isChunkLoaded*/,
 					int.class, int.class, boolean.class);
-			isChunkLoadedM.setAccessible(true);
+			temp.setAccessible(true);
+			isChunkLoadedM = MethodHandles.lookup().unreflect(temp);
 		} catch (Throwable e) {
 			throw Throwables.propagate(e);
 		}

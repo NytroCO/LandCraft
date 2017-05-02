@@ -11,6 +11,10 @@ public class DunansBiome extends Biome {
 	
 	public DunansBiome(BiomeProperties properties) {
 		super(properties);
+		this.theBiomeDecorator.treesPerChunk = 6;
+		this.theBiomeDecorator.flowersPerChunk = 14;
+		this.theBiomeDecorator.mushroomsPerChunk = 8;
+		this.theBiomeDecorator.bigMushroomsPerChunk = 4;
 	}
 	
 	@Override
@@ -21,7 +25,7 @@ public class DunansBiome extends Biome {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getSkyColorByTemp(float currentTemperature) {
-		return 0;
+		return 0x06074F;
 	}
 	
 	@Override

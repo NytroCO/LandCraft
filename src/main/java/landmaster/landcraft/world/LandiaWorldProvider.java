@@ -5,6 +5,7 @@ import mcjty.lib.compat.*;
 import net.minecraft.world.*;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.chunk.*;
+import net.minecraft.world.storage.*;
 import net.minecraftforge.common.*;
 
 public class LandiaWorldProvider extends CompatWorldProvider {
@@ -30,6 +31,28 @@ public class LandiaWorldProvider extends CompatWorldProvider {
 	protected void initialize() {
 		this.biomeProvider = new BiomeProviderSingle(LandcraftBiomes.dunans);
 	}
+	
+	@Override
+    public void calculateInitialWeather() {
+        getWorld().thunderingStrength = 1.0F;
+        getWorld().rainingStrength = 1.0F;
+        getWorld().getWorldInfo().setThundering(true);
+        getWorld().getWorldInfo().setRaining(true);
+    }
+
+    @Override
+    public void updateWeather() {
+        WorldInfo worldInfo = getWorld().getWorldInfo();
+        if (!getWorld().isRemote) {
+            getWorld().thunderingStrength = 1.0f;
+            getWorld().rainingStrength = 1.0F;
+            worldInfo.setThundering(true);
+            worldInfo.setRaining(true);
+        }
+        worldInfo.setCleanWeatherTime(0);
+        worldInfo.setThunderTime(worldInfo.getThunderTime() - 100);
+        getWorld().updateWeatherBody();
+    }
 	
 	@Override
     public IChunkGenerator createChunkGenerator() {

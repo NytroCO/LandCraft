@@ -23,7 +23,7 @@ public class LandiaChunkGenerator implements CompatChunkGenerator {
 	private static final List<Biome.SpawnListEntry> mobs = new ArrayList<>(Arrays.asList(
     		new Biome.SpawnListEntry((Class<? extends EntityLiving>)
     				Objects.firstNonNull(EntityTools.findClassById("landcore:landlord"),
-    						EntityTools.findClassById("landlord")), 10, 1, 2)));
+    						EntityTools.findClassById("landlord")), 20, 1, 3)));
     
     private MapGenBase caveGenerator = new MapGenCaves();
     private NormalTerrainGenerator terraingen = new NormalTerrainGenerator();

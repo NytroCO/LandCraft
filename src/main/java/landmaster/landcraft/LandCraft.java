@@ -24,9 +24,9 @@ public class LandCraft {
 	public static final String MODID = "landcraft";
 	public static final String NAME = "Land Craft";
 	public static final String VERSION = "1.0.0.1";
-	public static final String DEPENDS = "required-after:landcore@[1.3.1.0,);required-after:compatlayer;after:OpenComputers";
+	public static final String DEPENDS = "required-after:landcore@[1.3.3.0,);required-after:compatlayer;after:OpenComputers";
 	
-	@Mod.Instance(MODID)
+	@Instance(MODID)
 	public static LandCraft INSTANCE;
 	
 	public static Config config;
@@ -44,6 +44,8 @@ public class LandCraft {
 	public static final BlockBreeder breeder = new BlockBreeder();
 	public static final BlockPlayerMime player_mime = new BlockPlayerMime();
 	public static final BlockThoriumGenerator thorium_generator = new BlockThoriumGenerator();
+	
+	public static final BlockLandiaPortalMarker landia_portal_marker = new BlockLandiaPortalMarker();
 	
 	public static final ItemWrench wrench = new ItemWrench();
 	
@@ -82,8 +84,16 @@ public class LandCraft {
 			proxy.registerItemRenderer(wrench, 0, "item_wrench");
 		}
 		
+		ItemBlock landia_portal_marker_item = new ItemBlock(landia_portal_marker);
+		GameRegistry.register(landia_portal_marker);
+		GameRegistry.register(landia_portal_marker_item, landia_portal_marker.getRegistryName());
+		proxy.registerItemRenderer(landia_portal_marker_item, 0, "landia_portal_marker");
+		GameRegistry.registerTileEntity(TELandiaPortalMarker.class, MODID+"_landia_portal_marker");
+		
 		GameRegistry.register(redstone_component);
 		proxy.registerItemRenderer(redstone_component, 0, "redstone_component");
+		
+		proxy.bindTESRs();
 		
 		LandcraftBiomes.init();
 		
@@ -128,6 +138,12 @@ public class LandCraft {
 					'w', "ingotTungsten", 'f', "ingotIron",
 					'z', "gemLapis"));
 		}
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(landia_portal_marker,
+				" d ", "lnl", "aea",
+				'd', "gemDiamond", 'l', "ingotLandium",
+				'n', Items.ENDER_PEARL, 'a', "ingotGold",
+				'e', "gemEmerald"));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(redstone_component,
 				"fdh",

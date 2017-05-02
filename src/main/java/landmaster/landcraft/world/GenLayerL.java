@@ -2,15 +2,15 @@ package landmaster.landcraft.world;
 
 import net.minecraft.world.gen.layer.*;
 
-public abstract class GenLayerDL extends GenLayer
+public abstract class GenLayerL extends GenLayer
 {
-	public GenLayerDL(long seed) {
+	public GenLayerL(long seed) {
 		super(seed);
 	}
 
 	public static GenLayer[] makeTheWorld(long seed) {
 
-		GenLayer biomes = new GenLayerBiomesDL(1L);
+		GenLayer biomes = new GenLayerBiomesL(1L);
 
 		biomes = new GenLayerZoom(1000L, biomes);
 		biomes = new GenLayerZoom(1001L, biomes);

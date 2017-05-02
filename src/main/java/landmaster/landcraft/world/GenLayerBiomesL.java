@@ -3,16 +3,16 @@ package landmaster.landcraft.world;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.layer.*;
 
-public class GenLayerBiomesDL extends GenLayer {
+public class GenLayerBiomesL extends GenLayer {
 
 	protected Biome[] allowedBiomes = {LandcraftBiomes.dunans};
 
-	public GenLayerBiomesDL(long seed, GenLayer genlayer) {
+	public GenLayerBiomesL(long seed, GenLayer genlayer) {
 		super(seed);
 		parent = genlayer;
 	}
 
-	public GenLayerBiomesDL(long seed) {
+	public GenLayerBiomesL(long seed) {
 		super(seed);
 	}
 

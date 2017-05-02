@@ -3,6 +3,7 @@ itemGroup.landcraft=Land Craft
 tile.breeder.name=Breeder Reactor
 tile.player_mime.name=Player Mime
 tile.thorium_generator.name=Thorium Generator
+tile.landia_portal_marker.name=Landia Portal Marker
 
 item.item_wrench.name=Wrench
 
@@ -11,3 +12,5 @@ item.redstone_component.name=Redstone Component
 info.breeder.fuel=Fuel: %d
 info.breeder.temp=Temp.: %s/%s
 info.breeder.product=Spare output: %d
+
+tooltip.landia_portal_marker.info=§bOnce placed, activate by killing an undead mob in the vicinity.

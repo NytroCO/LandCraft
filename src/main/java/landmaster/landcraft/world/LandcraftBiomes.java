@@ -1,6 +1,6 @@
 package landmaster.landcraft.world;
 
-import java.lang.reflect.*;
+import java.lang.invoke.*;
 
 import com.google.common.base.*;
 
@@ -16,6 +16,7 @@ public class LandcraftBiomes {
 		dunans_properties.setSnowEnabled();
 		dunans_properties.setRainfall(1.0f);
 		dunans_properties.setWaterColor(0x000099);
+		dunans_properties.setHeightVariation(0.3f);
 	}
 	
 	public static final Biome dunans = new DunansBiome(dunans_properties).setRegistryName("dunans");
@@ -24,21 +25,20 @@ public class LandcraftBiomes {
 		GameRegistry.register(dunans);
 		
 		try {
-			registerBiomeTypeM.invoke(null, dunans,
-					new BiomeDictionary.Type[] {BiomeDictionary.Type.COLD, BiomeDictionary.Type.WET, BiomeDictionary.Type.SNOWY});
+			registerBiomeTypeM.invoke(dunans, BiomeDictionary.Type.COLD, BiomeDictionary.Type.WET, BiomeDictionary.Type.SNOWY);
 		} catch (Throwable e) {
 			throw Throwables.propagate(e);
 		}
 	}
 	
-	private static final Method registerBiomeTypeM;
+	private static final MethodHandle registerBiomeTypeM;
 	static {
 		try {
-			Method temp;
+			MethodHandle temp;
 			try {
-				temp = BiomeDictionary.class.getMethod("addTypes", Biome.class, BiomeDictionary.Type[].class);
+				temp = MethodHandles.lookup().findStatic(BiomeDictionary.class, "addTypes", MethodType.methodType(void.class, Biome.class, BiomeDictionary.Type[].class));
 			} catch (NoSuchMethodException e) {
-				temp = BiomeDictionary.class.getMethod("registerBiomeType", Biome.class, BiomeDictionary.Type[].class);
+				temp = MethodHandles.lookup().findStatic(BiomeDictionary.class, "registerBiomeType", MethodType.methodType(void.class, Biome.class, BiomeDictionary.Type[].class));
 			}
 			registerBiomeTypeM = temp;
 		} catch (Throwable e) {

@@ -15,7 +15,6 @@ import net.minecraft.block.material.*;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.player.*;
-import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraftforge.common.*;
 import net.minecraftforge.common.util.*;
@@ -54,7 +53,7 @@ public class BlockPlayerMime extends BlockMachineBase {
 		
 		List<TEPlayerMime> tiles = Utils.getTileEntitiesWithinAABB(
 				event.getEntity().getEntityWorld(), TEPlayerMime.class,
-				new AxisAlignedBB(event.getEntity().getPositionVector().subtract(2, 2, 2),
+				Utils.AABBfromVecs(event.getEntity().getPositionVector().subtract(2, 2, 2),
 						event.getEntity().getPositionVector().addVector(2, 2, 2)));
 		if (recentlyHit(event.getEntityLiving()) < 22
 				|| attackingPlayer(event.getEntityLiving()) == null) {

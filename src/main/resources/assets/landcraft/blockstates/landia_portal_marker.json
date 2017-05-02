@@ -1,0 +1,28 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+	},
+	"variants": {
+		"activated=false": {
+			"model": "dragon_egg",
+			"textures": {
+				"particle": "landcraft:blocks/landia_portal_marker",
+				"all": "landcraft:blocks/landia_portal_marker"
+			}
+		},
+		"activated=true": {
+			"model": "dragon_egg",
+			"textures": {
+				"particle": "landcraft:blocks/landia_portal_marker",
+				"all": "landcraft:blocks/landia_portal_marker"
+			}
+		},
+		"inventory": {
+			"model": "dragon_egg",
+			"textures": {
+				"particle": "landcraft:blocks/landia_portal_marker",
+				"all": "landcraft:blocks/landia_portal_marker"
+			}
+		}
+	}
+}
