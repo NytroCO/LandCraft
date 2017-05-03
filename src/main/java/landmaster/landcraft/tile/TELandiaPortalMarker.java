@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.annotation.*;
 
+import org.apache.commons.lang3.tuple.*;
+
 import gnu.trove.set.hash.*;
 import landmaster.landcore.api.*;
 import landmaster.landcraft.*;
@@ -28,10 +30,17 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 	static class ClRes {
 		public @Nullable TELandiaPortalMarker tile;
 		public BlockPos pos;
+		public EnumFacing facing;
 		
 		public ClRes() {}
-		public ClRes(@Nullable TELandiaPortalMarker tile, BlockPos pos) {
-			this.tile = tile; this.pos = pos;
+		public ClRes(@Nullable TELandiaPortalMarker tile, BlockPos pos, EnumFacing facing) {
+			this.tile = tile;
+			this.pos = pos;
+			this.facing = facing;
+		}
+		
+		public BlockPos adjustedPos() {
+			return pos.offset(facing);
 		}
 	}
 	
@@ -79,12 +88,14 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 				int dimID = getWorld().provider.getDimension() != Config.landiaDimensionID
 						? Config.landiaDimensionID : 0;
 				ClRes res = generateClearance(pos, dimID);
-				Coord4D coord = new Coord4D(res.pos.getX(), res.pos.getY(), res.pos.getZ(), dimID);
+				BlockPos apos = res.adjustedPos();
+				Coord4D coord = new Coord4D(apos.getX(), apos.getY(), apos.getZ(), dimID);
 				for (Entity ent: ents) {
 					if (res.tile != null) {
 						res.tile.already.add(ent.getUniqueID());
 					}
 					if (!already.contains(ent.getUniqueID())) {
+						ent.rotationYaw = res.facing.getHorizontalAngle();
 						if (ent instanceof EntityPlayerMP) {
 							Tools.teleportPlayerTo((EntityPlayerMP)ent, coord);
 						} else {
@@ -131,8 +142,10 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 				TELandiaPortalMarker.class,
 				new AxisAlignedBB(pos.add(-128, -128, -128), pos.add(128, 128, 128)));
 		return markers.stream()
-				.min(Comparator.comparingDouble(marker -> marker.getPos().distanceSq(pos)))
-				.map(marker -> new ClRes(marker, marker.getBottom().offset(EnumFacing.NORTH)))
+				.map(marker -> Pair.of(marker, checkValidClearance(world, marker.getBottom())))
+				.filter(pair -> pair.getRight() != null)
+				.min(Comparator.comparingDouble(pair -> pair.getLeft().getPos().distanceSq(pos)))
+				.map(pair -> new ClRes(pair.getLeft(), pair.getLeft().getBottom(), pair.getRight()))
 				.orElse(null);
 	}
 	
@@ -156,20 +169,20 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 		}
 		if (loc == null) {
 			loc = new BlockPos(pos.getX(), Math.max(pos.getY(), 77), pos.getZ());
-			for (BlockPos.MutableBlockPos setters: BlockPos.getAllInBoxMutable(
-					loc.add(-2, 0, -2), loc.add(2, 0, 2))) {
-				if (!world.getBlockState(setters).isNormalCube()) {
-					world.setBlockState(setters, Blocks.DIRT.getDefaultState());
-				}
+		}
+		for (BlockPos.MutableBlockPos setters: BlockPos.getAllInBoxMutable(
+				loc.add(-2, 0, -2), loc.add(2, 0, 2))) {
+			if (!world.getBlockState(setters).isNormalCube()) {
+				world.setBlockState(setters, Blocks.DIRT.getDefaultState());
 			}
-			for (BlockPos.MutableBlockPos setters: BlockPos.getAllInBoxMutable(
-					loc.add(-2, 1, -2), loc.add(2, 3, 2))) {
-				world.setBlockState(setters, Blocks.AIR.getDefaultState());
-			}
+		}
+		for (BlockPos.MutableBlockPos setters: BlockPos.getAllInBoxMutable(
+				loc.add(-2, 1, -2), loc.add(2, 3, 2))) {
+			world.setBlockState(setters, Blocks.AIR.getDefaultState());
 		}
 		generatePortal(world, loc);
 		if (facing == null) facing = EnumFacing.NORTH;
-		return new ClRes(null, loc.offset(facing));
+		return new ClRes(null, loc, facing);
 	}
 	
 	static EnumFacing checkValidClearance(World world, BlockPos pos) {

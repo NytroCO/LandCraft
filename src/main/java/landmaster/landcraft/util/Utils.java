@@ -7,7 +7,6 @@ import java.util.*;
 import com.google.common.base.*;
 import com.google.common.collect.*;
 
-import net.minecraft.block.state.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
@@ -49,30 +48,6 @@ public class Utils {
 			}
 		}
 		return arraylist;
-	}
-	
-	private static final MethodHandle getCollisionBoundingBoxM;
-	
-	static {
-		try {
-			MethodHandle temp;
-			try {
-				temp = MethodHandles.lookup().findVirtual(IBlockState.class, "func_185890_d", MethodType.methodType(AxisAlignedBB.class, IBlockAccess.class, BlockPos.class));
-			} catch (NoSuchMethodException e) {
-				temp = MethodHandles.lookup().findVirtual(IBlockState.class, "func_185890_d", MethodType.methodType(AxisAlignedBB.class, World.class, BlockPos.class));
-			}
-			getCollisionBoundingBoxM = temp;
-		} catch (Throwable e) {
-			throw Throwables.propagate(e);
-		}
-	}
-	
-	public static AxisAlignedBB getCollisionBoundingBox(IBlockState state, World world, BlockPos pos) {
-		try {
-			return (AxisAlignedBB)getCollisionBoundingBoxM.invoke(state, world, pos);
-		} catch (Throwable e) {
-			throw Throwables.propagate(e);
-		}
 	}
 	
 	private static final MethodHandle isChunkLoadedM;

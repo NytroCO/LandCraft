@@ -38,7 +38,7 @@ public class LandcraftBiomes {
 			try {
 				temp = MethodHandles.lookup().findStatic(BiomeDictionary.class, "addTypes", MethodType.methodType(void.class, Biome.class, BiomeDictionary.Type[].class));
 			} catch (NoSuchMethodException e) {
-				temp = MethodHandles.lookup().findStatic(BiomeDictionary.class, "registerBiomeType", MethodType.methodType(void.class, Biome.class, BiomeDictionary.Type[].class));
+				temp = MethodHandles.lookup().findStatic(BiomeDictionary.class, "registerBiomeType", MethodType.methodType(boolean.class, Biome.class, BiomeDictionary.Type[].class));
 			}
 			registerBiomeTypeM = temp;
 		} catch (Throwable e) {

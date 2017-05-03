@@ -1,5 +1,6 @@
 package landmaster.landcraft.block;
 
+import java.lang.invoke.*;
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -70,17 +71,24 @@ public class BlockPlayerMime extends BlockMachineBase {
 		}
 	}
 	
-	private static final Field recentlyHitF;
-	private static final Field attackingPlayerF;
+	private static final MethodHandle recentlyHitGF;
+	private static final MethodHandle recentlyHitSF;
+	private static final MethodHandle attackingPlayerGF;
+	private static final MethodHandle attackingPlayerSF;
 	static {
 		try {
-			recentlyHitF = EntityLivingBase.class.getDeclaredField(
+			Field temp;
+			temp = EntityLivingBase.class.getDeclaredField(
 					"field_70718_bc"/*recentlyHit*/);
-			recentlyHitF.setAccessible(true);
+			temp.setAccessible(true);
+			recentlyHitGF = MethodHandles.lookup().unreflectGetter(temp);
+			recentlyHitSF = MethodHandles.lookup().unreflectSetter(temp);
 			
-			attackingPlayerF = EntityLivingBase.class.getDeclaredField(
+			temp = EntityLivingBase.class.getDeclaredField(
 					"field_70717_bb"/*attackingPlayer*/);
-			attackingPlayerF.setAccessible(true);
+			temp.setAccessible(true);
+			attackingPlayerGF = MethodHandles.lookup().unreflectGetter(temp);
+			attackingPlayerSF = MethodHandles.lookup().unreflectSetter(temp);
 		} catch (Throwable e) {
 			throw Throwables.propagate(e);
 		}
@@ -88,7 +96,7 @@ public class BlockPlayerMime extends BlockMachineBase {
 	
 	private static void recentlyHit(EntityLivingBase elb, int val) {
 		try {
-			recentlyHitF.setInt(elb, val);
+			recentlyHitSF.invoke(elb, val);
 		} catch (Throwable e) {
 			throw Throwables.propagate(e);
 		}
@@ -96,15 +104,7 @@ public class BlockPlayerMime extends BlockMachineBase {
 	
 	private static int recentlyHit(EntityLivingBase elb) {
 		try {
-			return recentlyHitF.getInt(elb);
-		} catch (Throwable e) {
-			throw Throwables.propagate(e);
-		}
-	}
-	
-	private static EntityPlayer attackingPlayer(EntityLivingBase elb) {
-		try {
-			return (EntityPlayer)attackingPlayerF.get(elb);
+			return (int)recentlyHitGF.invoke(elb);
 		} catch (Throwable e) {
 			throw Throwables.propagate(e);
 		}
@@ -112,7 +112,15 @@ public class BlockPlayerMime extends BlockMachineBase {
 	
 	private static void attackingPlayer(EntityLivingBase elb, EntityPlayer ep) {
 		try {
-			attackingPlayerF.set(elb, ep);
+			attackingPlayerSF.invoke(elb, ep);
+		} catch (Throwable e) {
+			throw Throwables.propagate(e);
+		}
+	}
+	
+	private static EntityPlayer attackingPlayer(EntityLivingBase elb) {
+		try {
+			return (EntityPlayer)attackingPlayerGF.invoke(elb);
 		} catch (Throwable e) {
 			throw Throwables.propagate(e);
 		}

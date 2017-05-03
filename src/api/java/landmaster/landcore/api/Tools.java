@@ -1,6 +1,6 @@
 package landmaster.landcore.api;
 
-import java.lang.reflect.*;
+import java.lang.invoke.*;
 import java.util.*;
 
 import com.google.common.base.*;
@@ -21,14 +21,14 @@ import net.minecraftforge.common.*;
 import net.minecraftforge.fml.common.*;
 
 public class Tools {
-	private static final Method getBiomesImplM;
+	private static final MethodHandle getBiomesImplM;
 	static {
 		try {
-			Method temp;
+			MethodHandle temp;
 			try {
-				temp = BiomeDictionary.class.getMethod("getBiomes", BiomeDictionary.Type.class);
+				temp = MethodHandles.lookup().findStatic(BiomeDictionary.class, "getBiomes", MethodType.methodType(Set.class, BiomeDictionary.Type.class));
 			} catch (NoSuchMethodException error) {
-				temp = BiomeDictionary.class.getMethod("getBiomesForType", BiomeDictionary.Type.class);
+				temp = MethodHandles.lookup().findStatic(BiomeDictionary.class, "getBiomesForType", MethodType.methodType(Biome[].class, BiomeDictionary.Type.class));
 			}
 			getBiomesImplM = temp;
 		} catch (Throwable e) {
@@ -36,12 +36,11 @@ public class Tools {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static Biome[] getBiomesForType(BiomeDictionary.Type type) {
 		try {
-			Object obj = getBiomesImplM.invoke(null, type);
+			Object obj = getBiomesImplM.invoke(type);
 			if (obj instanceof Set) {
-				return ((Set<Biome>)getBiomesImplM.invoke(null, type)).toArray(new Biome[0]);
+				return ((Set<Biome>)getBiomesImplM.invoke(type)).toArray(new Biome[0]);
 			}
 			return (Biome[])obj;
 		} catch (Throwable e) {
@@ -49,15 +48,15 @@ public class Tools {
 		}
 	}
 	
-	private static final Method getCollisionBoundingBoxM;
+private static final MethodHandle getCollisionBoundingBoxM;
 	
 	static {
 		try {
-			Method temp;
+			MethodHandle temp;
 			try {
-				temp = IBlockState.class.getMethod("func_185890_d", IBlockAccess.class, BlockPos.class);
+				temp = MethodHandles.lookup().findVirtual(IBlockState.class, "func_185890_d", MethodType.methodType(AxisAlignedBB.class, IBlockAccess.class, BlockPos.class));
 			} catch (NoSuchMethodException e) {
-				temp = IBlockState.class.getMethod("func_185890_d", World.class, BlockPos.class);
+				temp = MethodHandles.lookup().findVirtual(IBlockState.class, "func_185890_d", MethodType.methodType(AxisAlignedBB.class, World.class, BlockPos.class));
 			}
 			getCollisionBoundingBoxM = temp;
 		} catch (Throwable e) {
@@ -65,18 +64,22 @@ public class Tools {
 		}
 	}
 	
-	public static boolean canTeleportTo(EntityPlayer player, Coord4D dest) {
+	public static AxisAlignedBB getCollisionBoundingBox(IBlockState state, World world, BlockPos pos) {
 		try {
-			if (dest == null || dest.world() == null) return false;
-			for (int i=1; i<=2; ++i) {
-				if (getCollisionBoundingBoxM.invoke(dest.add(0, i, 0).blockState(), dest.world(), dest.pos()) != null) {
-					return false;
-				}
-			}
-			return true;
+			return (AxisAlignedBB)getCollisionBoundingBoxM.invoke(state, world, pos);
 		} catch (Throwable e) {
 			throw Throwables.propagate(e);
 		}
+	}
+	
+	public static boolean canTeleportTo(EntityPlayer player, Coord4D dest) {
+		if (dest == null || dest.world() == null) return false;
+		for (int i=1; i<=2; ++i) {
+			if (getCollisionBoundingBox(dest.add(0, i, 0).blockState(), dest.world(), dest.pos()) != null) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public static NBTTagCompound getTagSafe(ItemStack is, boolean set) {
@@ -140,8 +143,7 @@ public class Tools {
 				entity.setWorld(world);
 				world.updateEntityWithOptionalForce(entity, false);
 				world.resetUpdateEntityTick();
-				AxisAlignedBB bb = entity.getEntityBoundingBox();
-				entity.setLocationAndAngles(coord.xCoord+(bb.maxX-bb.minX)*0.5, coord.yCoord+(bb.maxY-bb.minY)*0.5, coord.zCoord+(bb.maxZ-bb.minZ)*0.5, entity.rotationYaw, entity.rotationPitch);
+				entity.setLocationAndAngles(coord.xCoord+0.5, coord.yCoord+1, coord.zCoord+0.5, entity.rotationYaw, entity.rotationPitch);
 				world.spawnEntityInWorld(entity);
 			}
 		}
