@@ -93,6 +93,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 				for (Entity ent: ents) {
 					if (res.tile != null) {
 						res.tile.already.add(ent.getUniqueID());
+						res.tile.markDirty();
 					}
 					if (!already.contains(ent.getUniqueID())) {
 						ent.rotationYaw = res.facing.getHorizontalAngle();
@@ -108,6 +109,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 				UUID uuid = it.next();
 				if (!ents.stream().anyMatch(ent -> uuid.equals(ent.getUniqueID()))) {
 					it.remove();
+					markDirty();
 				}
 			}
 		}
@@ -123,6 +125,16 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 		
 		if (rtr != null) res = rtr.getBlockPos();
 		return res;
+	}
+	
+	public BlockPos getSolidBottom() {
+		BlockPos.MutableBlockPos cand = new BlockPos.MutableBlockPos(pos);
+		for (; cand.getY() >= 0; cand.setY(cand.getY()-1)) {
+			if (getWorld().getBlockState(cand).isNormalCube()) {
+				return cand.toImmutable();
+			}
+		}
+		return new BlockPos(pos.getX(), 0, pos.getZ());
 	}
 	
 	public Vec3d portalLBound() {
@@ -142,7 +154,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 				TELandiaPortalMarker.class,
 				new AxisAlignedBB(pos.add(-128, -128, -128), pos.add(128, 128, 128)));
 		return markers.stream()
-				.map(marker -> Pair.of(marker, checkValidClearance(world, marker.getBottom())))
+				.map(marker -> Pair.of(marker, checkValidClearance(world, marker.getSolidBottom())))
 				.filter(pair -> pair.getRight() != null)
 				.min(Comparator.comparingDouble(pair -> pair.getLeft().getPos().distanceSq(pos)))
 				.map(pair -> new ClRes(pair.getLeft(), pair.getLeft().getBottom(), pair.getRight()))

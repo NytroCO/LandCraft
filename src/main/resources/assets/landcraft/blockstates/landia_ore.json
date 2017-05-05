@@ -1,0 +1,37 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+    },
+    "variants": {
+        "type=kelline": {
+        	"model": "cube_all",
+            "textures": {
+	        	"all": "landcraft:blocks/ores/kelline"
+	        }
+        },
+        "type=garfax": {
+        	"model": "cube_all",
+            "textures": {
+	        	"all": "landcraft:blocks/ores/garfax"
+	        }
+        },
+        "type=morganine": {
+        	"model": "cube_all",
+            "textures": {
+	        	"all": "landcraft:blocks/ores/morganine"
+	        }
+        },
+        "type=racheline": {
+        	"model": "cube_all",
+            "textures": {
+	        	"all": "landcraft:blocks/ores/racheline"
+	        }
+        },
+        "type=friscion": {
+        	"model": "cube_all",
+            "textures": {
+	        	"all": "landcraft:blocks/ores/friscion"
+	        }
+        }
+    }
+}

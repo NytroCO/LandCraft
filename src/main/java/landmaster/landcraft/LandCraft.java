@@ -1,5 +1,8 @@
 package landmaster.landcraft;
 
+import org.apache.commons.lang3.*;
+
+import landmaster.landcore.api.item.*;
 import landmaster.landcraft.api.*;
 import landmaster.landcraft.block.*;
 import landmaster.landcraft.config.*;
@@ -8,6 +11,7 @@ import landmaster.landcraft.item.*;
 import landmaster.landcraft.net.*;
 import landmaster.landcraft.proxy.*;
 import landmaster.landcraft.tile.*;
+import landmaster.landcraft.util.*;
 import landmaster.landcraft.world.*;
 import mcjty.lib.compat.*;
 import net.minecraft.init.*;
@@ -48,13 +52,41 @@ public class LandCraft {
 	public static final BlockLandiaPortalMarker landia_portal_marker = new BlockLandiaPortalMarker();
 	
 	public static final ItemWrench wrench = new ItemWrench();
-	
 	public static final Item redstone_component = new CompatItem().setUnlocalizedName("redstone_component").setRegistryName("redstone_component").setCreativeTab(creativeTab);
+	
+	
+	// METALS
+	
+	public static final BlockLandiaOre landia_ore = new BlockLandiaOre();
+	public static final BlockLandiaMetal landia_metal = new BlockLandiaMetal();
+	
+	public static final ItemLandiaIngot landia_ingot = new ItemLandiaIngot();
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		(config = new Config(event)).sync();
 		
+		initMachines();
+		
+		initMetals();
+		
+		ItemBlock landia_portal_marker_item = new ItemBlock(landia_portal_marker);
+		GameRegistry.register(landia_portal_marker);
+		GameRegistry.register(landia_portal_marker_item, landia_portal_marker.getRegistryName());
+		proxy.registerItemRenderer(landia_portal_marker_item, 0, "landia_portal_marker");
+		GameRegistry.registerTileEntity(TELandiaPortalMarker.class, MODID+"_landia_portal_marker");
+		
+		GameRegistry.register(redstone_component);
+		proxy.registerItemRenderer(redstone_component, 0, "redstone_component");
+		
+		proxy.bindTESRs();
+		
+		LandcraftBiomes.init();
+		
+		LandiaWorldProvider.register();
+	}
+	
+	private static void initMachines() {
 		if (Config.breeder) {
 			ItemBlock breeder_item = new ItemBlock(breeder);
 			GameRegistry.register(breeder);
@@ -83,21 +115,35 @@ public class LandCraft {
 			GameRegistry.register(wrench);
 			proxy.registerItemRenderer(wrench, 0, "item_wrench");
 		}
+	}
+	
+	private static void initMetals() {
+		final LandiaOreType[] values = LandiaOreType.values();
 		
-		ItemBlock landia_portal_marker_item = new ItemBlock(landia_portal_marker);
-		GameRegistry.register(landia_portal_marker);
-		GameRegistry.register(landia_portal_marker_item, landia_portal_marker.getRegistryName());
-		proxy.registerItemRenderer(landia_portal_marker_item, 0, "landia_portal_marker");
-		GameRegistry.registerTileEntity(TELandiaPortalMarker.class, MODID+"_landia_portal_marker");
+		ItemBlock landia_ore_item = new ItemBlockMeta(landia_ore);
+		GameRegistry.register(landia_ore);
+		GameRegistry.register(landia_ore_item, landia_ore.getRegistryName());
+		for (int i=0; i<values.length; ++i) {
+			proxy.registerItemRenderer(landia_ore_item, i, landia_ore.getRegistryName().getResourcePath(), "type="+values[i]);
+			OreDictionary.registerOre("ore"+StringUtils.capitalize(values[i].toString()),
+					new ItemStack(landia_ore, 1, i));
+		}
 		
-		GameRegistry.register(redstone_component);
-		proxy.registerItemRenderer(redstone_component, 0, "redstone_component");
+		ItemBlock landia_metal_item = new ItemBlockMeta(landia_metal);
+		GameRegistry.register(landia_metal);
+		GameRegistry.register(landia_metal_item, landia_metal.getRegistryName());
+		for (int i=0; i<values.length; ++i) {
+			proxy.registerItemRenderer(landia_metal_item, i, landia_metal.getRegistryName().getResourcePath(), "type="+values[i]);
+			OreDictionary.registerOre("block"+StringUtils.capitalize(values[i].toString()),
+					new ItemStack(landia_metal, 1, i));
+		}
 		
-		proxy.bindTESRs();
-		
-		LandcraftBiomes.init();
-		
-		LandiaWorldProvider.register();
+		GameRegistry.register(landia_ingot);
+		for (int i=0; i<values.length; ++i) {
+			proxy.registerItemRenderer(landia_ingot, i, "ingot/"+values[i]);
+			OreDictionary.registerOre("ingot"+StringUtils.capitalize(values[i].toString()),
+					new ItemStack(landia_ingot, 1, i));
+		}
 	}
 	
 	@EventHandler
@@ -109,6 +155,33 @@ public class LandCraft {
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiProxy());
 		
+		initMachineRecipes();
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(landia_portal_marker,
+				" d ", "lnl", "aea",
+				'd', "gemDiamond", 'l', "ingotLandium",
+				'n', Items.ENDER_PEARL, 'a', "ingotGold",
+				'e', "gemEmerald"));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(redstone_component,
+				"fdh",
+				'f', "ingotIron", 'd', "dustRedstone",
+				'h', "ingotThorium"));
+		
+		final LandiaOreType[] values = LandiaOreType.values();
+		for (int i=0; i<values.length; ++i) {
+			final String ingotName = "ingot"+StringUtils.capitalize(values[i].toString());
+			
+			GameRegistry.addSmelting(new ItemStack(landia_ore, 1, i),
+					new ItemStack(landia_ingot, 1, i), 0.85f);
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(landia_metal, 1, i),
+					"III", "III", "III",
+					'I', ingotName));
+			GameRegistry.addShapelessRecipe(new ItemStack(landia_ingot, 9, i), new ItemStack(landia_metal, 1, i));
+		}
+	}
+	
+	private static void initMachineRecipes() {
 		if (Config.breeder) {
 			GameRegistry.addRecipe(new ShapedOreRecipe(breeder,
 					"wdw", "wFw", "hlh",
@@ -138,16 +211,5 @@ public class LandCraft {
 					'w', "ingotTungsten", 'f', "ingotIron",
 					'z', "gemLapis"));
 		}
-		
-		GameRegistry.addRecipe(new ShapedOreRecipe(landia_portal_marker,
-				" d ", "lnl", "aea",
-				'd', "gemDiamond", 'l', "ingotLandium",
-				'n', Items.ENDER_PEARL, 'a', "ingotGold",
-				'e', "gemEmerald"));
-		
-		GameRegistry.addRecipe(new ShapedOreRecipe(redstone_component,
-				"fdh",
-				'f', "ingotIron", 'd', "dustRedstone",
-				'h', "ingotThorium"));
 	}
 }

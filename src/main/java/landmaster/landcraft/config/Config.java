@@ -1,5 +1,8 @@
 package landmaster.landcraft.config;
 
+import org.apache.commons.lang3.*;
+
+import landmaster.landcraft.util.*;
 import net.minecraftforge.common.config.*;
 import net.minecraftforge.fml.common.event.*;
 
@@ -23,6 +26,12 @@ public class Config extends Configuration {
 		wrench = getBoolean("Enable Wrench", "tools", true, "Enable Wrench");
 		
 		landiaDimensionID = getInt("Dimension ID of Landia", "dimensions", 1304, Integer.MIN_VALUE, Integer.MAX_VALUE, "Dimension ID of Landia");
+		
+		for (LandiaOreType type: LandiaOreType.values()) {
+			type.setNumPerChunk(getInt(StringUtils.capitalize(type.toString())+" veins per chunk",
+					"oregen", type.numPerChunk(), 0, Integer.MAX_VALUE,
+					StringUtils.capitalize(type.toString())+" veins per chunk"));
+		}
 		
 		if (hasChanged()) save();
 	}

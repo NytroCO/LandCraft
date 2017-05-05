@@ -11,7 +11,18 @@ import net.minecraftforge.fml.client.registry.*;
 public class ClientProxy extends CommonProxy {
 	@Override
 	public void registerItemRenderer(Item item, int meta, String id) {
-	    ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(LandCraft.MODID + ":" + id, "inventory"));
+	    registerItemRenderer(item, meta, id, "inventory");
+	}
+	
+	@Override
+	public void registerItemRenderer(Item item, int meta, String id, String variant) {
+		ModelResourceLocation rl = new ModelResourceLocation(LandCraft.MODID + ":" + id, variant);
+		if (meta >= 0)  {
+			ModelLoader.setCustomModelResourceLocation(item, meta, rl);
+		} else {
+			ModelLoader.setCustomMeshDefinition(item, stack -> rl);
+			ModelBakery.registerItemVariants(item, rl);
+		}
 	}
 	
 	@Override

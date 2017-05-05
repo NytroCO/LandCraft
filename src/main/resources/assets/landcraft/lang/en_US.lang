@@ -1,5 +1,7 @@
 itemGroup.landcraft=Land Craft
 
+# MACHINES
+
 tile.breeder.name=Breeder Reactor
 tile.player_mime.name=Player Mime
 tile.thorium_generator.name=Thorium Generator
@@ -9,8 +11,32 @@ item.item_wrench.name=Wrench
 
 item.redstone_component.name=Redstone Component
 
+# METALS
+
+tile.landia_ore.kelline.name=Kelline Ore
+tile.landia_ore.garfax.name=Garfax Ore
+tile.landia_ore.morganine.name=Morganine Ore
+tile.landia_ore.racheline.name=Racheline Ore
+tile.landia_ore.friscion.name=Friscion Ore
+
+tile.landia_metal.kelline.name=Block of Kelline
+tile.landia_metal.garfax.name=Block of Garfax
+tile.landia_metal.morganine.name=Block of Morganine
+tile.landia_metal.racheline.name=Block of Racheline
+tile.landia_metal.friscion.name=Block of Friscion
+
+item.landia_ingot.kelline.name=Kelline Ingot
+item.landia_ingot.garfax.name=Garfax Ingot
+item.landia_ingot.morganine.name=Morganine Ingot
+item.landia_ingot.racheline.name=Racheline Ingot
+item.landia_ingot.friscion.name=Friscion Ingot
+
+# INFO
+
 info.breeder.fuel=Fuel: %d
 info.breeder.temp=Temp.: %s/%s
 info.breeder.product=Spare output: %d
+
+# TOOLTIPS
 
 tooltip.landia_portal_marker.info=§bOnce placed, activate by killing an undead mob in the vicinity.

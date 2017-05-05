@@ -7,8 +7,10 @@ import com.google.common.base.*;
 
 import mcjty.lib.tools.*;
 import net.minecraft.block.state.*;
+import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.entity.*;
 import net.minecraft.entity.player.*;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.*;
 import net.minecraft.nbt.*;
 import net.minecraft.network.play.server.*;
@@ -17,6 +19,7 @@ import net.minecraft.server.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraft.world.biome.*;
+import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.*;
 import net.minecraftforge.fml.common.*;
 
@@ -149,6 +152,20 @@ private static final MethodHandle getCollisionBoundingBoxM;
 		}
 		else {
 			entity.setLocationAndAngles(coord.xCoord+0.5, coord.yCoord+1, coord.zCoord+0.5, entity.rotationYaw, entity.rotationPitch);
+		}
+	}
+
+	public static void generateOre(IBlockState ore, World world, Random random, int x, int z, int minY, int maxY, int minSize, int maxSize, int chances) {
+		Tools.generateOre(ore, world, BlockMatcher.forBlock(Blocks.STONE), random, x, z, minY, maxY, minSize, maxSize, chances);
+	}
+
+	public static void generateOre(IBlockState ore, World world, Predicate<IBlockState> matcher, Random random, int x, int z, int minY, int maxY, int minSize, int maxSize, int chances) {
+		int deltaY = maxY - minY;
+		int deltaSize = maxSize - minSize;
+		for (int i = 0; i < chances; i++) {
+			BlockPos pos = new BlockPos(x + random.nextInt(16), minY + random.nextInt(deltaY), z + random.nextInt(16));
+			WorldGenMinable generator = new WorldGenMinable(ore, minSize + random.nextInt(deltaSize+1), matcher);
+			generator.generate(world, random, pos);
 		}
 	}
 }

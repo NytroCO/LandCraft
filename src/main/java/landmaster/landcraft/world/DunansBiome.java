@@ -4,10 +4,9 @@ import java.util.*;
 
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
-import net.minecraft.world.biome.*;
 import net.minecraftforge.fml.relauncher.*;
 
-public class DunansBiome extends Biome {
+public class DunansBiome extends LandiaBiome {
 	
 	public DunansBiome(BiomeProperties properties) {
 		super(properties);
