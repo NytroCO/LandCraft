@@ -1,5 +1,7 @@
 package landmaster.landcraft;
 
+import java.util.*;
+
 import org.apache.commons.lang3.*;
 
 import landmaster.landcore.api.item.*;
@@ -16,6 +18,7 @@ import landmaster.landcraft.world.*;
 import mcjty.lib.compat.*;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
+import net.minecraftforge.common.util.*;
 import net.minecraftforge.fml.common.*;
 import net.minecraftforge.fml.common.Mod.*;
 import net.minecraftforge.fml.common.event.*;
@@ -52,8 +55,10 @@ public class LandCraft {
 	public static final BlockLandiaPortalMarker landia_portal_marker = new BlockLandiaPortalMarker();
 	
 	public static final ItemWrench wrench = new ItemWrench();
-	public static final Item redstone_component = new CompatItem().setUnlocalizedName("redstone_component").setRegistryName("redstone_component").setCreativeTab(creativeTab);
-	
+	public static final Item redstone_component = new CompatItem()
+			.setUnlocalizedName("redstone_component")
+			.setRegistryName("redstone_component")
+			.setCreativeTab(creativeTab);
 	
 	// METALS
 	
@@ -61,6 +66,8 @@ public class LandCraft {
 	public static final BlockLandiaMetal landia_metal = new BlockLandiaMetal();
 	
 	public static final ItemLandiaIngot landia_ingot = new ItemLandiaIngot();
+	
+	public static final EnumMap<LandiaOreType, Utils.ToolGroup> toolsMap = new EnumMap<>(LandiaOreType.class);
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -144,6 +151,14 @@ public class LandCraft {
 			OreDictionary.registerOre("ingot"+StringUtils.capitalize(values[i].toString()),
 					new ItemStack(landia_ingot, 1, i));
 		}
+		
+		for (LandiaOreType type: values) {
+			toolsMap.put(type, Utils.registerTools(type,
+					EnumHelper.addToolMaterial(
+							type.name(), type.getLevel()+1, type.getDurability(),
+							type.getEfficiency(), type.getDamage(), type.getEnchantability()),
+					type.getAxeDamage(), type.getAxeSpeed()));
+		}
 	}
 	
 	@EventHandler
@@ -178,6 +193,10 @@ public class LandCraft {
 					"III", "III", "III",
 					'I', ingotName));
 			GameRegistry.addShapelessRecipe(new ItemStack(landia_ingot, 9, i), new ItemStack(landia_metal, 1, i));
+		}
+		
+		for (Utils.ToolGroup group: toolsMap.values()) {
+			group.initRecipes();
 		}
 	}
 	

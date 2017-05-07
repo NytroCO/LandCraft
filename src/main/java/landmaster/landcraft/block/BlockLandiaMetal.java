@@ -29,6 +29,11 @@ public class BlockLandiaMetal extends CompatBlock implements IMetaBlockName {
 	}
 	
 	@Override
+	public boolean isBeaconBase(IBlockAccess worldObj, BlockPos pos, BlockPos beacon) {
+		return true;
+	}
+	
+	@Override
 	protected BlockStateContainer createBlockState() {
 	    return new BlockStateContainer(this, TYPE);
 	}

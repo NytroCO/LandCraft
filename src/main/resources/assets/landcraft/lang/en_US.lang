@@ -31,6 +31,38 @@ item.landia_ingot.morganine.name=Morganine Ingot
 item.landia_ingot.racheline.name=Racheline Ingot
 item.landia_ingot.friscion.name=Friscion Ingot
 
+# TOOLS
+
+item.kelline_sword.name=Kelline Sword
+item.kelline_pickaxe.name=Kelline Pickaxe
+item.kelline_axe.name=Kelline Axe
+item.kelline_shovel.name=Kelline Shovel
+item.kelline_hoe.name=Kelline Hoe
+
+item.garfax_sword.name=Garfax Sword
+item.garfax_pickaxe.name=Garfax Pickaxe
+item.garfax_axe.name=Garfax Axe
+item.garfax_shovel.name=Garfax Shovel
+item.garfax_hoe.name=Garfax Hoe
+
+item.morganine_sword.name=Morganine Sword
+item.morganine_pickaxe.name=Morganine Pickaxe
+item.morganine_axe.name=Morganine Axe
+item.morganine_shovel.name=Morganine Shovel
+item.morganine_hoe.name=Morganine Hoe
+
+item.racheline_sword.name=Racheline Sword
+item.racheline_pickaxe.name=Racheline Pickaxe
+item.racheline_axe.name=Racheline Axe
+item.racheline_shovel.name=Racheline Shovel
+item.racheline_hoe.name=Racheline Hoe
+
+item.friscion_sword.name=Friscion Sword
+item.friscion_pickaxe.name=Friscion Pickaxe
+item.friscion_axe.name=Friscion Axe
+item.friscion_shovel.name=Friscion Shovel
+item.friscion_hoe.name=Friscion Hoe
+
 # INFO
 
 info.breeder.fuel=Fuel: %d
