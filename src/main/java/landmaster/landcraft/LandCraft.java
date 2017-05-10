@@ -3,6 +3,7 @@ package landmaster.landcraft;
 import java.util.*;
 
 import org.apache.commons.lang3.*;
+import org.apache.logging.log4j.*;
 
 import landmaster.landcore.api.item.*;
 import landmaster.landcraft.api.*;
@@ -16,6 +17,7 @@ import landmaster.landcraft.tile.*;
 import landmaster.landcraft.util.*;
 import landmaster.landcraft.world.*;
 import mcjty.lib.compat.*;
+import net.minecraft.block.*;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
 import net.minecraftforge.common.util.*;
@@ -30,13 +32,17 @@ import net.minecraftforge.oredict.*;
 public class LandCraft {
 	public static final String MODID = "landcraft";
 	public static final String NAME = "Land Craft";
-	public static final String VERSION = "1.0.0.1";
-	public static final String DEPENDS = "required-after:landcore@[1.3.3.0,);required-after:compatlayer;after:OpenComputers";
+	public static final String VERSION = "1.1.0.0";
+	public static final String DEPENDS = "required-after:landcore@[1.3.3.0,);required-after:compatlayer@[0.2.8,);"
+			+ "after:OpenComputers;after:opencomputers";
 	
 	@Instance(MODID)
 	public static LandCraft INSTANCE;
 	
 	public static Config config;
+	
+	public static final Logger log = LogManager.getLogger(
+			MODID.toUpperCase(Locale.US/* to avoid problems with Turkish */));
 	
 	@SidedProxy(serverSide = "landmaster.landcraft.proxy.CommonProxy", clientSide = "landmaster.landcraft.proxy.ClientProxy")
 	public static CommonProxy proxy;
@@ -53,6 +59,11 @@ public class LandCraft {
 	public static final BlockThoriumGenerator thorium_generator = new BlockThoriumGenerator();
 	
 	public static final BlockLandiaPortalMarker landia_portal_marker = new BlockLandiaPortalMarker();
+	
+	public static final BlockLandiaSapling landia_sapling = new BlockLandiaSapling();
+	public static final BlockLandiaLog landia_log = new BlockLandiaLog();
+	public static final BlockLandiaLeaves landia_leaves = new BlockLandiaLeaves();
+	public static final BlockLandiaPlanks landia_planks = new BlockLandiaPlanks();
 	
 	public static final ItemWrench wrench = new ItemWrench();
 	public static final Item redstone_component = new CompatItem()
@@ -73,6 +84,8 @@ public class LandCraft {
 	public void preInit(FMLPreInitializationEvent event) {
 		(config = new Config(event)).sync();
 		
+		initNature();
+		
 		initMachines();
 		
 		initMetals();
@@ -82,15 +95,65 @@ public class LandCraft {
 		GameRegistry.register(landia_portal_marker_item, landia_portal_marker.getRegistryName());
 		proxy.registerItemRenderer(landia_portal_marker_item, 0, "landia_portal_marker");
 		GameRegistry.registerTileEntity(TELandiaPortalMarker.class, MODID+"_landia_portal_marker");
+		proxy.bindTESR(TELandiaPortalMarker.class, TELandiaPortalMarker.TESRProvider);
 		
 		GameRegistry.register(redstone_component);
 		proxy.registerItemRenderer(redstone_component, 0, "redstone_component");
 		
-		proxy.bindTESRs();
-		
 		LandcraftBiomes.init();
 		
 		LandiaWorldProvider.register();
+	}
+	
+	private static void initNature() {
+		ItemBlockMeta landia_sapling_item = new ItemBlockMeta(landia_sapling);
+		GameRegistry.register(landia_sapling);
+		GameRegistry.register(landia_sapling_item, landia_sapling.getRegistryName());
+		proxy.setCustomStateMapper(landia_sapling, BlockSapling.STAGE, BlockSapling.TYPE);
+		for (LandiaTreeType type: LandiaTreeType.values()) {
+			int meta = landia_sapling.getMetaFromState(
+					landia_sapling.getDefaultState()
+					.withProperty(LandiaTreeType.L_TYPE, type));
+			proxy.registerItemRenderer(landia_sapling_item, meta, "landia_sapling_"+type);
+		}
+		OreDictionary.registerOre("treeSapling", new ItemStack(landia_leaves, 1, OreDictionary.WILDCARD_VALUE));
+		
+		ItemBlockLeaves landia_leaves_item = new ItemBlockLeaves(landia_leaves);
+		GameRegistry.register(landia_leaves);
+		GameRegistry.register(landia_leaves_item, landia_leaves.getRegistryName());
+		proxy.setCustomStateMapper(landia_leaves, BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE);
+		for (LandiaTreeType type: LandiaTreeType.values()) {
+			int meta = landia_leaves.getMetaFromState(
+					landia_leaves.getDefaultState()
+					.withProperty(LandiaTreeType.L_TYPE, type));
+			proxy.registerItemRenderer(landia_leaves_item, meta, "landia_leaves",
+					String.format(Locale.US, "%s=%s", LandiaTreeType.L_TYPE.getName(), type));
+		}
+		OreDictionary.registerOre("treeLeaves", new ItemStack(landia_leaves, 1, OreDictionary.WILDCARD_VALUE));
+		
+		ItemBlockMeta landia_log_item = new ItemBlockMeta(landia_log);
+		GameRegistry.register(landia_log);
+		GameRegistry.register(landia_log_item, landia_log.getRegistryName());
+		for (LandiaTreeType type: LandiaTreeType.values()) {
+			String variant = String.format(Locale.US, "%s=%s,%s=%s",
+					Axis.AXIS.getName(), Axis.Y,
+					LandiaTreeType.L_TYPE.getName(), type);
+			int meta = landia_log.getMetaFromState(
+					landia_log.getDefaultState()
+					.withProperty(LandiaTreeType.L_TYPE, type));
+			proxy.registerItemRenderer(landia_log_item, meta, "landia_log", variant);
+		}
+		OreDictionary.registerOre("logWood", new ItemStack(landia_log, 1, OreDictionary.WILDCARD_VALUE));
+		
+		ItemBlockMeta landia_planks_item = new ItemBlockMeta(landia_planks);
+		GameRegistry.register(landia_planks);
+		GameRegistry.register(landia_planks_item, landia_planks.getRegistryName());
+		for (LandiaTreeType type: LandiaTreeType.values()) {
+			proxy.registerItemRenderer(landia_planks_item,
+					type.ordinal(), "landia_planks",
+					String.format(Locale.US, "%s=%s", LandiaTreeType.L_TYPE.getName(), type));
+		}
+		OreDictionary.registerOre("plankWood", new ItemStack(landia_log, 1, OreDictionary.WILDCARD_VALUE));
 	}
 	
 	private static void initMachines() {
@@ -163,6 +226,8 @@ public class LandCraft {
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		proxy.initColorHandlers();
+		
 		PacketHandler.init();
 		
 		BreederFeedstock.addOreDict("ingotIron", 16, 200);

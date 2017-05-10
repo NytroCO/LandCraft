@@ -11,7 +11,9 @@ import landmaster.landcore.api.*;
 import landmaster.landcraft.*;
 import landmaster.landcraft.block.*;
 import landmaster.landcraft.config.*;
+import landmaster.landcraft.tile.render.*;
 import landmaster.landcraft.util.*;
+import net.minecraft.client.renderer.tileentity.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.player.*;
 import net.minecraft.init.*;
@@ -26,6 +28,14 @@ import net.minecraftforge.fml.relauncher.*;
 
 public class TELandiaPortalMarker extends TileEntity implements ITickable {
 	private final Set<UUID> already = new THashSet<>();
+	
+	public static final ITESRProvider<TELandiaPortalMarker> TESRProvider = new ITESRProvider<TELandiaPortalMarker>() {
+		@SideOnly(Side.CLIENT)
+		@Override
+		public TileEntitySpecialRenderer<TELandiaPortalMarker> getRenderer() {
+			return new TESRLandiaPortalMarker();
+		}
+	};
 	
 	static class ClRes {
 		public @Nullable TELandiaPortalMarker tile;

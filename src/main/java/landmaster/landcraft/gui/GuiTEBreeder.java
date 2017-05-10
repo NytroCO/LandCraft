@@ -34,15 +34,15 @@ public class GuiTEBreeder extends GuiContainer {
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		fontRendererObj.drawString(I18n.format("tile.breeder.name"), 8, 6, 0x404040);
-		fontRendererObj.drawString(cont.getPlayerInv().getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
-		fontRendererObj.drawString(I18n.format("info.breeder.fuel",
+		fontRenderer.drawString(I18n.format("tile.breeder.name"), 8, 6, 0x404040);
+		fontRenderer.drawString(cont.getPlayerInv().getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
+		fontRenderer.drawString(I18n.format("info.breeder.fuel",
 				fuel), 15, 50, 0x00FF00);
 		NumberFormat nf = NumberFormat.getIntegerInstance();
 		nf.setMaximumFractionDigits(1);
-		fontRendererObj.drawString(I18n.format("info.breeder.temp",
+		fontRenderer.drawString(I18n.format("info.breeder.temp",
 				nf.format(temperature), nf.format(cont.getTE().maxTemp())), 15, 60, 0xFF0000);
-		fontRendererObj.drawString(I18n.format("info.breeder.product",
+		fontRenderer.drawString(I18n.format("info.breeder.product",
 				product), 90, 50, 0x0000FF);
 	}
 }

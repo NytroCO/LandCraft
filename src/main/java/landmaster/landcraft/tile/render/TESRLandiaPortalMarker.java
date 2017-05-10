@@ -27,7 +27,7 @@ public class TESRLandiaPortalMarker extends TileEntitySpecialRenderer<TELandiaPo
 			
 			GlStateManager.pushMatrix();
 			
-			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+			EntityPlayerSP player = Minecraft.getMinecraft().player;
 			
 			double doubleX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
             double doubleY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;

@@ -7,10 +7,10 @@ import com.google.common.base.*;
 
 import mcjty.lib.tools.*;
 import net.minecraft.block.state.*;
-import net.minecraft.block.state.pattern.BlockMatcher;
+import net.minecraft.block.state.pattern.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.player.*;
-import net.minecraft.init.Blocks;
+import net.minecraft.init.*;
 import net.minecraft.item.*;
 import net.minecraft.nbt.*;
 import net.minecraft.network.play.server.*;
@@ -18,40 +18,11 @@ import net.minecraft.potion.*;
 import net.minecraft.server.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
-import net.minecraft.world.biome.*;
-import net.minecraft.world.gen.feature.WorldGenMinable;
-import net.minecraftforge.common.*;
+import net.minecraft.world.gen.feature.*;
 import net.minecraftforge.fml.common.*;
 
 public class Tools {
-	private static final MethodHandle getBiomesImplM;
-	static {
-		try {
-			MethodHandle temp;
-			try {
-				temp = MethodHandles.lookup().findStatic(BiomeDictionary.class, "getBiomes", MethodType.methodType(Set.class, BiomeDictionary.Type.class));
-			} catch (NoSuchMethodException error) {
-				temp = MethodHandles.lookup().findStatic(BiomeDictionary.class, "getBiomesForType", MethodType.methodType(Biome[].class, BiomeDictionary.Type.class));
-			}
-			getBiomesImplM = temp;
-		} catch (Throwable e) {
-			throw Throwables.propagate(e);
-		}
-	}
-	
-	public static Biome[] getBiomesForType(BiomeDictionary.Type type) {
-		try {
-			Object obj = getBiomesImplM.invoke(type);
-			if (obj instanceof Set) {
-				return ((Set<Biome>)getBiomesImplM.invoke(type)).toArray(new Biome[0]);
-			}
-			return (Biome[])obj;
-		} catch (Throwable e) {
-			throw Throwables.propagate(e);
-		}
-	}
-	
-private static final MethodHandle getCollisionBoundingBoxM;
+	private static final MethodHandle getCollisionBoundingBoxM;
 	
 	static {
 		try {
@@ -103,13 +74,13 @@ private static final MethodHandle getCollisionBoundingBoxM;
 			WorldServer oldWorld = player.mcServer.worldServerForDimension(player.dimension);
 			player.dimension = coord.dimensionId;
 			WorldServer newWorld = player.mcServer.worldServerForDimension(player.dimension);
-			player.connection.sendPacket(new SPacketRespawn(player.dimension, player.worldObj.getDifficulty(), newWorld.getWorldInfo().getTerrainType(), player.interactionManager.getGameType()));
+			player.connection.sendPacket(new SPacketRespawn(player.dimension, player.world.getDifficulty(), newWorld.getWorldInfo().getTerrainType(), player.interactionManager.getGameType()));
 			oldWorld.removeEntityDangerously(player);
 			player.isDead = false;
 			
 			if(player.isEntityAlive())
 			{
-				newWorld.spawnEntityInWorld(player);
+				newWorld.spawnEntity(player);
 				player.setLocationAndAngles(coord.xCoord+0.5, coord.yCoord+1, coord.zCoord+0.5, player.rotationYaw, player.rotationPitch);
 				newWorld.updateEntityWithOptionalForce(player, false);
 				player.setWorld(newWorld);
@@ -139,15 +110,15 @@ private static final MethodHandle getCollisionBoundingBoxM;
 		final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 		WorldServer world = server.worldServerForDimension(coord.dimensionId);
 
-		if (entity.worldObj.provider.getDimension() != coord.dimensionId) {
+		if (entity.world.provider.getDimension() != coord.dimensionId) {
 			synchronized (entity) {
-				entity.worldObj.removeEntity(entity);
+				entity.world.removeEntity(entity);
 				entity.isDead = false;
 				entity.setWorld(world);
 				world.updateEntityWithOptionalForce(entity, false);
 				world.resetUpdateEntityTick();
 				entity.setLocationAndAngles(coord.xCoord+0.5, coord.yCoord+1, coord.zCoord+0.5, entity.rotationYaw, entity.rotationPitch);
-				world.spawnEntityInWorld(entity);
+				world.spawnEntity(entity);
 			}
 		}
 		else {

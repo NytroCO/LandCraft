@@ -26,9 +26,9 @@ public class Coord4D {
 	}
 	
 	public Coord4D(double x, double y, double z, int dimension) {
-		xCoord = MathHelper.floor_double(x);
-		yCoord = MathHelper.floor_double(y);
-		zCoord = MathHelper.floor_double(z);
+		xCoord = MathHelper.floor(x);
+		yCoord = MathHelper.floor(y);
+		zCoord = MathHelper.floor(z);
 		dimensionId = dimension;
 	}
 	

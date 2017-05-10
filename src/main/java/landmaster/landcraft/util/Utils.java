@@ -25,10 +25,10 @@ public class Utils {
 	
 	@SuppressWarnings("unchecked")
 	public static <T extends TileEntity> List<T> getTileEntitiesWithinAABB(World world, Class<? extends T> tileEntityClass, AxisAlignedBB aabb) {
-		int i = MathHelper.floor_double((aabb.minX - World.MAX_ENTITY_RADIUS) / 16.0D);
-		int j = MathHelper.floor_double((aabb.maxX + World.MAX_ENTITY_RADIUS) / 16.0D);
-		int k = MathHelper.floor_double((aabb.minZ - World.MAX_ENTITY_RADIUS) / 16.0D);
-		int l = MathHelper.floor_double((aabb.maxZ + World.MAX_ENTITY_RADIUS) / 16.0D);
+		int i = MathHelper.floor((aabb.minX - World.MAX_ENTITY_RADIUS) / 16.0D);
+		int j = MathHelper.floor((aabb.maxX + World.MAX_ENTITY_RADIUS) / 16.0D);
+		int k = MathHelper.floor((aabb.minZ - World.MAX_ENTITY_RADIUS) / 16.0D);
+		int l = MathHelper.floor((aabb.maxZ + World.MAX_ENTITY_RADIUS) / 16.0D);
 		ArrayList<T> arraylist = Lists.newArrayList();
 
 		for (int i1 = i; i1 <= j; ++i1) {

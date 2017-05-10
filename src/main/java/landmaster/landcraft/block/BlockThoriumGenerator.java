@@ -35,7 +35,7 @@ public class BlockThoriumGenerator extends BlockMachineBase {
 				ItemStack is = handler.getStackInSlot(i);
 				if (!ItemStackTools.isEmpty(is)) {
 					EntityItem ent = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), is);
-					world.spawnEntityInWorld(ent);
+					world.spawnEntity(ent);
 				}
 			}
 			super.breakBlock(world, pos, state);

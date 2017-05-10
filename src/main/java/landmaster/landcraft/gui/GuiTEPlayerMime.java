@@ -25,8 +25,8 @@ public class GuiTEPlayerMime extends GuiEnergy {
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		fontRendererObj.drawString(I18n.format("tile.player_mime.name"), 8, 6, 0x404040);
-		fontRendererObj.drawString(cont.getPlayerInv().getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
+		fontRenderer.drawString(I18n.format("tile.player_mime.name"), 8, 6, 0x404040);
+		fontRenderer.drawString(cont.getPlayerInv().getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
 		
 		drawFrontBar(130, 14, mouseX, mouseY);
 	}

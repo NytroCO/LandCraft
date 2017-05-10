@@ -12,8 +12,7 @@ public class LandcraftBiomes {
 	private static final Biome.BiomeProperties dunans_properties = new Biome.BiomeProperties("dunans");
 	
 	static {
-		dunans_properties.setTemperature(0.0f);
-		dunans_properties.setSnowEnabled();
+		dunans_properties.setTemperature(0.4f);
 		dunans_properties.setRainfall(1.0f);
 		dunans_properties.setWaterColor(0x000099);
 		dunans_properties.setHeightVariation(0.3f);
@@ -25,11 +24,16 @@ public class LandcraftBiomes {
 		GameRegistry.register(dunans);
 		
 		try {
-			registerBiomeTypeM.invoke(dunans, BiomeDictionary.Type.COLD, BiomeDictionary.Type.WET, BiomeDictionary.Type.SNOWY);
+			registerBiomeTypeM.invoke(dunans,
+					BiomeDictionary.Type.WET,
+					BiomeDictionary.Type.MUSHROOM,
+					BiomeDictionary.Type.FOREST);
 		} catch (Throwable e) {
 			throw Throwables.propagate(e);
 		}
 	}
+	
+	// ===============================================================
 	
 	private static final MethodHandle registerBiomeTypeM;
 	static {

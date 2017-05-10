@@ -48,13 +48,13 @@ public class GuiTEThoriumGenerator extends GuiEnergy implements IGuiFluid {
 		int l = (this.height - this.ySize) / 2; //Y asis on GUI
 		int trueX = mouseX-k, trueY = mouseY-l;
 		
-		fontRendererObj.drawString(I18n.format("tile.thorium_generator.name"), 8, 6, 0x404040);
-		fontRendererObj.drawString(cont.getPlayerInv().getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
+		fontRenderer.drawString(I18n.format("tile.thorium_generator.name"), 8, 6, 0x404040);
+		fontRenderer.drawString(cont.getPlayerInv().getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
 		
 		if (progress >= 0) {
 			NumberFormat nf = NumberFormat.getPercentInstance();
 			nf.setMaximumFractionDigits(1);
-			fontRendererObj.drawString(nf.format(
+			fontRenderer.drawString(nf.format(
 					((double)progress) / TEThoriumGenerator.THORIUM_BURN_TIME),
 					30, 54, 0x0000FF);
 		}

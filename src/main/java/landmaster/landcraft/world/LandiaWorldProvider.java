@@ -30,6 +30,9 @@ public class LandiaWorldProvider extends CompatWorldProvider {
 	@Override
 	protected void initialize() {
 		this.biomeProvider = new BiomeProviderSingle(LandcraftBiomes.dunans);
+		if (this.getWorld().getWorldInfo().getTerrainType() == WorldType.FLAT) {
+			this.getWorld().getWorldInfo().setTerrainType(WorldType.DEFAULT);
+		}
 	}
 	
 	@Override
