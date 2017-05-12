@@ -3,6 +3,8 @@ package landmaster.landcraft.world;
 import java.util.*;
 
 import landmaster.landcraft.*;
+import landmaster.landcraft.block.*;
+import landmaster.landcraft.util.*;
 import net.minecraft.block.*;
 import net.minecraft.block.state.*;
 import net.minecraft.init.*;
@@ -202,6 +204,20 @@ public class LandiaTreeGenerator extends BaseTreeGenerator
             if (block.isAir(state, world, blockpos) || block == null || block.isLeaves(state, world, blockpos))
             {
                 world.setBlockState(blockpos, this.log, 2);
+            }
+            
+            // for cinnamon tree
+            if (this.log.getValue(LandiaTreeType.L_TYPE) == LandiaTreeType.CINNAMON) {
+	            for (EnumFacing facing: EnumFacing.HORIZONTALS) {
+	            	BlockPos spos = blockpos.offset(facing);
+	            	IBlockState sstate = world.getBlockState(spos);
+	            	if (world.isAirBlock(spos) || sstate.getBlock() == null) {
+	            		world.setBlockState(spos,
+	            				LandCraft.cinnamon_bark.getDefaultState()
+	            				.withProperty(BlockCinnamonBark.COVER, facing.getOpposite()),
+	            				2);
+	            	}
+	            }
             }
         }
     }

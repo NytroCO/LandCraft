@@ -1,5 +1,19 @@
 itemGroup.landcraft=Land Craft
 
+# NATURE
+
+tile.landia_sapling.cinnamon.name=Cinnamon Sapling
+tile.landia_leaves.cinnamon.name=Cinnamon Leaves
+tile.landia_log.cinnamon.name=Cinnamon Wood
+tile.landia_planks.cinnamon.name=Cinnamon Planks
+tile.landia_wood_slab.cinnamon.name=Cinnamon Slab
+
+tile.cinnamon_stairs.name=Cinnamon Stairs
+
+tile.cinnamon_bark.name=Cinnamon Bark
+
+item.cinnamon.name=Cinnamon
+
 # MACHINES
 
 tile.breeder.name=Breeder Reactor

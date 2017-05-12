@@ -18,6 +18,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraftforge.common.*;
 import net.minecraftforge.event.terraingen.*;
+import net.minecraftforge.fml.relauncher.*;
 
 public class BlockLandiaSapling extends BlockSapling implements IMetaBlockName {
 	public BlockLandiaSapling() {
@@ -28,8 +29,13 @@ public class BlockLandiaSapling extends BlockSapling implements IMetaBlockName {
 		this.setUnlocalizedName("landia_sapling").setRegistryName("landia_sapling");
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubBlocks(@Nonnull Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+		this.func_149666_a(itemIn, tab, list);
+	}
+	
+	public void func_149666_a(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		for (LandiaTreeType type : LandiaTreeType.values()) {
 			list.add(new ItemStack(this, 1,
 					this.getMetaFromState(this.getDefaultState().withProperty(LandiaTreeType.L_TYPE, type))));

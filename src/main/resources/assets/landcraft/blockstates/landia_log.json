@@ -1,32 +1,36 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-    	"transform": "forge:default-block"
-    },
-    "variants": {
-    	"l_type": {
-    		"cinnamon": {
-    			"model": "cube_column",
-    			"textures": {
-    				"end": "landcraft:blocks/landia_log_cinnamon_top",
-    				"side": "landcraft:blocks/landia_log_cinnamon"
-    			}
-    		}
-    	},
-    	"axis": {
-            "none": {
-                "__comment": "nothing to rotate"
-            },
-            "y": {
-                "__comment": "nothing to rotate"
-            },
-            "z": {
-                "x": 90
-            },
-            "x": {
-                "x": 90,
-                "y": 90
-            }
-        }
-    }
+	"forge_marker": 1,
+	"defaults": {
+		"transform": "forge:default-block"
+	},
+	"variants": {
+		"l_type": {
+			"cinnamon": {
+				"textures": {
+					"end": "landcraft:blocks/landia_log_cinnamon_top",
+					"side": "landcraft:blocks/landia_log_cinnamon",
+					"all": "#side"
+				}
+			}
+		},
+		"axis": {
+			"none": {
+				"__comment": "nothing to rotate",
+				"model": "cube_all"
+			},
+			"y": {
+				"__comment": "nothing to rotate",
+				"model": "cube_column"
+			},
+			"z": {
+				"x": 90,
+				"model": "cube_column"
+			},
+			"x": {
+				"x": 90,
+				"y": 90,
+				"model": "cube_column"
+			}
+		}
+	}
 }

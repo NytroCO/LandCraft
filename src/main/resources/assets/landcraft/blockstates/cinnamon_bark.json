@@ -1,0 +1,30 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+        	"all": "landcraft:blocks/cinnamon_bark"
+        }
+    },
+    "variants": {
+        "cover": {
+            "down": {
+            	"model": "landcraft:cover_down"
+            },
+            "up": {
+            	"model": "landcraft:cover_up"
+            },
+            "north": {
+            	"model": "landcraft:cover_north"
+            },
+            "south": {
+            	"model": "landcraft:cover_south"
+            },
+            "west": {
+            	"model": "landcraft:cover_west"
+            },
+            "east": {
+            	"model": "landcraft:cover_east"
+            }
+        }
+    }
+}
