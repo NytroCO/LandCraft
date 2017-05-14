@@ -9,6 +9,7 @@ import landmaster.landcore.api.item.*;
 import landmaster.landcraft.api.*;
 import landmaster.landcraft.block.*;
 import landmaster.landcraft.config.*;
+import landmaster.landcraft.content.*;
 import landmaster.landcraft.gui.proxy.*;
 import landmaster.landcraft.item.*;
 import landmaster.landcraft.net.*;
@@ -16,7 +17,6 @@ import landmaster.landcraft.proxy.*;
 import landmaster.landcraft.tile.*;
 import landmaster.landcraft.util.*;
 import landmaster.landcraft.world.*;
-import mcjty.lib.compat.*;
 import net.minecraft.block.*;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
@@ -47,123 +47,105 @@ public class LandCraft {
 	@SidedProxy(serverSide = "landmaster.landcraft.proxy.CommonProxy", clientSide = "landmaster.landcraft.proxy.ClientProxy")
 	public static CommonProxy proxy;
 	
-	public static final CompatCreativeTabs creativeTab = new CompatCreativeTabs(MODID) {
-		@Override
-		public Item getItem() {
-			return redstone_component;
-		}
-	};
-	
-	public static final BlockBreeder breeder = new BlockBreeder();
-	public static final BlockPlayerMime player_mime = new BlockPlayerMime();
-	public static final BlockThoriumGenerator thorium_generator = new BlockThoriumGenerator();
-	
-	public static final BlockLandiaPortalMarker landia_portal_marker = new BlockLandiaPortalMarker();
-	
-	public static final BlockLandiaSapling landia_sapling = new BlockLandiaSapling();
-	public static final BlockLandiaLog landia_log = new BlockLandiaLog();
-	public static final BlockLandiaLeaves landia_leaves = new BlockLandiaLeaves();
-	public static final BlockLandiaPlanks landia_planks = new BlockLandiaPlanks();
-	public static final BlockCinnamonBark cinnamon_bark = new BlockCinnamonBark();
-	
-	public static final BlockLandiaWoodSlab landia_wood_slab = new BlockLandiaWoodSlab();
-	
-	public static final EnumMap<LandiaTreeType, BlockLandCraftStairs> landia_wood_stairs = new EnumMap<>(LandiaTreeType.class);
-	
-	public static final ItemCinnamon cinnamon = new ItemCinnamon();
-	
-	public static final ItemWrench wrench = new ItemWrench();
-	public static final Item redstone_component = new CompatItem()
-			.setUnlocalizedName("redstone_component")
-			.setRegistryName("redstone_component")
-			.setCreativeTab(creativeTab);
-	
-	// METALS
-	
-	public static final BlockLandiaOre landia_ore = new BlockLandiaOre();
-	public static final BlockLandiaMetal landia_metal = new BlockLandiaMetal();
-	
-	public static final ItemLandiaIngot landia_ingot = new ItemLandiaIngot();
-	
-	public static final EnumMap<LandiaOreType, Utils.ToolGroup> toolsMap = new EnumMap<>(LandiaOreType.class);
-	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		(config = new Config(event)).sync();
 		
 		initNature();
 		
+		initAgriculture();
+		
 		initMachines();
 		
 		initMetals();
 		
-		ItemBlock landia_portal_marker_item = new ItemBlock(landia_portal_marker);
-		GameRegistry.register(landia_portal_marker);
-		GameRegistry.register(landia_portal_marker_item, landia_portal_marker.getRegistryName());
+		ItemBlock landia_portal_marker_item = new ItemBlock(LandCraftContent.landia_portal_marker);
+		GameRegistry.register(LandCraftContent.landia_portal_marker);
+		GameRegistry.register(landia_portal_marker_item, LandCraftContent.landia_portal_marker.getRegistryName());
 		proxy.registerItemRenderer(landia_portal_marker_item, 0, "landia_portal_marker");
 		GameRegistry.registerTileEntity(TELandiaPortalMarker.class, MODID+"_landia_portal_marker");
 		proxy.bindTESR(TELandiaPortalMarker.class, TELandiaPortalMarker.TESRProvider);
 		
-		GameRegistry.register(redstone_component);
-		proxy.registerItemRenderer(redstone_component, 0, "redstone_component");
+		GameRegistry.register(LandCraftContent.redstone_component);
+		proxy.registerItemRenderer(LandCraftContent.redstone_component, 0, "redstone_component");
 		
 		LandcraftBiomes.init();
 		
 		LandiaWorldProvider.register();
 	}
 	
+	private static void initAgriculture() {
+		GameRegistry.register(LandCraftContent.wild_onion);
+		GameRegistry.register(LandCraftContent.onion_crop);
+		GameRegistry.register(LandCraftContent.onion);
+		OreDictionary.registerOre("cropOnion", LandCraftContent.onion);
+		OreDictionary.registerOre("seedOnion", LandCraftContent.onion);
+		proxy.registerItemRenderer(LandCraftContent.onion, 0, "onion");
+		
+		GameRegistry.register(LandCraftContent.wild_rice);
+		GameRegistry.register(LandCraftContent.rice_crop);
+		GameRegistry.register(LandCraftContent.rice);
+		OreDictionary.registerOre("cropRice", LandCraftContent.rice);
+		OreDictionary.registerOre("seedRice", LandCraftContent.rice);
+		proxy.registerItemRenderer(LandCraftContent.rice, 0, "rice");
+		
+		GameRegistry.register(LandCraftContent.potato_onion_pastry);
+		proxy.registerItemRenderer(LandCraftContent.potato_onion_pastry, 0, "potato_onion_pastry");
+		proxy.registerItemRenderer(LandCraftContent.potato_onion_pastry, 1, "potato_onion_pastry_cooked");
+	}
+	
 	private static void initNature() {
-		ItemBlockMeta landia_sapling_item = new ItemBlockMeta(landia_sapling);
-		GameRegistry.register(landia_sapling);
-		GameRegistry.register(landia_sapling_item, landia_sapling.getRegistryName());
-		proxy.setCustomStateMapper(landia_sapling, BlockSapling.STAGE, BlockSapling.TYPE);
+		ItemBlockMeta landia_sapling_item = new ItemBlockMeta(LandCraftContent.landia_sapling);
+		GameRegistry.register(LandCraftContent.landia_sapling);
+		GameRegistry.register(landia_sapling_item, LandCraftContent.landia_sapling.getRegistryName());
+		proxy.setCustomStateMapper(LandCraftContent.landia_sapling, BlockSapling.STAGE, BlockSapling.TYPE);
 		for (LandiaTreeType type: LandiaTreeType.values()) {
-			int meta = landia_sapling.getMetaFromState(
-					landia_sapling.getDefaultState()
+			int meta = LandCraftContent.landia_sapling.getMetaFromState(
+					LandCraftContent.landia_sapling.getDefaultState()
 					.withProperty(LandiaTreeType.L_TYPE, type));
 			proxy.registerItemRenderer(landia_sapling_item, meta, "landia_sapling_"+type);
 		}
-		OreDictionary.registerOre("treeSapling", new ItemStack(landia_leaves, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("treeSapling", new ItemStack(LandCraftContent.landia_sapling, 1, OreDictionary.WILDCARD_VALUE));
 		
-		ItemBlockLeaves landia_leaves_item = new ItemBlockLeaves(landia_leaves);
-		GameRegistry.register(landia_leaves);
-		GameRegistry.register(landia_leaves_item, landia_leaves.getRegistryName());
-		proxy.setCustomStateMapper(landia_leaves, BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE);
+		ItemBlockLeaves landia_leaves_item = new ItemBlockLeaves(LandCraftContent.landia_leaves);
+		GameRegistry.register(LandCraftContent.landia_leaves);
+		GameRegistry.register(landia_leaves_item, LandCraftContent.landia_leaves.getRegistryName());
+		proxy.setCustomStateMapper(LandCraftContent.landia_leaves, BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE);
 		for (LandiaTreeType type: LandiaTreeType.values()) {
 			proxy.registerItemRenderer(landia_leaves_item, type.ordinal(), "landia_leaves",
 					String.format(Locale.US, "%s=%s", LandiaTreeType.L_TYPE.getName(), type));
 		}
-		OreDictionary.registerOre("treeLeaves", new ItemStack(landia_leaves, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("treeLeaves", new ItemStack(LandCraftContent.landia_leaves, 1, OreDictionary.WILDCARD_VALUE));
 		
-		ItemBlockMeta landia_log_item = new ItemBlockMeta(landia_log);
-		GameRegistry.register(landia_log);
-		GameRegistry.register(landia_log_item, landia_log.getRegistryName());
+		ItemBlockMeta landia_log_item = new ItemBlockMeta(LandCraftContent.landia_log);
+		GameRegistry.register(LandCraftContent.landia_log);
+		GameRegistry.register(landia_log_item, LandCraftContent.landia_log.getRegistryName());
 		for (LandiaTreeType type: LandiaTreeType.values()) {
 			String variant = String.format(Locale.US, "%s=%s,%s=%s",
 					Axis.AXIS.getName(), Axis.Y,
 					LandiaTreeType.L_TYPE.getName(), type);
 			proxy.registerItemRenderer(landia_log_item, type.ordinal(), "landia_log", variant);
 		}
-		OreDictionary.registerOre("logWood", new ItemStack(landia_log, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("logWood", new ItemStack(LandCraftContent.landia_log, 1, OreDictionary.WILDCARD_VALUE));
 		
-		ItemBlockMeta landia_planks_item = new ItemBlockMeta(landia_planks);
-		GameRegistry.register(landia_planks);
-		GameRegistry.register(landia_planks_item, landia_planks.getRegistryName());
+		ItemBlockMeta landia_planks_item = new ItemBlockMeta(LandCraftContent.landia_planks);
+		GameRegistry.register(LandCraftContent.landia_planks);
+		GameRegistry.register(landia_planks_item, LandCraftContent.landia_planks.getRegistryName());
 		for (LandiaTreeType type: LandiaTreeType.values()) {
 			proxy.registerItemRenderer(landia_planks_item,
 					type.ordinal(), "landia_planks",
 					String.format(Locale.US, "%s=%s", LandiaTreeType.L_TYPE.getName(), type));
 		}
-		OreDictionary.registerOre("plankWood", new ItemStack(landia_planks, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("plankWood", new ItemStack(LandCraftContent.landia_planks, 1, OreDictionary.WILDCARD_VALUE));
 		
-		GameRegistry.register(cinnamon_bark);
+		GameRegistry.register(LandCraftContent.cinnamon_bark);
 		
-		GameRegistry.register(cinnamon);
-		proxy.registerItemRenderer(cinnamon, 0, "cinnamon");
+		GameRegistry.register(LandCraftContent.cinnamon);
+		proxy.registerItemRenderer(LandCraftContent.cinnamon, 0, "cinnamon");
 		
-		ItemBlockSlab<LandiaTreeType> landia_wood_slab_item = new ItemBlockSlab<>(landia_wood_slab);
-		GameRegistry.register(landia_wood_slab);
-		GameRegistry.register(landia_wood_slab_item, landia_wood_slab.getRegistryName());
+		ItemBlockSlab<LandiaTreeType> landia_wood_slab_item = new ItemBlockSlab<>(LandCraftContent.landia_wood_slab);
+		GameRegistry.register(LandCraftContent.landia_wood_slab);
+		GameRegistry.register(landia_wood_slab_item, LandCraftContent.landia_wood_slab.getRegistryName());
 		for (LandiaTreeType type: LandiaTreeType.values()) {
 			String variant = String.format(Locale.US, "%s=%s,%s=%s",
 					BlockSlab.HALF.getName(), BlockSlab.EnumBlockHalf.BOTTOM,
@@ -172,14 +154,14 @@ public class LandCraft {
 					type.ordinal(), "landia_wood_slab",
 					variant);
 		}
-		OreDictionary.registerOre("slabWood", new ItemStack(landia_wood_slab, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("slabWood", new ItemStack(LandCraftContent.landia_wood_slab, 1, OreDictionary.WILDCARD_VALUE));
 		
 		for (LandiaTreeType type: LandiaTreeType.values()) {
 			BlockLandCraftStairs block = GameRegistry.register(new BlockLandCraftStairs(
-					landia_log.getDefaultState()
+					LandCraftContent.landia_log.getDefaultState()
 					.withProperty(LandiaTreeType.L_TYPE, type),
 					type+"_stairs"));
-			landia_wood_stairs.put(type, block);
+			LandCraftContent.landia_wood_stairs.put(type, block);
 			ItemBlock ib = new ItemBlock(block);
 			GameRegistry.register(ib, block.getRegistryName());
 			proxy.registerItemRenderer(ib, 0, block.getRegistryName().getResourcePath());
@@ -189,65 +171,65 @@ public class LandCraft {
 	
 	private static void initMachines() {
 		if (Config.breeder) {
-			ItemBlock breeder_item = new ItemBlock(breeder);
-			GameRegistry.register(breeder);
-			GameRegistry.register(breeder_item, breeder.getRegistryName());
+			ItemBlock breeder_item = new ItemBlock(LandCraftContent.breeder);
+			GameRegistry.register(LandCraftContent.breeder);
+			GameRegistry.register(breeder_item, LandCraftContent.breeder.getRegistryName());
 			proxy.registerItemRenderer(breeder_item, 0, "breeder");
 			GameRegistry.registerTileEntity(TEBreeder.class, MODID+"_breeder_reactor");
 		}
 		
 		if (Config.player_mime) {
-			ItemBlock player_mime_item = new ItemBlock(player_mime);
-			GameRegistry.register(player_mime);
-			GameRegistry.register(player_mime_item, player_mime.getRegistryName());
+			ItemBlock player_mime_item = new ItemBlock(LandCraftContent.player_mime);
+			GameRegistry.register(LandCraftContent.player_mime);
+			GameRegistry.register(player_mime_item, LandCraftContent.player_mime.getRegistryName());
 			proxy.registerItemRenderer(player_mime_item, 0, "player_mime");
 			GameRegistry.registerTileEntity(TEPlayerMime.class, MODID+"_player_mime");
 		}
 		
 		if (Config.thorium_generator) {
-			ItemBlock thorium_generator_item = new ItemBlock(thorium_generator);
-			GameRegistry.register(thorium_generator);
-			GameRegistry.register(thorium_generator_item, thorium_generator.getRegistryName());
+			ItemBlock thorium_generator_item = new ItemBlock(LandCraftContent.thorium_generator);
+			GameRegistry.register(LandCraftContent.thorium_generator);
+			GameRegistry.register(thorium_generator_item, LandCraftContent.thorium_generator.getRegistryName());
 			proxy.registerItemRenderer(thorium_generator_item, 0, "thorium_generator");
 			GameRegistry.registerTileEntity(TEThoriumGenerator.class, MODID+"_thorium_generator");
 		}
 		
 		if (Config.wrench) {
-			GameRegistry.register(wrench);
-			proxy.registerItemRenderer(wrench, 0, "item_wrench");
+			GameRegistry.register(LandCraftContent.wrench);
+			proxy.registerItemRenderer(LandCraftContent.wrench, 0, "item_wrench");
 		}
 	}
 	
 	private static void initMetals() {
 		final LandiaOreType[] values = LandiaOreType.values();
 		
-		ItemBlock landia_ore_item = new ItemBlockMeta(landia_ore);
-		GameRegistry.register(landia_ore);
-		GameRegistry.register(landia_ore_item, landia_ore.getRegistryName());
+		ItemBlock landia_ore_item = new ItemBlockMeta(LandCraftContent.landia_ore);
+		GameRegistry.register(LandCraftContent.landia_ore);
+		GameRegistry.register(landia_ore_item, LandCraftContent.landia_ore.getRegistryName());
 		for (int i=0; i<values.length; ++i) {
-			proxy.registerItemRenderer(landia_ore_item, i, landia_ore.getRegistryName().getResourcePath(), "type="+values[i]);
+			proxy.registerItemRenderer(landia_ore_item, i, LandCraftContent.landia_ore.getRegistryName().getResourcePath(), "type="+values[i]);
 			OreDictionary.registerOre("ore"+StringUtils.capitalize(values[i].toString()),
-					new ItemStack(landia_ore, 1, i));
+					new ItemStack(LandCraftContent.landia_ore, 1, i));
 		}
 		
-		ItemBlock landia_metal_item = new ItemBlockMeta(landia_metal);
-		GameRegistry.register(landia_metal);
-		GameRegistry.register(landia_metal_item, landia_metal.getRegistryName());
+		ItemBlock landia_metal_item = new ItemBlockMeta(LandCraftContent.landia_metal);
+		GameRegistry.register(LandCraftContent.landia_metal);
+		GameRegistry.register(landia_metal_item, LandCraftContent.landia_metal.getRegistryName());
 		for (int i=0; i<values.length; ++i) {
-			proxy.registerItemRenderer(landia_metal_item, i, landia_metal.getRegistryName().getResourcePath(), "type="+values[i]);
+			proxy.registerItemRenderer(landia_metal_item, i, LandCraftContent.landia_metal.getRegistryName().getResourcePath(), "type="+values[i]);
 			OreDictionary.registerOre("block"+StringUtils.capitalize(values[i].toString()),
-					new ItemStack(landia_metal, 1, i));
+					new ItemStack(LandCraftContent.landia_metal, 1, i));
 		}
 		
-		GameRegistry.register(landia_ingot);
+		GameRegistry.register(LandCraftContent.landia_ingot);
 		for (int i=0; i<values.length; ++i) {
-			proxy.registerItemRenderer(landia_ingot, i, "ingot/"+values[i]);
+			proxy.registerItemRenderer(LandCraftContent.landia_ingot, i, "ingot/"+values[i]);
 			OreDictionary.registerOre("ingot"+StringUtils.capitalize(values[i].toString()),
-					new ItemStack(landia_ingot, 1, i));
+					new ItemStack(LandCraftContent.landia_ingot, 1, i));
 		}
 		
 		for (LandiaOreType type: values) {
-			toolsMap.put(type, Utils.registerTools(type,
+			LandCraftContent.toolsMap.put(type, Utils.registerTools(type,
 					EnumHelper.addToolMaterial(
 							type.name(), type.getLevel()+1, type.getDurability(),
 							type.getEfficiency(), type.getDamage(), type.getEnchantability()),
@@ -268,15 +250,17 @@ public class LandCraft {
 		
 		initNatureRecipes();
 		
+		initAgricultureRecipes();
+		
 		initMachineRecipes();
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(landia_portal_marker,
+		GameRegistry.addRecipe(new ShapedOreRecipe(LandCraftContent.landia_portal_marker,
 				" d ", "lnl", "aea",
 				'd', "gemDiamond", 'l', "ingotLandium",
 				'n', Items.ENDER_PEARL, 'a', "ingotGold",
 				'e', "gemEmerald"));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(redstone_component,
+		GameRegistry.addRecipe(new ShapedOreRecipe(LandCraftContent.redstone_component,
 				"fdh",
 				'f', "ingotIron", 'd', "dustRedstone",
 				'h', "ingotThorium"));
@@ -285,33 +269,40 @@ public class LandCraft {
 		for (int i=0; i<values.length; ++i) {
 			final String ingotName = "ingot"+StringUtils.capitalize(values[i].toString());
 			
-			GameRegistry.addSmelting(new ItemStack(landia_ore, 1, i),
-					new ItemStack(landia_ingot, 1, i), 0.85f);
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(landia_metal, 1, i),
+			GameRegistry.addSmelting(new ItemStack(LandCraftContent.landia_ore, 1, i),
+					new ItemStack(LandCraftContent.landia_ingot, 1, i), 1.25f);
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(LandCraftContent.landia_metal, 1, i),
 					"III", "III", "III",
 					'I', ingotName));
-			GameRegistry.addShapelessRecipe(new ItemStack(landia_ingot, 9, i), new ItemStack(landia_metal, 1, i));
+			GameRegistry.addShapelessRecipe(new ItemStack(LandCraftContent.landia_ingot, 9, i), new ItemStack(LandCraftContent.landia_metal, 1, i));
 		}
 		
-		for (Utils.ToolGroup group: toolsMap.values()) {
+		for (Utils.ToolGroup group: LandCraftContent.toolsMap.values()) {
 			group.initRecipes();
 		}
+	}
+	
+	private static void initAgricultureRecipes() {
+		GameRegistry.addRecipe(new ShapelessOreRecipe(LandCraftContent.potato_onion_pastry,
+				"cropPotato", "cropOnion", "cropWheat", "cropWheat"));
+		GameRegistry.addSmelting(new ItemStack(LandCraftContent.potato_onion_pastry),
+				new ItemStack(LandCraftContent.potato_onion_pastry, 1, 1), 0.35f);
 	}
 	
 	private static void initNatureRecipes() {
 		final LandiaTreeType[] values = LandiaTreeType.values();
 		for (int i=0; i<values.length; ++i) {
-			GameRegistry.addShapelessRecipe(new ItemStack(landia_planks, 4, i), new ItemStack(landia_log, 1, i));
-			GameRegistry.addShapedRecipe(new ItemStack(landia_wood_slab, 6, i), "ppp", 'p', new ItemStack(landia_planks, 1, i));
-			GameRegistry.addShapedRecipe(new ItemStack(landia_wood_stairs.get(values[i]), 4), "p  ", "pp ", "ppp", 'p', new ItemStack(landia_planks, 1, i));
+			GameRegistry.addShapelessRecipe(new ItemStack(LandCraftContent.landia_planks, 4, i), new ItemStack(LandCraftContent.landia_log, 1, i));
+			GameRegistry.addShapedRecipe(new ItemStack(LandCraftContent.landia_wood_slab, 6, i), "ppp", 'p', new ItemStack(LandCraftContent.landia_planks, 1, i));
+			GameRegistry.addShapedRecipe(new ItemStack(LandCraftContent.landia_wood_stairs.get(values[i]), 4), "p  ", "pp ", "ppp", 'p', new ItemStack(LandCraftContent.landia_planks, 1, i));
 			
-			GameRegistry.addSmelting(new ItemStack(landia_log, 1, i), new ItemStack(Items.COAL, 1, 1), 0.15f);
+			GameRegistry.addSmelting(new ItemStack(LandCraftContent.landia_log, 1, i), new ItemStack(Items.COAL, 1, 1), 0.15f);
 		}
 	}
 	
 	private static void initMachineRecipes() {
 		if (Config.breeder) {
-			GameRegistry.addRecipe(new ShapedOreRecipe(breeder,
+			GameRegistry.addRecipe(new ShapedOreRecipe(LandCraftContent.breeder,
 					"wdw", "wFw", "hlh",
 					'w', "ingotTungsten", 'h', "ingotThorium",
 					'd', "gemDiamond", 'F', Blocks.FURNACE,
@@ -319,22 +310,22 @@ public class LandCraft {
 		}
 		
 		if (Config.player_mime) {
-			GameRegistry.addRecipe(new ShapedOreRecipe(player_mime,
+			GameRegistry.addRecipe(new ShapedOreRecipe(LandCraftContent.player_mime,
 					"rSr", "hOh", "www",
 					'S', Items.DIAMOND_SWORD, 'h', "ingotThorium",
 					'O', Blocks.OBSIDIAN, 'w', "ingotTungsten",
-					'r', redstone_component));
+					'r', LandCraftContent.redstone_component));
 		}
 		
 		if (Config.thorium_generator) {
-			GameRegistry.addRecipe(new ShapedOreRecipe(thorium_generator,
+			GameRegistry.addRecipe(new ShapedOreRecipe(LandCraftContent.thorium_generator,
 					"rzr", "wFw", "ara",
-					'w', "ingotTungsten", 'r', redstone_component,
+					'w', "ingotTungsten", 'r', LandCraftContent.redstone_component,
 					'F', Blocks.FURNACE, 'z', "gemLapis", 'a', "ingotGold"));
 		}
 		
 		if (Config.wrench) {
-			GameRegistry.addRecipe(new ShapedOreRecipe(wrench,
+			GameRegistry.addRecipe(new ShapedOreRecipe(LandCraftContent.wrench,
 					"w", "f", "z",
 					'w', "ingotTungsten", 'f', "ingotIron",
 					'z', "gemLapis"));

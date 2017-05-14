@@ -4,7 +4,7 @@ import java.util.*;
 
 import com.google.common.collect.*;
 
-import landmaster.landcraft.*;
+import landmaster.landcraft.content.*;
 import mcjty.lib.compat.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
@@ -24,7 +24,7 @@ public class BlockCinnamonBark extends CompatBlock {
 			new AxisAlignedBB(0, 0.9375, 0, 1, 1, 1),
 			new AxisAlignedBB(0, 0, 0, 1, 1, 0.0625),
 			new AxisAlignedBB(0, 0, 0.9375, 1, 1, 1),
-			new AxisAlignedBB(0, 0, 0, 0.0625, 0, 1),
+			new AxisAlignedBB(0, 0, 0, 0.0625, 1, 1),
 			new AxisAlignedBB(0.9375, 0, 0, 1, 1, 1));
 	
 	public BlockCinnamonBark() {
@@ -59,7 +59,7 @@ public class BlockCinnamonBark extends CompatBlock {
 	
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return LandCraft.cinnamon;
+		return LandCraftContent.cinnamon;
 	}
 	
 	@Override

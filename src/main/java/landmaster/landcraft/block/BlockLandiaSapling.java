@@ -6,6 +6,7 @@ import javax.annotation.*;
 
 import landmaster.landcore.api.block.*;
 import landmaster.landcraft.*;
+import landmaster.landcraft.content.LandCraftContent;
 import landmaster.landcraft.util.*;
 import landmaster.landcraft.world.*;
 import net.minecraft.block.*;
@@ -22,7 +23,7 @@ import net.minecraftforge.fml.relauncher.*;
 
 public class BlockLandiaSapling extends BlockSapling implements IMetaBlockName {
 	public BlockLandiaSapling() {
-		this.setCreativeTab(LandCraft.creativeTab);
+		this.setCreativeTab(LandCraftContent.creativeTab);
 		this.setDefaultState(this.blockState.getBaseState());
 		this.setSoundType(SoundType.PLANT);
 		this.setHardness(0.0F);
@@ -110,11 +111,11 @@ public class BlockLandiaSapling extends BlockSapling implements IMetaBlockName {
 		
 		switch (state.getValue(LandiaTreeType.L_TYPE)) {
 		case CINNAMON:
-			log = LandCraft.landia_log.getDefaultState().withProperty(LandiaTreeType.L_TYPE, LandiaTreeType.CINNAMON);
-			leaves = LandCraft.landia_leaves.getDefaultState().withProperty(LandiaTreeType.L_TYPE,
+			log = LandCraftContent.landia_log.getDefaultState().withProperty(LandiaTreeType.L_TYPE, LandiaTreeType.CINNAMON);
+			leaves = LandCraftContent.landia_leaves.getDefaultState().withProperty(LandiaTreeType.L_TYPE,
 					LandiaTreeType.CINNAMON);
 			
-			gen = new LandiaTreeGenerator(9, 3, log, leaves, true, true);
+			gen = new LandiaTreeGenerator(9, 7, log, leaves, true, true);
 			
 			break;
 		default:

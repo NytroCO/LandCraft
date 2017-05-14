@@ -7,7 +7,7 @@ import javax.annotation.*;
 import com.google.common.collect.*;
 
 import landmaster.landcore.api.block.*;
-import landmaster.landcraft.*;
+import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
 import net.minecraft.block.*;
 import net.minecraft.block.state.*;
@@ -21,12 +21,13 @@ import net.minecraftforge.fml.relauncher.*;
 
 public class BlockLandiaLeaves extends BlockLeaves implements IMetaBlockName {
 	public BlockLandiaLeaves() {
-		this.setCreativeTab(LandCraft.creativeTab);
+		this.setCreativeTab(LandCraftContent.creativeTab);
 		Blocks.FIRE.setFireInfo(this, 30, 60);
 		this.setDefaultState(this.blockState.getBaseState()
 				.withProperty(CHECK_DECAY, false)
 				.withProperty(DECAYABLE, true));
 		this.setUnlocalizedName("landia_leaves").setRegistryName("landia_leaves");
+		this.useNeighborBrightness = true;
 	}
 	
 	@Override
@@ -77,7 +78,7 @@ public class BlockLandiaLeaves extends BlockLeaves implements IMetaBlockName {
 	// sapling item
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return Item.getItemFromBlock(LandCraft.landia_sapling);
+		return Item.getItemFromBlock(LandCraftContent.landia_sapling);
 	}
 	
 	@Override

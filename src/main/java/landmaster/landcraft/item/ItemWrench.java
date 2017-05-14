@@ -1,8 +1,8 @@
 package landmaster.landcraft.item;
 
 import cofh.api.item.*;
-import landmaster.landcraft.*;
 import landmaster.landcraft.block.*;
+import landmaster.landcraft.content.*;
 import mcjty.lib.compat.*;
 import mcjty.lib.tools.*;
 import net.minecraft.block.*;
@@ -17,7 +17,7 @@ import net.minecraft.world.*;
 public class ItemWrench extends CompatItem implements IToolHammer {
 	public ItemWrench() {
 		this.setUnlocalizedName("item_wrench").setRegistryName("item_wrench");
-		this.setCreativeTab(LandCraft.creativeTab);
+		this.setCreativeTab(LandCraftContent.creativeTab);
 	}
 	
 	@Override

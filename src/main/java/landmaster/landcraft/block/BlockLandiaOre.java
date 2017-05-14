@@ -3,7 +3,7 @@ package landmaster.landcraft.block;
 import java.util.*;
 
 import landmaster.landcore.api.block.*;
-import landmaster.landcraft.*;
+import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
 import mcjty.lib.compat.*;
 import net.minecraft.block.material.*;
@@ -28,7 +28,7 @@ public class BlockLandiaOre extends CompatBlock implements IMetaBlockName {
 			setHarvestLevel("pickaxe", type.getLevel(), getDefaultState().withProperty(TYPE, type));
 		}
 		this.setUnlocalizedName("landia_ore").setRegistryName("landia_ore");
-		this.setCreativeTab(LandCraft.creativeTab);
+		this.setCreativeTab(LandCraftContent.creativeTab);
 	}
 	
 	@Override

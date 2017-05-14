@@ -3,7 +3,7 @@ package landmaster.landcraft.block;
 import java.util.*;
 
 import landmaster.landcore.api.block.*;
-import landmaster.landcraft.*;
+import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
 import mcjty.lib.compat.*;
 import net.minecraft.block.*;
@@ -33,7 +33,7 @@ public class BlockLandiaLog extends CompatBlock implements IMetaBlockName {
 		this.setSoundType(SoundType.WOOD);
 		Blocks.FIRE.setFireInfo(this, 5, 20);
 		this.setUnlocalizedName("landia_log").setRegistryName("landia_log");
-		this.setCreativeTab(LandCraft.creativeTab);
+		this.setCreativeTab(LandCraftContent.creativeTab);
 	}
 	
 	@Override

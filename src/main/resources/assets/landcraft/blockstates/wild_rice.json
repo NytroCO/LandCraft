@@ -1,0 +1,13 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+    	"textures": {
+    		"crop": "landcraft:blocks/wild_rice"
+    	}
+    },
+    "variants": {
+    	"normal": {
+    		"model": "crop"
+    	}
+    }
+}

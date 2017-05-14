@@ -1,0 +1,50 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "crop"
+    },
+    "variants": {
+    	"age": {
+			"0": {
+				"textures": {
+					"crop": "landcraft:blocks/onion_crop/0"
+				}
+			},
+			"1": {
+				"textures": {
+					"crop": "landcraft:blocks/onion_crop/0"
+				}
+			},
+			"2": {
+				"textures": {
+					"crop": "landcraft:blocks/onion_crop/2"
+				}
+			},
+			"3": {
+				"textures": {
+					"crop": "landcraft:blocks/onion_crop/2"
+				}
+			},
+			"4": {
+				"textures": {
+					"crop": "landcraft:blocks/onion_crop/4"
+				}
+			},
+			"5": {
+				"textures": {
+					"crop": "landcraft:blocks/onion_crop/4"
+				}
+			},
+			"6": {
+				"textures": {
+					"crop": "landcraft:blocks/onion_crop/4"
+				}
+			},
+			"7": {
+				"textures": {
+					"crop": "landcraft:blocks/onion_crop/7"
+				}
+			}
+		}
+    }
+}

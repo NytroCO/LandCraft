@@ -8,9 +8,9 @@ import org.apache.commons.lang3.tuple.*;
 
 import gnu.trove.set.hash.*;
 import landmaster.landcore.api.*;
-import landmaster.landcraft.*;
 import landmaster.landcraft.block.*;
 import landmaster.landcraft.config.*;
+import landmaster.landcraft.content.*;
 import landmaster.landcraft.tile.render.*;
 import landmaster.landcraft.util.*;
 import net.minecraft.client.renderer.tileentity.*;
@@ -221,7 +221,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 	
 	static void generatePortal(World world, BlockPos pos) {
 		world.setBlockState(pos.add(0,3,0),
-				LandCraft.landia_portal_marker.getDefaultState()
+				LandCraftContent.landia_portal_marker.getDefaultState()
 				.withProperty(BlockLandiaPortalMarker.ACTIVATED, true));
 		for (int i=1; i<=2; ++i) {
 			world.setBlockState(pos.add(0,i,0), Blocks.AIR.getDefaultState());

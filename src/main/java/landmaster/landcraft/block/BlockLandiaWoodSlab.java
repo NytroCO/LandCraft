@@ -1,6 +1,6 @@
 package landmaster.landcraft.block;
 
-import landmaster.landcraft.*;
+import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
@@ -16,12 +16,12 @@ public class BlockLandiaWoodSlab extends BlockModSlab<LandiaTreeType> {
 		this.setHardness(2.0F);
 		this.setSoundType(SoundType.WOOD);
 		this.setUnlocalizedName("landia_wood_slab").setRegistryName("landia_wood_slab");
-		this.setCreativeTab(LandCraft.creativeTab);
+		this.setCreativeTab(LandCraftContent.creativeTab);
 	}
 	
 	@Override
 	public IBlockState getFullBlock(IBlockState state) {
-		return LandCraft.landia_planks.getDefaultState().withProperty(LandiaTreeType.L_TYPE,
+		return LandCraftContent.landia_planks.getDefaultState().withProperty(LandiaTreeType.L_TYPE,
 				state.getValue(LandiaTreeType.L_TYPE));
 	}
 }

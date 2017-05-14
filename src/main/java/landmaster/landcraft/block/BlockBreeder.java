@@ -2,7 +2,7 @@ package landmaster.landcraft.block;
 
 import javax.annotation.*;
 
-import landmaster.landcraft.*;
+import landmaster.landcraft.content.*;
 import landmaster.landcraft.tile.*;
 import mcjty.lib.tools.*;
 import net.minecraft.block.*;
@@ -23,7 +23,7 @@ public class BlockBreeder extends BlockMachineBase {
         this.setResistance(10.0F);
         this.setSoundType(SoundType.STONE);
         this.setUnlocalizedName("breeder").setRegistryName("breeder");
-        this.setCreativeTab(LandCraft.creativeTab);
+        this.setCreativeTab(LandCraftContent.creativeTab);
 	}
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {

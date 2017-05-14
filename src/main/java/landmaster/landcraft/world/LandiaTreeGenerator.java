@@ -2,8 +2,8 @@ package landmaster.landcraft.world;
 
 import java.util.*;
 
-import landmaster.landcraft.*;
 import landmaster.landcraft.block.*;
+import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
 import net.minecraft.block.*;
 import net.minecraft.block.state.*;
@@ -66,7 +66,7 @@ public class LandiaTreeGenerator extends BaseTreeGenerator
         {
             IBlockState state = world.getBlockState(pos.down());
             Block soil = state.getBlock();
-            boolean isSoil = (soil != null && soil.canSustainPlant(state, world, pos.down(), EnumFacing.UP, LandCraft.landia_sapling));
+            boolean isSoil = (soil != null && soil.canSustainPlant(state, world, pos.down(), EnumFacing.UP, LandCraftContent.landia_sapling));
 
             if (isSoil)
             {
@@ -104,7 +104,7 @@ public class LandiaTreeGenerator extends BaseTreeGenerator
                     BlockPos blockpos = new BlockPos(x + xPos, y + yPos, z + zPos);
                     IBlockState state = world.getBlockState(blockpos);
 
-                    if (state.getBlock() != null && state.getBlock() != LandCraft.landia_sapling || !state.getBlock().isLeaves(state, world, blockpos))
+                    if (state.getBlock() != null && state.getBlock() != LandCraftContent.landia_sapling || !state.getBlock().isLeaves(state, world, blockpos))
                     {
                         return true;
                     }
@@ -213,7 +213,7 @@ public class LandiaTreeGenerator extends BaseTreeGenerator
 	            	IBlockState sstate = world.getBlockState(spos);
 	            	if (world.isAirBlock(spos) || sstate.getBlock() == null) {
 	            		world.setBlockState(spos,
-	            				LandCraft.cinnamon_bark.getDefaultState()
+	            				LandCraftContent.cinnamon_bark.getDefaultState()
 	            				.withProperty(BlockCinnamonBark.COVER, facing.getOpposite()),
 	            				2);
 	            	}

@@ -5,11 +5,11 @@ import java.util.*;
 import net.minecraft.util.*;
 
 public enum LandiaOreType implements IStringSerializable {
-	KELLINE(5, 7, 7.5f, 13, 1.1f, 2500, 9.0f, 18),
-	GARFAX(11, 4, 4.5f, 9.5f, 1.0f, 1300, 7.3f, 11),
-	MORGANINE(9, 5, 5, 10.5f, 1.0f, 1600, 8.6f, 25),
-	RACHELINE(7, 6, 6, 12, 1.0f, 2000, 8.3f, 22),
-	FRISCION(13, 3, 4, 9.5f, 0.9f, 1100, 7.0f, 13);
+	KELLINE(5, 7, 7.5f, 13, -2.9f, 2500, 9.0f, 18),
+	GARFAX(11, 4, 4.5f, 9.5f, -3.0f, 1300, 7.3f, 11),
+	MORGANINE(9, 5, 5, 10.5f, -3.0f, 1600, 8.6f, 25),
+	RACHELINE(7, 6, 6, 12, -3.0f, 2000, 8.3f, 22),
+	FRISCION(13, 3, 4, 9.5f, -3.1f, 1100, 7.0f, 13);
 	
 	private int defaultChunks;
 	private final int miningLevel;

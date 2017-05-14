@@ -3,7 +3,7 @@ package landmaster.landcraft.block;
 import java.util.*;
 
 import landmaster.landcore.api.block.*;
-import landmaster.landcraft.*;
+import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
 import mcjty.lib.compat.*;
 import net.minecraft.block.material.*;
@@ -25,7 +25,7 @@ public class BlockLandiaMetal extends CompatBlock implements IMetaBlockName {
 		setHardness(5f);
 		setHarvestLevel("pickaxe", -1);
 		this.setUnlocalizedName("landia_metal").setRegistryName("landia_metal");
-		this.setCreativeTab(LandCraft.creativeTab);
+		this.setCreativeTab(LandCraftContent.creativeTab);
 	}
 	
 	@Override

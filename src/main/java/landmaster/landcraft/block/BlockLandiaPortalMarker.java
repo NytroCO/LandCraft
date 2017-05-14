@@ -4,7 +4,7 @@ import java.util.*;
 
 import javax.annotation.*;
 
-import landmaster.landcraft.*;
+import landmaster.landcraft.content.*;
 import landmaster.landcraft.tile.*;
 import landmaster.landcraft.util.*;
 import mcjty.lib.compat.*;
@@ -53,7 +53,7 @@ public class BlockLandiaPortalMarker extends CompatBlock {
         this.setDefaultState(blockState.getBaseState().withProperty(ACTIVATED, false));
         this.setUnlocalizedName("landia_portal_marker").setRegistryName("landia_portal_marker");
         MinecraftForge.EVENT_BUS.register(this);
-        this.setCreativeTab(LandCraft.creativeTab);
+        this.setCreativeTab(LandCraftContent.creativeTab);
 	}
 	
 	@Override

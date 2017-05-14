@@ -2,7 +2,7 @@ package landmaster.landcraft.item;
 
 import java.util.*;
 
-import landmaster.landcraft.*;
+import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
 import mcjty.lib.compat.*;
 import net.minecraft.creativetab.*;
@@ -13,7 +13,7 @@ public class ItemLandiaIngot extends CompatItem {
 	public ItemLandiaIngot() {
 		setHasSubtypes(true);
 		setUnlocalizedName("landia_ingot").setRegistryName("landia_ingot");
-		setCreativeTab(LandCraft.creativeTab);
+		setCreativeTab(LandCraftContent.creativeTab);
 	}
 	
 	@Override

@@ -8,7 +8,7 @@ import javax.annotation.*;
 
 import com.google.common.base.*;
 
-import landmaster.landcraft.*;
+import landmaster.landcraft.content.*;
 import landmaster.landcraft.tile.*;
 import landmaster.landcraft.util.*;
 import net.minecraft.block.*;
@@ -34,7 +34,7 @@ public class BlockPlayerMime extends BlockMachineBase {
         this.setResistance(10.0F);
         this.setSoundType(SoundType.STONE);
         this.setUnlocalizedName("player_mime").setRegistryName("player_mime");
-        this.setCreativeTab(LandCraft.creativeTab);
+        this.setCreativeTab(LandCraftContent.creativeTab);
 	}
 	
 	@Override

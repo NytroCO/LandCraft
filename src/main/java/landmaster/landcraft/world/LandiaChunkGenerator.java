@@ -5,14 +5,21 @@ import java.util.*;
 import com.google.common.base.Objects;
 import com.google.common.collect.*;
 
+import landmaster.landcore.api.Tools;
+import landmaster.landcraft.block.BlockLandiaOre;
+import landmaster.landcraft.content.LandCraftContent;
+import landmaster.landcraft.util.LandiaOreType;
 import mcjty.lib.compat.*;
 import mcjty.lib.tools.*;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.*;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.chunk.*;
 import net.minecraft.world.gen.*;
+import net.minecraft.world.gen.feature.WorldGenLakes;
 import net.minecraft.world.gen.structure.*;
 import net.minecraftforge.event.terraingen.*;
 
@@ -80,6 +87,24 @@ public class LandiaChunkGenerator implements CompatChunkGenerator {
 		return chunk;
 	}
 	
+	// Convenience method
+	private static IBlockState oreState(LandiaOreType type) {
+		return LandCraftContent.landia_ore.getDefaultState().withProperty(BlockLandiaOre.TYPE, type);
+	}
+	
+	private static void generateOres(World worldIn, Random rand, BlockPos pos) {
+		Tools.generateOre(oreState(LandiaOreType.KELLINE), worldIn, rand,
+				pos.getX(), pos.getZ(), 6, 24, 3, 7, LandiaOreType.KELLINE.numPerChunk());
+		Tools.generateOre(oreState(LandiaOreType.GARFAX), worldIn, rand,
+				pos.getX(), pos.getZ(), 6, 60, 3, 7, LandiaOreType.GARFAX.numPerChunk());
+		Tools.generateOre(oreState(LandiaOreType.MORGANINE), worldIn, rand,
+				pos.getX(), pos.getZ(), 28, 56, 3, 7, LandiaOreType.MORGANINE.numPerChunk());
+		Tools.generateOre(oreState(LandiaOreType.RACHELINE), worldIn, rand,
+				pos.getX(), pos.getZ(), 9, 35, 3, 7, LandiaOreType.RACHELINE.numPerChunk());
+		Tools.generateOre(oreState(LandiaOreType.FRISCION), worldIn, rand,
+				pos.getX(), pos.getZ(), 13, 70, 3, 7, LandiaOreType.FRISCION.numPerChunk());
+	}
+	
 	@Override
 	public void populate(int x, int z) {
 		int i = x * 16;
@@ -91,8 +116,17 @@ public class LandiaChunkGenerator implements CompatChunkGenerator {
 		
 		this.mineshaftGenerator.generateStructure(this.worldObj, this.random, chunkpos);
 		
+		if (TerrainGen.populate(this, this.worldObj, this.random, x, z, false, net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.LAKE) && random.nextFloat() < 0.3f) {
+            int i1 = this.random.nextInt(16) + 8;
+            int j1 = this.random.nextInt(256);
+            int k1 = this.random.nextInt(16) + 8;
+            (new WorldGenLakes(Blocks.WATER)).generate(this.worldObj, this.random, blockpos.add(i1, j1, k1));
+        }
+		
 		// Add biome decorations (like flowers, grass, trees, ...)
 		biome.decorate(this.worldObj, this.random, blockpos);
+		
+		generateOres(this.worldObj, this.random, blockpos);
 		
 		// Make sure animals appropriate to the biome spawn here when the chunk
 		// is generated

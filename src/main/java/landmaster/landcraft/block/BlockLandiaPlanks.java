@@ -2,8 +2,8 @@ package landmaster.landcraft.block;
 
 import java.util.*;
 
-import landmaster.landcore.api.block.IMetaBlockName;
-import landmaster.landcraft.*;
+import landmaster.landcore.api.block.*;
+import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
 import mcjty.lib.compat.*;
 import net.minecraft.block.*;
@@ -22,7 +22,7 @@ public class BlockLandiaPlanks extends CompatBlock implements IMetaBlockName {
 		super(Material.WOOD);
 		Blocks.FIRE.setFireInfo(this, 5, 20);
 		
-		this.setCreativeTab(LandCraft.creativeTab);
+		this.setCreativeTab(LandCraftContent.creativeTab);
 		this.setHardness(2.0f);
 		this.setSoundType(SoundType.WOOD);
 		

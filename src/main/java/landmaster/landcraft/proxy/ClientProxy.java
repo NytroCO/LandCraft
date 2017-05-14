@@ -1,6 +1,7 @@
 package landmaster.landcraft.proxy;
 
 import landmaster.landcraft.*;
+import landmaster.landcraft.content.LandCraftContent;
 import landmaster.landcraft.tile.*;
 import landmaster.landcraft.util.*;
 import net.minecraft.block.*;
@@ -48,12 +49,12 @@ public class ClientProxy extends CommonProxy {
 				return 0x04961C;
 			}
 			return 0xFFFFFF;
-		}, LandCraft.landia_leaves);
+		}, LandCraftContent.landia_leaves);
 		
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, index) -> {
 			@SuppressWarnings("deprecation")
             IBlockState state = ((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata());
             return Minecraft.getMinecraft().getBlockColors().colorMultiplier(state, null, null, index);
-		}, LandCraft.landia_leaves);
+		}, LandCraftContent.landia_leaves);
 	}
 }

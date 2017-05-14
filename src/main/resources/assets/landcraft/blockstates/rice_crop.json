@@ -1,0 +1,50 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "crop"
+    },
+    "variants": {
+    	"age": {
+			"0": {
+				"textures": {
+					"crop": "landcraft:blocks/rice_crop/0"
+				}
+			},
+			"1": {
+				"textures": {
+					"crop": "landcraft:blocks/rice_crop/1"
+				}
+			},
+			"2": {
+				"textures": {
+					"crop": "landcraft:blocks/rice_crop/2"
+				}
+			},
+			"3": {
+				"textures": {
+					"crop": "landcraft:blocks/rice_crop/3"
+				}
+			},
+			"4": {
+				"textures": {
+					"crop": "landcraft:blocks/rice_crop/4"
+				}
+			},
+			"5": {
+				"textures": {
+					"crop": "landcraft:blocks/rice_crop/5"
+				}
+			},
+			"6": {
+				"textures": {
+					"crop": "landcraft:blocks/rice_crop/6"
+				}
+			},
+			"7": {
+				"textures": {
+					"crop": "landcraft:blocks/rice_crop/7"
+				}
+			}
+		}
+    }
+}

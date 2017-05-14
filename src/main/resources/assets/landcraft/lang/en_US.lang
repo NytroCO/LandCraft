@@ -14,6 +14,17 @@ tile.cinnamon_bark.name=Cinnamon Bark
 
 item.cinnamon.name=Cinnamon
 
+# AGRICULTURE
+
+tile.onion_crop.name=Onion
+tile.wild_onion.name=Wild Onion
+item.onion.name=Onion
+tile.rice_crop.name=Rice
+tile.wild_rice.name=Wild Rice
+item.rice.name=Rice
+item.potato_onion_pastry.name=Uncooked Potato Onion Pastry
+item.potato_onion_pastry.cooked.name=Cooked Potato Onion Pastry
+
 # MACHINES
 
 tile.breeder.name=Breeder Reactor
