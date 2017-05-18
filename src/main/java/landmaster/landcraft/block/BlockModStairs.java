@@ -4,8 +4,8 @@ import landmaster.landcraft.content.*;
 import net.minecraft.block.*;
 import net.minecraft.block.state.*;
 
-public class BlockLandCraftStairs extends BlockStairs {
-	public BlockLandCraftStairs(IBlockState state, String name) {
+public class BlockModStairs extends BlockStairs {
+	public BlockModStairs(IBlockState state, String name) {
 		super(state);
 		this.setUnlocalizedName(name).setRegistryName(name);
 		this.useNeighborBrightness = true;

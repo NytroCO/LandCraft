@@ -21,6 +21,7 @@ import net.minecraft.block.*;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
 import net.minecraftforge.common.util.*;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.*;
 import net.minecraftforge.fml.common.Mod.*;
 import net.minecraftforge.fml.common.event.*;
@@ -92,6 +93,10 @@ public class LandCraft {
 		GameRegistry.register(LandCraftContent.potato_onion_pastry);
 		proxy.registerItemRenderer(LandCraftContent.potato_onion_pastry, 0, "potato_onion_pastry");
 		proxy.registerItemRenderer(LandCraftContent.potato_onion_pastry, 1, "potato_onion_pastry_cooked");
+		
+		GameRegistry.register(LandCraftContent.pho);
+		proxy.registerItemRenderer(LandCraftContent.pho, 0, "pho");
+		proxy.registerItemRenderer(LandCraftContent.pho, 1, "pho_full");
 	}
 	
 	private static void initNature() {
@@ -142,6 +147,7 @@ public class LandCraft {
 		
 		GameRegistry.register(LandCraftContent.cinnamon);
 		proxy.registerItemRenderer(LandCraftContent.cinnamon, 0, "cinnamon");
+		OreDictionary.registerOre("cropCinnamon", LandCraftContent.cinnamon);
 		
 		ItemBlockSlab<LandiaTreeType> landia_wood_slab_item = new ItemBlockSlab<>(LandCraftContent.landia_wood_slab);
 		GameRegistry.register(LandCraftContent.landia_wood_slab);
@@ -157,7 +163,7 @@ public class LandCraft {
 		OreDictionary.registerOre("slabWood", new ItemStack(LandCraftContent.landia_wood_slab, 1, OreDictionary.WILDCARD_VALUE));
 		
 		for (LandiaTreeType type: LandiaTreeType.values()) {
-			BlockLandCraftStairs block = GameRegistry.register(new BlockLandCraftStairs(
+			BlockModStairs block = GameRegistry.register(new BlockModStairs(
 					LandCraftContent.landia_log.getDefaultState()
 					.withProperty(LandiaTreeType.L_TYPE, type),
 					type+"_stairs"));
@@ -192,6 +198,14 @@ public class LandCraft {
 			GameRegistry.register(thorium_generator_item, LandCraftContent.thorium_generator.getRegistryName());
 			proxy.registerItemRenderer(thorium_generator_item, 0, "thorium_generator");
 			GameRegistry.registerTileEntity(TEThoriumGenerator.class, MODID+"_thorium_generator");
+		}
+		
+		if (Config.pot) {
+			ItemBlock pot_item = new ItemBlock(LandCraftContent.pot);
+			GameRegistry.register(LandCraftContent.pot);
+			GameRegistry.register(pot_item, LandCraftContent.pot.getRegistryName());
+			proxy.registerItemRenderer(pot_item, 0, "pot");
+			GameRegistry.registerTileEntity(TEPot.class, MODID+"_pot");
 		}
 		
 		if (Config.wrench) {
@@ -287,6 +301,12 @@ public class LandCraft {
 				"cropPotato", "cropOnion", "cropWheat", "cropWheat"));
 		GameRegistry.addSmelting(new ItemStack(LandCraftContent.potato_onion_pastry),
 				new ItemStack(LandCraftContent.potato_onion_pastry, 1, 1), 0.35f);
+		
+		PotRecipes.addRecipe(PotRecipes.RecipePOredict.of(
+				"cropCinnamon", "cropOnion", "bone", new FluidStack(FluidRegistry.WATER, 1),
+				new PotRecipes.RecipeOutput(new ItemStack(LandCraftContent.pho), 4, 5, 1200)));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(LandCraftContent.pho,1,1),
+				new ItemStack(LandCraftContent.pho), "cropRice", "cropRice", "cropRice", Items.BOWL, Items.BEEF));
 	}
 	
 	private static void initNatureRecipes() {
@@ -322,6 +342,13 @@ public class LandCraft {
 					"rzr", "wFw", "ara",
 					'w', "ingotTungsten", 'r', LandCraftContent.redstone_component,
 					'F', Blocks.FURNACE, 'z', "gemLapis", 'a', "ingotGold"));
+		}
+		
+		if (Config.pot) {
+			GameRegistry.addRecipe(new ShapedOreRecipe(LandCraftContent.pot,
+					"m m", "lFl", "lll",
+					'm', "ingotMorganine", 'l', "ingotLandium",
+					'F', Blocks.FURNACE));
 		}
 		
 		if (Config.wrench) {

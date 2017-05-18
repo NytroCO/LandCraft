@@ -15,15 +15,38 @@ import net.minecraft.item.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.registry.*;
 import net.minecraftforge.oredict.*;
 
 public class Utils {
+	private static final MethodHandle getOresM;
+	static {
+		try {
+			Method temp = OreDictionary.class.getDeclaredMethod("getOres", int.class);
+			temp.setAccessible(true);
+			getOresM = MethodHandles.lookup().unreflect(temp);
+		} catch (Throwable e) {
+			throw Throwables.propagate(e);
+		}
+	}
+	
+	public static List<ItemStack> getOres(int id) {
+		try {
+			return (List<ItemStack>)getOresM.invoke(id);
+		} catch (Throwable e) {
+			throw Throwables.propagate(e);
+		}
+	}
+	
 	public static AxisAlignedBB AABBfromVecs(Vec3d v1, Vec3d v2) {
 		return new AxisAlignedBB(v1.xCoord, v1.yCoord, v1.zCoord, v2.xCoord, v2.yCoord, v2.zCoord);
 	}
 	
-	@SuppressWarnings("unchecked")
+	public static int getFluidAmount(FluidStack fs) {
+		return fs != null ? fs.amount : 0;
+	}
+	
 	public static <T extends TileEntity> List<T> getTileEntitiesWithinAABB(World world, Class<? extends T> tileEntityClass, AxisAlignedBB aabb) {
 		int i = MathHelper.floor((aabb.minX - World.MAX_ENTITY_RADIUS) / 16.0D);
 		int j = MathHelper.floor((aabb.maxX + World.MAX_ENTITY_RADIUS) / 16.0D);
@@ -40,7 +63,7 @@ public class Utils {
 						if(tileEntityClass.isInstance(te)) {
 							if (world.getBlockState(te.getPos()).getBoundingBox(world, te.getPos())
 									.offset(te.getPos()).intersectsWith(aabb)) {
-								arraylist.add((T)te);
+								arraylist.add(tileEntityClass.cast(te));
 			                }
 						}
 					}

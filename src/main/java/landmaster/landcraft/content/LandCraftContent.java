@@ -22,6 +22,7 @@ public class LandCraftContent {
 	public static final BlockBreeder breeder = new BlockBreeder();
 	public static final BlockPlayerMime player_mime = new BlockPlayerMime();
 	public static final BlockThoriumGenerator thorium_generator = new BlockThoriumGenerator();
+	public static final BlockPot pot = new BlockPot();
 	
 	// PORTAL
 	public static final BlockLandiaPortalMarker landia_portal_marker = new BlockLandiaPortalMarker();
@@ -33,7 +34,7 @@ public class LandCraftContent {
 	public static final BlockLandiaPlanks landia_planks = new BlockLandiaPlanks();
 	public static final BlockCinnamonBark cinnamon_bark = new BlockCinnamonBark();
 	public static final BlockLandiaWoodSlab landia_wood_slab = new BlockLandiaWoodSlab();
-	public static final EnumMap<LandiaTreeType, BlockLandCraftStairs> landia_wood_stairs = new EnumMap<>(LandiaTreeType.class);
+	public static final EnumMap<LandiaTreeType, BlockModStairs> landia_wood_stairs = new EnumMap<>(LandiaTreeType.class);
 	public static final ItemCinnamon cinnamon = new ItemCinnamon();
 	
 	// AGRICULTURE
@@ -44,6 +45,7 @@ public class LandCraftContent {
 	public static final BlockWildRice wild_rice = new BlockWildRice();
 	public static final BlockRiceCrop rice_crop = new BlockRiceCrop();
 	public static final ItemRice rice = new ItemRice();
+	public static final ItemPho pho = new ItemPho();
 	
 	// TECH ITEMS
 	public static final ItemWrench wrench = new ItemWrench();

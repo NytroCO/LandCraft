@@ -22,11 +22,16 @@ compileJava {
 
 repositories {
 	maven { // McJtyLib
-        url "http://maven.k-4u.nl"
-    }
-    maven { // MCMultipart
-        url "http://maven.amadornes.com/"
-    }
+		url "http://maven.k-4u.nl"
+	}
+	maven {
+		// location of the maven that hosts JEI files
+		url = "http://dvs1.progwml6.com/files/maven"
+	}
+	maven {
+		// location of a maven mirror for JEI files, as a fallback
+		url = "modmaven.k-4u.nl"
+	}
 }
 
 minecraft {
@@ -65,7 +70,8 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
     
     deobfCompile "com.github.mcjty:compatlayer:1.11.2-0.2.8"
-    deobfCompile "MCMultiPart2:MCMultiPart-exp:2.0.0_9:universal"
+    deobfCompile "mezz.jei:jei_1.11.2:4.3.5.277:api"
+    runtime "mezz.jei:jei_1.11.2:4.3.5.277"
 }
 
 processResources

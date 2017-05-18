@@ -24,6 +24,8 @@ tile.wild_rice.name=Wild Rice
 item.rice.name=Rice
 item.potato_onion_pastry.name=Uncooked Potato Onion Pastry
 item.potato_onion_pastry.cooked.name=Cooked Potato Onion Pastry
+item.pho.name=Pho Broth
+item.pho.full.name=Pho
 
 # MACHINES
 
@@ -31,6 +33,7 @@ tile.breeder.name=Breeder Reactor
 tile.player_mime.name=Player Mime
 tile.thorium_generator.name=Thorium Generator
 tile.landia_portal_marker.name=Landia Portal Marker
+tile.pot.name=Pot
 
 item.item_wrench.name=Wrench
 
@@ -97,3 +100,4 @@ info.breeder.product=Spare output: %d
 # TOOLTIPS
 
 tooltip.landia_portal_marker.info=§bOnce placed, activate by killing an undead mob in the vicinity.
+tooltip.per_tick=(Amount per tick)

@@ -157,7 +157,7 @@ public class LandiaTreeGenerator extends BaseTreeGenerator
 
                 height--;
             }
-            while (height > 64);
+            while (height > 60);
 
             return new BlockPos(pos.getX(), returnHeight, pos.getZ());
         }

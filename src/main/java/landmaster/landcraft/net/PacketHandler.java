@@ -15,5 +15,6 @@ public class PacketHandler {
 				PacketUpdateTEThoriumGenerator.class, msgInd++, Side.CLIENT);
 		INSTANCE.registerMessage(PacketUpdateClientEnergy.class, PacketUpdateClientEnergy.class, msgInd++, Side.CLIENT);
 		INSTANCE.registerMessage(PacketUpdateClientFluid.class, PacketUpdateClientFluid.class, msgInd++, Side.CLIENT);
+		INSTANCE.registerMessage(PacketUpdateTEPot.class, PacketUpdateTEPot.class, msgInd++, Side.CLIENT);
 	}
 }

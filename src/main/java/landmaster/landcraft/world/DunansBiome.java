@@ -27,7 +27,7 @@ public class DunansBiome extends LandiaBiome {
 		super.decorate(worldIn, rand, pos);
 		
 		int xSpawn = pos.getX() + rand.nextInt(16);
-		int ySpawn = 64 + 33;
+		int ySpawn = 60 + 37;
 		int zSpawn = pos.getZ() + rand.nextInt(16);
 		BlockPos position = new BlockPos(xSpawn, ySpawn, zSpawn);
 		

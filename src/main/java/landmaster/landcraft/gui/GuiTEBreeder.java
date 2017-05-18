@@ -7,6 +7,7 @@ import landmaster.landcraft.container.*;
 import net.minecraft.client.gui.inventory.*;
 import net.minecraft.client.resources.*;
 import net.minecraft.util.*;
+import net.minecraftforge.client.*;
 
 public class GuiTEBreeder extends GuiContainer {
 	private static final ResourceLocation background = new ResourceLocation(LandCraft.MODID, "textures/gui/breeder.png");
@@ -38,7 +39,7 @@ public class GuiTEBreeder extends GuiContainer {
 		fontRenderer.drawString(cont.getPlayerInv().getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
 		fontRenderer.drawString(I18n.format("info.breeder.fuel",
 				fuel), 15, 50, 0x00FF00);
-		NumberFormat nf = NumberFormat.getIntegerInstance();
+		NumberFormat nf = NumberFormat.getNumberInstance(MinecraftForgeClient.getLocale());
 		nf.setMaximumFractionDigits(1);
 		fontRenderer.drawString(I18n.format("info.breeder.temp",
 				nf.format(temperature), nf.format(cont.getTE().maxTemp())), 15, 60, 0xFF0000);

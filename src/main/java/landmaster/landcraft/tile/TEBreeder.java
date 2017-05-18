@@ -33,7 +33,7 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder>, Comp
 	public TEBreeder() {
 		super();
 		temperature = fuel = product = 0;
-		ish = new ItemStackHandler(3);
+		ish = new ItemStackHandler(Slots.values().length);
 	}
 	@Override
 	public void readFromNBT(NBTTagCompound tag) {
