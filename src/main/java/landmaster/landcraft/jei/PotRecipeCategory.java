@@ -51,9 +51,10 @@ public class PotRecipeCategory extends BlankRecipeCategory<PotRecipeJEI> {
 		igroup.set(ingredients);
 		
 		
-		fgroup.init(0, true, 80, 5, 64, 50, 40, true, fluidOverlay);
+		fgroup.init(0, true, 80, 5, 64, 50, 40, false, fluidOverlay);
 		fgroup.addTooltipCallback((idx, isIn, fs, tooltip) -> {
-			tooltip.add(TextFormatting.GOLD+I18n.format("tooltip.per_tick"));
+			tooltip.add(TextFormatting.GOLD.toString()+TextFormatting.BOLD
+					+I18n.format("tooltip.per_tick"));
 		});
 		
 		fgroup.set(ingredients);

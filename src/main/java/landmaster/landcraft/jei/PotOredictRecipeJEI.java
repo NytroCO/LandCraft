@@ -20,7 +20,7 @@ public class PotOredictRecipeJEI extends PotRecipeJEI {
 	
 	@Override
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-		minecraft.fontRenderer.drawString(TextFormatting.BOLD.toString()+TextFormatting.DARK_RED
+		minecraft.fontRenderer.drawString(TextFormatting.DARK_RED.toString()+TextFormatting.BOLD
 				+String.format(Locale.US, "%d RF/t", prc.out.energyPerTick),
 				100, 58, 0x000000);
 	}

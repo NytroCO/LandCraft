@@ -91,11 +91,18 @@ item.friscion_axe.name=Friscion Axe
 item.friscion_shovel.name=Friscion Shovel
 item.friscion_hoe.name=Friscion Hoe
 
+# HEADER
+
+gui.header.breeder.feedstock=Breeder Feedstock
+
 # INFO
 
 info.breeder.fuel=Fuel: %d
 info.breeder.temp=Temp.: %s/%s
 info.breeder.product=Spare output: %d
+
+info.breeder.jei.temp=Temperature threshold: %s
+info.breeder.jei.product=Output (in 1/16 of a thorium ingot): %d
 
 # TOOLTIPS
 

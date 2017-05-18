@@ -20,6 +20,17 @@ public class LandCraftJEI extends BlankModPlugin {
 		final IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
 		final IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 		
+		if (Config.breeder) {
+			registry.addRecipeCategories(new BreederFeedstockCategory(guiHelper));
+			registry.handleRecipes(BreederFeedstock.OreMassTempTri.class, BreederFeedstockJEI::new, BreederFeedstockCategory.UID);
+			
+			registry.addRecipes(BreederFeedstock.getOreMassTempTris(), BreederFeedstockCategory.UID);
+			
+			recipeTransferRegistry.addRecipeTransferHandler(ContTEBreeder.class, BreederFeedstockCategory.UID, 0, 1, 3, 36);
+			
+			registry.addRecipeCategoryCraftingItem(new ItemStack(LandCraftContent.breeder), BreederFeedstockCategory.UID);
+		}
+		
 		if (Config.pot) {
 			registry.addRecipeCategories(new PotRecipeCategory(guiHelper));
 			registry.handleRecipes(PotRecipes.RecipePOredict.class, PotOredictRecipeJEI::new, PotRecipeCategory.UID);
