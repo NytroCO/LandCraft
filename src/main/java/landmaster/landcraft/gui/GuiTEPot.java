@@ -5,10 +5,10 @@ import java.util.*;
 
 import landmaster.landcraft.*;
 import landmaster.landcraft.container.*;
+import landmaster.landcraft.util.*;
 import net.minecraft.client.renderer.texture.*;
 import net.minecraft.client.resources.*;
 import net.minecraft.util.*;
-import net.minecraftforge.client.*;
 import net.minecraftforge.fluids.*;
 
 public class GuiTEPot extends GuiEnergy implements IGuiFluid {
@@ -55,7 +55,7 @@ public class GuiTEPot extends GuiEnergy implements IGuiFluid {
 		fontRenderer.drawString(cont.getPlayerInv().getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
 		
 		if (time > 0) {
-			NumberFormat nf = NumberFormat.getPercentInstance(MinecraftForgeClient.getLocale());
+			NumberFormat nf = NumberFormat.getPercentInstance(Utils.getLocale());
 			nf.setMaximumFractionDigits(1);
 			fontRenderer.drawString(nf.format(
 					((double)progress) / time),

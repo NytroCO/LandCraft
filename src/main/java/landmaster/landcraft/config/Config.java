@@ -30,8 +30,8 @@ public class Config extends Configuration {
 		wrench = getBoolean("Enable Wrench", "tools", true, "Enable Wrench");
 		
 		onion_per_chunk = getInt("Wild onion per chunk", "naturegen", 8, 0, 256, "Amount of attempted wild onion generation in Landia");
-		rice_per_chunk = getInt("Wild rice per chunk on land", "naturegen", 6, 0, 256, "Amount of attempted wild rice generation on land in Landia");
-		rice_per_chunk_water = getInt("Wild rice per chunk on water", "naturegen", 7, 0, 256, "Amount of attempted wild rice generation on water in Landia");
+		rice_per_chunk = getInt("Wild rice per chunk on land", "naturegen", 8, 0, 256, "Amount of attempted wild rice generation on land in Landia");
+		rice_per_chunk_water = getInt("Wild rice per chunk on water", "naturegen", 13, 0, 256, "Amount of attempted wild rice generation on water in Landia");
 		
 		landiaDimensionID = getInt("Dimension ID of Landia", "dimensions", 1304, Integer.MIN_VALUE, Integer.MAX_VALUE, "Dimension ID of Landia");
 		

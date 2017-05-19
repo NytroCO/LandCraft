@@ -5,21 +5,21 @@ import java.util.*;
 import com.google.common.base.Objects;
 import com.google.common.collect.*;
 
-import landmaster.landcore.api.Tools;
-import landmaster.landcraft.block.BlockLandiaOre;
-import landmaster.landcraft.content.LandCraftContent;
-import landmaster.landcraft.util.LandiaOreType;
+import landmaster.landcore.api.*;
+import landmaster.landcraft.block.*;
+import landmaster.landcraft.content.*;
+import landmaster.landcraft.util.*;
 import mcjty.lib.compat.*;
 import mcjty.lib.tools.*;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.*;
-import net.minecraft.init.Blocks;
+import net.minecraft.init.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.chunk.*;
 import net.minecraft.world.gen.*;
-import net.minecraft.world.gen.feature.WorldGenLakes;
+import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.structure.*;
 import net.minecraftforge.event.terraingen.*;
 
@@ -32,7 +32,7 @@ public class LandiaChunkGenerator implements CompatChunkGenerator {
 	private static final List<Biome.SpawnListEntry> mobs = ImmutableList.of(new Biome.SpawnListEntry(
 			(Class<? extends EntityLiving>) Objects.firstNonNull(
 					EntityTools.findClassById("landcore:landlord"),
-					EntityTools.findClassById("landlord")),
+					EntityTools.findClassById("landcore.landlord")),
 			40, 1, 3));
 	
 	private MapGenBase caveGenerator = new MapGenCaves();

@@ -2,7 +2,6 @@ package landmaster.landcraft.api;
 
 import java.util.*;
 
-import gnu.trove.iterator.*;
 import gnu.trove.map.*;
 import gnu.trove.map.hash.*;
 import mcjty.lib.tools.*;
@@ -13,6 +12,8 @@ import net.minecraftforge.oredict.*;
 public class BreederFeedstock {
 	private static final TIntIntMap feedstockMassDict = new TIntIntHashMap(),
 			feedstockTempDict = new TIntIntHashMap();
+	
+	private static final List<OreMassTempTri> triList = new ArrayList<>();
 	
 	public static class OreMassTempTri {
 		public final int oid;
@@ -25,33 +26,8 @@ public class BreederFeedstock {
 		}
 	}
 	
-	public static Collection<OreMassTempTri> getOreMassTempTris() {
-		return new AbstractCollection<OreMassTempTri>() {
-
-			@Override
-			public Iterator<OreMassTempTri> iterator() {
-				return new Iterator<OreMassTempTri>() {
-					private final TIntIterator oit = feedstockMassDict.keySet().iterator();
-					
-					@Override
-					public boolean hasNext() {
-						return oit.hasNext();
-					}
-					
-					@Override
-					public OreMassTempTri next() {
-						int oid = oit.next();
-						return new OreMassTempTri(oid, feedstockMassDict.get(oid), feedstockTempDict.get(oid));
-					}
-				};
-			}
-
-			@Override
-			public int size() {
-				return feedstockMassDict.size();
-			}
-			
-		};
+	public static List<OreMassTempTri> getOreMassTempTris() {
+		return Collections.unmodifiableList(triList);
 	}
 	
 	public static void addOreDict(String ore, int mass, int temp) {
@@ -70,6 +46,7 @@ public class BreederFeedstock {
 		}
 		feedstockMassDict.put(oreId, mass);
 		feedstockTempDict.put(oreId, temp);
+		triList.add(new OreMassTempTri(oreId, mass, temp));
 	}
 	
 	public static int getMass(ItemStack is) {

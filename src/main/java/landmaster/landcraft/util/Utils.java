@@ -11,15 +11,39 @@ import com.google.common.collect.*;
 
 import landmaster.landcraft.*;
 import landmaster.landcraft.item.*;
+import net.minecraft.client.*;
+import net.minecraft.client.resources.*;
 import net.minecraft.item.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.registry.*;
+import net.minecraftforge.fml.relauncher.*;
 import net.minecraftforge.oredict.*;
 
 public class Utils {
+	private static final MethodHandle regionF;
+	static {
+		try {
+			Field temp = Language.class.getDeclaredField("field_135037_b" /* region */);
+			temp.setAccessible(true);
+			regionF = MethodHandles.lookup().unreflectGetter(temp);
+		} catch (Throwable e) {
+			throw Throwables.propagate(e);
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static java.util.Locale getLocale() {
+		try {
+			final Language lang = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage();
+			return new java.util.Locale(lang.getLanguageCode(), (String)regionF.invokeExact(lang));
+		} catch (Throwable e) {
+			throw Throwables.propagate(e);
+		}
+	}
+	
 	private static final MethodHandle getOresM;
 	static {
 		try {
@@ -78,7 +102,7 @@ public class Utils {
 		
 		@Override
 		public String toString() {
-			return name().toLowerCase(Locale.US);
+			return name().toLowerCase(java.util.Locale.US);
 		}
 	}
 	
