@@ -13,7 +13,6 @@ import net.minecraft.block.state.*;
 import net.minecraft.client.*;
 import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.block.statemap.*;
-import net.minecraft.client.renderer.texture.*;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.*;
@@ -78,8 +77,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void createCustomTextures(TextureStitchEvent.Pre event) {
-		TextureMap texturemap = Minecraft.getMinecraft().getTextureMapBlocks();
-		texturemap.registerSprite(new ResourceLocation("landcraft:blocks/blue_fire_layer_0"));
-		texturemap.registerSprite(new ResourceLocation("landcraft:blocks/blue_fire_layer_1"));
+		event.getMap().registerSprite(new ResourceLocation("landcraft:blocks/blue_fire_layer_0"));
+		event.getMap().registerSprite(new ResourceLocation("landcraft:blocks/blue_fire_layer_1"));
 	}
 }
