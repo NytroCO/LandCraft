@@ -27,7 +27,8 @@ public class LandcraftBiomes {
 			registerBiomeTypeM.invoke(dunans,
 					BiomeDictionary.Type.WET,
 					BiomeDictionary.Type.MUSHROOM,
-					BiomeDictionary.Type.FOREST);
+					BiomeDictionary.Type.FOREST,
+					BiomeDictionary.Type.DENSE);
 		} catch (Throwable e) {
 			throw Throwables.propagate(e);
 		}

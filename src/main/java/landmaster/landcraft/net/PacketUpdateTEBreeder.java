@@ -7,7 +7,7 @@ import net.minecraft.client.*;
 import net.minecraft.client.gui.*;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 
-public class PacketUpdateTEBreeder implements IMessage, IMessageHandler<PacketUpdateTEBreeder, IMessage> {
+public class PacketUpdateTEBreeder implements IMessage {
 	private int fuel;
 	private double temp;
 	private int product;
@@ -23,8 +23,7 @@ public class PacketUpdateTEBreeder implements IMessage, IMessageHandler<PacketUp
 		this.product = product;
 	}
 	
-	@Override
-	public IMessage onMessage(PacketUpdateTEBreeder message, MessageContext ctx) {
+	public static IMessage onMessage(PacketUpdateTEBreeder message, MessageContext ctx) {
 		Minecraft.getMinecraft().addScheduledTask(() -> {
 			GuiScreen gs = Minecraft.getMinecraft().currentScreen;
 			if (gs instanceof GuiTEBreeder) {

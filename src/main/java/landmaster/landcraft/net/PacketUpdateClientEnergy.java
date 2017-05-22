@@ -6,14 +6,13 @@ import net.minecraft.client.*;
 import net.minecraft.client.gui.*;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 
-public class PacketUpdateClientEnergy implements IMessage, IMessageHandler<PacketUpdateClientEnergy, IMessage> {
+public class PacketUpdateClientEnergy implements IMessage {
 	private int energy = 0;
 	
 	public PacketUpdateClientEnergy() {}
 	public PacketUpdateClientEnergy(int energy) { this.energy = energy; }
 	
-	@Override
-	public IMessage onMessage(PacketUpdateClientEnergy message, MessageContext ctx) {
+	public static IMessage onMessage(PacketUpdateClientEnergy message, MessageContext ctx) {
 		Minecraft.getMinecraft().addScheduledTask(() -> {
 			GuiScreen gs = Minecraft.getMinecraft().currentScreen;
 			if (gs instanceof GuiEnergy) {

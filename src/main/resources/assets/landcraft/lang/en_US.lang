@@ -1,5 +1,11 @@
 itemGroup.landcraft=Land Craft
 
+entity.wizard.name=Wizard
+entity.landcore.wizard.name=Wizard
+
+entity.wizard_magic_fireball.name=Magic Fireball
+entity.landcore.wizard_magic_fireball.name=Magic Fireball
+
 # NATURE
 
 tile.landia_sapling.cinnamon.name=Cinnamon Sapling

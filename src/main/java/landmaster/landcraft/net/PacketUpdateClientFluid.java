@@ -9,7 +9,7 @@ import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.network.*;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 
-public class PacketUpdateClientFluid implements IMessage, IMessageHandler<PacketUpdateClientFluid, IMessage> {
+public class PacketUpdateClientFluid implements IMessage {
 	private FluidStack fs;
 	
 	public PacketUpdateClientFluid() {}
@@ -17,8 +17,7 @@ public class PacketUpdateClientFluid implements IMessage, IMessageHandler<Packet
 		this.fs = fs;
 	}
 	
-	@Override
-	public IMessage onMessage(PacketUpdateClientFluid message, MessageContext ctx) {
+	public static IMessage onMessage(PacketUpdateClientFluid message, MessageContext ctx) {
 		Minecraft.getMinecraft().addScheduledTask(() -> {
 			GuiScreen gs = Minecraft.getMinecraft().currentScreen;
 			if (gs instanceof IGuiFluid) {

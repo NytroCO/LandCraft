@@ -11,9 +11,7 @@ import landmaster.landcore.api.*;
 import landmaster.landcraft.block.*;
 import landmaster.landcraft.config.*;
 import landmaster.landcraft.content.*;
-import landmaster.landcraft.tile.render.*;
 import landmaster.landcraft.util.*;
-import net.minecraft.client.renderer.tileentity.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.player.*;
 import net.minecraft.init.*;
@@ -28,14 +26,6 @@ import net.minecraftforge.fml.relauncher.*;
 
 public class TELandiaPortalMarker extends TileEntity implements ITickable {
 	private final Set<UUID> already = new THashSet<>();
-	
-	public static final ITESRProvider<TELandiaPortalMarker> TESRProvider = new ITESRProvider<TELandiaPortalMarker>() {
-		@SideOnly(Side.CLIENT)
-		@Override
-		public TileEntitySpecialRenderer<TELandiaPortalMarker> getRenderer() {
-			return new TESRLandiaPortalMarker();
-		}
-	};
 	
 	static class ClRes {
 		public @Nullable TELandiaPortalMarker tile;
@@ -83,8 +73,10 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 	@Override
 	@SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
-		BlockPos posA = new BlockPos(pos.getX(), 0, pos.getZ());
-		return new AxisAlignedBB(posA, pos.add(1, 1, 1));
+		BlockPos posL = new BlockPos(pos.getX(), 0, pos.getZ());
+		AxisAlignedBB aabb = new AxisAlignedBB(posL, pos.add(1, 1, 1));
+		//System.out.println(aabb);
+		return aabb;
 	}
 	
 	@Override
@@ -164,7 +156,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 				TELandiaPortalMarker.class,
 				new AxisAlignedBB(pos.add(-128, -128, -128), pos.add(128, 128, 128)));
 		return markers.stream()
-				.map(marker -> Pair.of(marker, checkValidClearance(world, marker.getSolidBottom())))
+				.map(marker -> Pair.of(marker, checkValidClearance(world, marker.getSolidBottom(), false)))
 				.filter(pair -> pair.getRight() != null)
 				.min(Comparator.comparingDouble(pair -> pair.getLeft().getPos().distanceSq(pos)))
 				.map(pair -> new ClRes(pair.getLeft(), pair.getLeft().getBottom(), pair.getRight()))
@@ -181,12 +173,11 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 		BlockPos loc = null;
 		EnumFacing facing = null;
 		for (BlockPos.MutableBlockPos cand: BlockPos.getAllInBoxMutable(
-				new BlockPos(pos.getX()-3, 59, pos.getZ()-3),
-				new BlockPos(pos.getX()+3, 256, pos.getZ()+3))) {
-			if ((facing = checkValidClearance(world, cand)) != null
-					&& (loc == null || cand.getY() > loc.getY())) {
+				new BlockPos(pos.getX()-3, world.getWorldType() == WorldType.FLAT && dimID == 0 ? 0 : 59, pos.getZ()-3),
+				new BlockPos(pos.getX()+3, world.getWorldType() == WorldType.FLAT && dimID == 0 ? 40 : 256, pos.getZ()+3))) {
+			if ((facing = checkValidClearance(world, cand, true)) != null
+					&& (loc == null || Math.abs(cand.getY()-81) < Math.abs(loc.getY()-81))) {
 				loc = cand.toImmutable();
-				break;
 			}
 		}
 		if (loc == null) {
@@ -207,8 +198,8 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 		return new ClRes(null, loc, facing);
 	}
 	
-	static EnumFacing checkValidClearance(World world, BlockPos pos) {
-		if (!world.getBlockState(pos).isNormalCube()) {
+	static EnumFacing checkValidClearance(World world, BlockPos pos, boolean checkGround) {
+		if (checkGround && !world.getBlockState(pos).isNormalCube()) {
 			return null;
 		}
 		for (EnumFacing facing: EnumFacing.HORIZONTALS) {

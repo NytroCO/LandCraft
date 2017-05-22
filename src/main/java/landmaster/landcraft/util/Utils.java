@@ -11,6 +11,7 @@ import com.google.common.collect.*;
 
 import landmaster.landcraft.*;
 import landmaster.landcraft.item.*;
+import mcjty.lib.tools.*;
 import net.minecraft.client.*;
 import net.minecraft.client.resources.*;
 import net.minecraft.item.*;
@@ -23,6 +24,10 @@ import net.minecraftforge.fml.relauncher.*;
 import net.minecraftforge.oredict.*;
 
 public class Utils {
+	public static boolean matchesOre(ItemStack is, String od) {
+		return OreDictionary.doesOreNameExist(od) && !ItemStackTools.isEmpty(is) && ArrayUtils.contains(OreDictionary.getOreIDs(is), OreDictionary.getOreID(od));
+	}
+	
 	private static final MethodHandle regionF;
 	static {
 		try {

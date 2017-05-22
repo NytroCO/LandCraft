@@ -20,15 +20,16 @@ public class DunansBiome extends LandiaBiome {
 		this.theBiomeDecorator.flowersPerChunk = 14;
 		this.theBiomeDecorator.mushroomsPerChunk = 8;
 		this.theBiomeDecorator.bigMushroomsPerChunk = 4;
+		this.theBiomeDecorator.waterlilyPerChunk = 4;
 	}
 	
 	@Override
 	public void decorate(World worldIn, Random rand, BlockPos pos) {
 		super.decorate(worldIn, rand, pos);
 		
-		int xSpawn = pos.getX() + rand.nextInt(16);
-		int ySpawn = 60 + 37;
-		int zSpawn = pos.getZ() + rand.nextInt(16);
+		int xSpawn = pos.getX() + 8 + rand.nextInt(16);
+		int ySpawn = 117;
+		int zSpawn = pos.getZ() + 8 + rand.nextInt(16);
 		BlockPos position = new BlockPos(xSpawn, ySpawn, zSpawn);
 		
 		TREE_GEN.generateTree(rand, worldIn, position);

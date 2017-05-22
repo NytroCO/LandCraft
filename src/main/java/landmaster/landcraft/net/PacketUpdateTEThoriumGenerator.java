@@ -5,16 +5,15 @@ import landmaster.landcraft.gui.*;
 import net.minecraft.client.*;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 
-public class PacketUpdateTEThoriumGenerator implements IMessage, IMessageHandler<PacketUpdateTEThoriumGenerator, IMessage> {
+public class PacketUpdateTEThoriumGenerator implements IMessage {
 	private int progress;
 	
 	public PacketUpdateTEThoriumGenerator() {}
 	public PacketUpdateTEThoriumGenerator(int progress) {
 		this.progress = progress;
 	}
-
-	@Override
-	public IMessage onMessage(PacketUpdateTEThoriumGenerator message, MessageContext ctx) {
+	
+	public static IMessage onMessage(PacketUpdateTEThoriumGenerator message, MessageContext ctx) {
 		Minecraft.getMinecraft().addScheduledTask(() -> {
 			if (Minecraft.getMinecraft().currentScreen instanceof GuiTEThoriumGenerator) {
 				((GuiTEThoriumGenerator)Minecraft.getMinecraft().currentScreen).setProgress(message.progress);

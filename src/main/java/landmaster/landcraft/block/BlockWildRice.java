@@ -4,7 +4,6 @@ import java.util.*;
 
 import landmaster.landcraft.content.*;
 import net.minecraft.block.*;
-import net.minecraft.block.material.*;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.player.*;
 import net.minecraft.item.*;
@@ -16,11 +15,6 @@ public class BlockWildRice extends BlockBush {
 	
 	public BlockWildRice() {
 		this.setUnlocalizedName("wild_rice").setRegistryName("wild_rice");
-	}
-	
-	@Override
-	protected boolean canSustainBush(IBlockState state) {
-		return super.canSustainBush(state) || (state.getBlock() != null && state.getMaterial() == Material.WATER);
 	}
 	
 	@Override
@@ -40,7 +34,7 @@ public class BlockWildRice extends BlockBush {
 	
 	@Override
 	public int quantityDroppedWithBonus(int fortune, Random random) {
-		return super.quantityDroppedWithBonus(fortune, random) + random.nextInt(fortune);
+		return super.quantityDroppedWithBonus(fortune, random) + (fortune > 0 ? random.nextInt(fortune) : 0);
 	}
 	
 	@Override

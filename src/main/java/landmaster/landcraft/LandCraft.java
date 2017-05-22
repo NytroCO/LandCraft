@@ -33,9 +33,9 @@ import net.minecraftforge.oredict.*;
 public class LandCraft {
 	public static final String MODID = "landcraft";
 	public static final String NAME = "Land Craft";
-	public static final String VERSION = "1.1.0.0";
-	public static final String DEPENDS = "required-after:landcore@[1.3.3.0,);required-after:compatlayer@[0.2.8,);"
-			+ "after:OpenComputers;after:opencomputers";
+	public static final String VERSION = "1.2.0.0";
+	public static final String DEPENDS = "required-after:landcore@[1.3.4.0,);required-after:compatlayer@[0.2.8,);"
+			+ "after:OpenComputers;after:opencomputers;after:JEI;after:jei";
 	
 	@Instance(MODID)
 	public static LandCraft INSTANCE;
@@ -52,6 +52,8 @@ public class LandCraft {
 	public void preInit(FMLPreInitializationEvent event) {
 		(config = new Config(event)).sync();
 		
+		proxy.initEntities();
+		
 		initNature();
 		
 		initAgriculture();
@@ -65,7 +67,7 @@ public class LandCraft {
 		GameRegistry.register(landia_portal_marker_item, LandCraftContent.landia_portal_marker.getRegistryName());
 		proxy.registerItemRenderer(landia_portal_marker_item, 0, "landia_portal_marker");
 		GameRegistry.registerTileEntity(TELandiaPortalMarker.class, MODID+"_landia_portal_marker");
-		proxy.bindTESR(TELandiaPortalMarker.class, TELandiaPortalMarker.TESRProvider);
+		proxy.bindTESRs();
 		
 		GameRegistry.register(LandCraftContent.redstone_component);
 		proxy.registerItemRenderer(LandCraftContent.redstone_component, 0, "redstone_component");
@@ -259,6 +261,7 @@ public class LandCraft {
 		
 		BreederFeedstock.addOreDict("ingotIron", 16, 200);
 		BreederFeedstock.addOreDict("ingotTungsten", 64, 1000);
+		BreederFeedstock.addOreDict("ingotLandium", 100, 1200);
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiProxy());
 		

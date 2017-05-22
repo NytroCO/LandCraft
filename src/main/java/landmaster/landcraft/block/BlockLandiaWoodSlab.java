@@ -9,7 +9,7 @@ import net.minecraft.init.*;
 
 public class BlockLandiaWoodSlab extends BlockModSlab<LandiaTreeType> {
 	public BlockLandiaWoodSlab() {
-		super(Material.WOOD, LandiaTreeType.L_TYPE, LandiaTreeType.class);
+		super(Material.WOOD, LandiaTreeType.L_TYPE);
 		
 		Blocks.FIRE.setFireInfo(this, 5, 20);
 		

@@ -9,12 +9,10 @@ public class PacketHandler {
 	public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(LandCraft.MODID);
 	
 	public static void init() {
-		int msgInd = 0;
-		INSTANCE.registerMessage(PacketUpdateTEBreeder.class, PacketUpdateTEBreeder.class, msgInd++, Side.CLIENT);
-		INSTANCE.registerMessage(PacketUpdateTEThoriumGenerator.class,
-				PacketUpdateTEThoriumGenerator.class, msgInd++, Side.CLIENT);
-		INSTANCE.registerMessage(PacketUpdateClientEnergy.class, PacketUpdateClientEnergy.class, msgInd++, Side.CLIENT);
-		INSTANCE.registerMessage(PacketUpdateClientFluid.class, PacketUpdateClientFluid.class, msgInd++, Side.CLIENT);
-		INSTANCE.registerMessage(PacketUpdateTEPot.class, PacketUpdateTEPot.class, msgInd++, Side.CLIENT);
+		INSTANCE.registerMessage(PacketUpdateTEBreeder::onMessage, PacketUpdateTEBreeder.class, 0, Side.CLIENT);
+		INSTANCE.registerMessage(PacketUpdateTEThoriumGenerator::onMessage, PacketUpdateTEThoriumGenerator.class, 1, Side.CLIENT);
+		INSTANCE.registerMessage(PacketUpdateClientEnergy::onMessage, PacketUpdateClientEnergy.class, 2, Side.CLIENT);
+		INSTANCE.registerMessage(PacketUpdateClientFluid::onMessage, PacketUpdateClientFluid.class, 3, Side.CLIENT);
+		INSTANCE.registerMessage(PacketUpdateTEPot::onMessage, PacketUpdateTEPot.class, 4, Side.CLIENT);
 	}
 }

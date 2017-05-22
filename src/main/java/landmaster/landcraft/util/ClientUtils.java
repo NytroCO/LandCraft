@@ -8,8 +8,7 @@ public class ClientUtils {
 		Vec3d PS = S.subtract(P);
 		Vec3d SE = E.subtract(S);
 		
-		Vec3d normal = PS.crossProduct(SE);
-		normal = normal.normalize();
+		Vec3d normal = PS.crossProduct(SE).normalize();
 		
 		Vec3d half = normal.scale(width);
 		Vec3d p1 = S.add(half);

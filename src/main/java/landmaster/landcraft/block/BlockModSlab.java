@@ -22,10 +22,10 @@ public abstract class BlockModSlab<E extends Enum<E> & IStringSerializable> exte
 	
 	private static PropertyEnum<?> tmp;
 	
-	public BlockModSlab(Material material, PropertyEnum<E> prop, Class<E> clazz) {
+	public BlockModSlab(Material material, PropertyEnum<E> prop) {
 		super(preInit(material, prop));
 		this.prop = prop;
-		values = clazz.getEnumConstants();
+		values = prop.getValueClass().getEnumConstants();
 		this.setDefaultState(
 				this.blockState.getBaseState().withProperty(BlockSlab.HALF, EnumBlockHalf.BOTTOM));
 		this.useNeighborBrightness = true;

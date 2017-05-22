@@ -5,7 +5,7 @@ import landmaster.landcraft.gui.*;
 import net.minecraft.client.*;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 
-public class PacketUpdateTEPot implements IMessage, IMessageHandler<PacketUpdateTEPot, IMessage> {
+public class PacketUpdateTEPot implements IMessage {
 	private int progress, time;
 	
 	public PacketUpdateTEPot() {}
@@ -14,8 +14,7 @@ public class PacketUpdateTEPot implements IMessage, IMessageHandler<PacketUpdate
 		this.time = time;
 	}
 	
-	@Override
-	public IMessage onMessage(PacketUpdateTEPot message, MessageContext ctx) {
+	public static IMessage onMessage(PacketUpdateTEPot message, MessageContext ctx) {
 		Minecraft.getMinecraft().addScheduledTask(() -> {
 			if (Minecraft.getMinecraft().currentScreen instanceof GuiTEPot) {
 				GuiTEPot gs = ((GuiTEPot)Minecraft.getMinecraft().currentScreen);

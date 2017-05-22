@@ -2,15 +2,15 @@ package landmaster.landcraft.world;
 
 import java.util.*;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.*;
 
 import landmaster.landcore.api.*;
+import landmaster.landcore.entity.*;
 import landmaster.landcraft.block.*;
 import landmaster.landcraft.content.*;
+import landmaster.landcraft.entity.*;
 import landmaster.landcraft.util.*;
 import mcjty.lib.compat.*;
-import mcjty.lib.tools.*;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.*;
 import net.minecraft.init.*;
@@ -28,12 +28,9 @@ public class LandiaChunkGenerator implements CompatChunkGenerator {
 	private Random random;
 	private Biome[] biomesForGeneration;
 	
-	@SuppressWarnings("unchecked")
-	private static final List<Biome.SpawnListEntry> mobs = ImmutableList.of(new Biome.SpawnListEntry(
-			(Class<? extends EntityLiving>) Objects.firstNonNull(
-					EntityTools.findClassById("landcore:landlord"),
-					EntityTools.findClassById("landcore.landlord")),
-			40, 1, 3));
+	private static final List<Biome.SpawnListEntry> mobs = ImmutableList.of(
+			new Biome.SpawnListEntry(EntityLandlord.class, 40, 1, 3),
+			new Biome.SpawnListEntry(EntityWizard.class, 27, 1, 3));
 	
 	private MapGenBase caveGenerator = new MapGenCaves();
 	private MapGenBase ravineGenerator = new MapGenRavine();
