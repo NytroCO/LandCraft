@@ -2,8 +2,6 @@ package landmaster.landcraft.tile;
 
 import org.apache.commons.lang3.*;
 
-import li.cil.oc.api.machine.*;
-import li.cil.oc.api.network.*;
 import mcjty.lib.compat.*;
 import mcjty.lib.tools.*;
 import net.minecraft.entity.player.*;
@@ -13,13 +11,11 @@ import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.*;
-import net.minecraftforge.fml.common.*;
 import net.minecraftforge.items.*;
 import net.minecraftforge.oredict.*;
 
-@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")
 public class TEThoriumGenerator extends TEEnergy
-implements ITickable, SimpleComponent, RedstoneControl.Provider<TEThoriumGenerator>, CompatInventory {
+implements ITickable, RedstoneControl.Provider<TEThoriumGenerator>, CompatInventory {
 	private ItemStackHandler ish;
 	private FluidTank ft;
 	
@@ -117,17 +113,6 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEThoriumGenerat
 	
 	public int getProgress() { return progress; }
 	public void setProgress(int progress) { this.progress = progress; }
-	
-	@Override
-	public String getComponentName() {
-		return "thorium_generator";
-	}
-	
-	@Callback
-    @Optional.Method(modid = "OpenComputers")
-    public Object[] getPower(Context context, Arguments args) {
-		return new Object[] { this.getEnergyStored(null) };
-	}
 
 	@Override
 	public RedstoneControl.State getRedstoneState() {
@@ -136,7 +121,7 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEThoriumGenerat
 	
 	@Override
 	public String getName() {
-		return getComponentName();
+		return "thorium_generator";
 	}
 	@Override
 	public boolean hasCustomName() {

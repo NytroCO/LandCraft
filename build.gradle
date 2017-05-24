@@ -18,7 +18,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
 
-version = "1.2.0.0"
+version = "1.2.1.0"
 group= "landmaster.landcraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "landcraft"
 
@@ -28,7 +28,8 @@ compileJava {
 }
 
 repositories {
-	maven { // McJtyLib
+	maven {
+		// McJtyLib
 		url "http://maven.k-4u.nl"
 	}
 	maven {
@@ -38,6 +39,10 @@ repositories {
 	maven {
 		// location of a maven mirror for JEI files, as a fallback
 		url = "modmaven.k-4u.nl"
+	}
+	maven {
+		// OpenComputers
+		url = "http://maven.cil.li/"
 	}
 }
 
@@ -79,6 +84,7 @@ dependencies {
     deobfCompile "com.github.mcjty:compatlayer:1.11.2-0.2.8"
     deobfCompile "mezz.jei:jei_1.11.2:4.3.5.277:api"
     runtime "mezz.jei:jei_1.11.2:4.3.5.277"
+    deobfCompile "li.cil.oc:OpenComputers:MC1.11.2-1.7.0.26:api"
 }
 
 processResources
@@ -101,4 +107,11 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+jar {
+    manifest {
+	    attributes 'FMLCorePluginContainsFMLMod': 'true'
+	    attributes 'FMLCorePlugin': 'landmaster.landcraft.asm.LoadingPlugin'
+	}
 }

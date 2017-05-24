@@ -3,6 +3,7 @@ package landmaster.landcraft.tile;
 import org.apache.commons.lang3.*;
 
 import landmaster.landcraft.api.*;
+import landmaster.landcraft.util.*;
 import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.*;
 import mcjty.lib.compat.*;
@@ -13,11 +14,10 @@ import net.minecraft.nbt.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.*;
-import net.minecraftforge.fml.common.*;
 import net.minecraftforge.items.*;
 import net.minecraftforge.oredict.*;
 
-@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")
+@OptionalM(modids = {"OpenComputers", "opencomputers"}, stripped = "li/cil/oc/api/network/SimpleComponent")
 public class TEBreeder extends TileEntity
 implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder>, CompatInventory {
 	private ItemStackHandler ish;
@@ -145,19 +145,19 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder>, Comp
 	}
 	
 	@Callback
-    @Optional.Method(modid = "OpenComputers")
+    @OptionalM(modids = {"OpenComputers", "opencomputers"})
     public Object[] getFuel(Context context, Arguments args) {
 		return new Object[] {fuel};
 	}
 	
 	@Callback
-    @Optional.Method(modid = "OpenComputers")
+	@OptionalM(modids = {"OpenComputers", "opencomputers"})
     public Object[] getTemp(Context context, Arguments args) {
 		return new Object[] {temperature};
 	}
 	
 	@Callback
-    @Optional.Method(modid = "OpenComputers")
+	@OptionalM(modids = {"OpenComputers", "opencomputers"})
     public Object[] getProduct(Context context, Arguments args) {
 		return new Object[] {product};
 	}
