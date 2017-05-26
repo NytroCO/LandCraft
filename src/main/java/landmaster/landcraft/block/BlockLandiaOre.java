@@ -25,7 +25,7 @@ public class BlockLandiaOre extends CompatBlock implements IMetaBlockName {
 		setHardness(3f);
 		setResistance(5f);
 		for (LandiaOreType type: LandiaOreType.values()) {
-			setHarvestLevel("pickaxe", type.getLevel(), getDefaultState().withProperty(TYPE, type));
+			setHarvestLevel("pickaxe", type.getLevel()-1, getDefaultState().withProperty(TYPE, type));
 		}
 		this.setUnlocalizedName("landia_ore").setRegistryName("landia_ore");
 		this.setCreativeTab(LandCraftContent.creativeTab);
