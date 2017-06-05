@@ -9,7 +9,7 @@ public enum LandiaTreeType implements IStringSerializable {
     CINNAMON;
 	
 	public static final PropertyEnum<LandiaTreeType> L_TYPE = PropertyEnum.create("l_type", LandiaTreeType.class);
-
+	
     @Override
     public String getName() {
         return name().toLowerCase(Locale.US);

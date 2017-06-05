@@ -33,8 +33,8 @@ import net.minecraftforge.oredict.*;
 public class LandCraft {
 	public static final String MODID = "landcraft";
 	public static final String NAME = "Land Craft";
-	public static final String VERSION = "1.2.1.1";
-	public static final String DEPENDS = "required-after:landcore@[1.3.3.0,);required-after:compatlayer@[0.2.8,);"
+	public static final String VERSION = "1.3.0.0";
+	public static final String DEPENDS = "required-after:landcore@[1.3.5.0,);required-after:compatlayer@[0.2.8,);"
 			+ "after:OpenComputers;after:opencomputers;after:JEI;after:jei";
 	
 	@Instance(MODID)
@@ -61,6 +61,8 @@ public class LandCraft {
 		initMachines();
 		
 		initMetals();
+		
+		GameRegistry.register(LandCraftContent.landmasters_wings);
 		
 		ItemBlock landia_portal_marker_item = new ItemBlock(LandCraftContent.landia_portal_marker);
 		GameRegistry.register(LandCraftContent.landia_portal_marker);
@@ -107,12 +109,9 @@ public class LandCraft {
 		GameRegistry.register(landia_sapling_item, LandCraftContent.landia_sapling.getRegistryName());
 		proxy.setCustomStateMapper(LandCraftContent.landia_sapling, BlockSapling.STAGE, BlockSapling.TYPE);
 		for (LandiaTreeType type: LandiaTreeType.values()) {
-			int meta = LandCraftContent.landia_sapling.getMetaFromState(
-					LandCraftContent.landia_sapling.getDefaultState()
-					.withProperty(LandiaTreeType.L_TYPE, type));
-			proxy.registerItemRenderer(landia_sapling_item, meta, "landia_sapling_"+type);
+			proxy.registerItemRenderer(landia_sapling_item, type.ordinal(), "landia_sapling_"+type);
+			OreDictionary.registerOre("treeSapling", new ItemStack(LandCraftContent.landia_sapling, 1, type.ordinal()));
 		}
-		OreDictionary.registerOre("treeSapling", new ItemStack(LandCraftContent.landia_sapling, 1, OreDictionary.WILDCARD_VALUE));
 		
 		ItemBlockLeaves landia_leaves_item = new ItemBlockLeaves(LandCraftContent.landia_leaves);
 		GameRegistry.register(LandCraftContent.landia_leaves);
@@ -121,8 +120,8 @@ public class LandCraft {
 		for (LandiaTreeType type: LandiaTreeType.values()) {
 			proxy.registerItemRenderer(landia_leaves_item, type.ordinal(), "landia_leaves",
 					String.format(Locale.US, "%s=%s", LandiaTreeType.L_TYPE.getName(), type));
+			OreDictionary.registerOre("treeLeaves", new ItemStack(LandCraftContent.landia_leaves, 1, type.ordinal()));
 		}
-		OreDictionary.registerOre("treeLeaves", new ItemStack(LandCraftContent.landia_leaves, 1, OreDictionary.WILDCARD_VALUE));
 		
 		ItemBlockMeta landia_log_item = new ItemBlockMeta(LandCraftContent.landia_log);
 		GameRegistry.register(LandCraftContent.landia_log);
@@ -132,8 +131,8 @@ public class LandCraft {
 					Axis.AXIS.getName(), Axis.Y,
 					LandiaTreeType.L_TYPE.getName(), type);
 			proxy.registerItemRenderer(landia_log_item, type.ordinal(), "landia_log", variant);
+			OreDictionary.registerOre("logWood", new ItemStack(LandCraftContent.landia_log, 1, type.ordinal()));
 		}
-		OreDictionary.registerOre("logWood", new ItemStack(LandCraftContent.landia_log, 1, OreDictionary.WILDCARD_VALUE));
 		
 		ItemBlockMeta landia_planks_item = new ItemBlockMeta(LandCraftContent.landia_planks);
 		GameRegistry.register(LandCraftContent.landia_planks);
@@ -142,8 +141,8 @@ public class LandCraft {
 			proxy.registerItemRenderer(landia_planks_item,
 					type.ordinal(), "landia_planks",
 					String.format(Locale.US, "%s=%s", LandiaTreeType.L_TYPE.getName(), type));
+			OreDictionary.registerOre("plankWood", new ItemStack(LandCraftContent.landia_planks, 1, type.ordinal()));
 		}
-		OreDictionary.registerOre("plankWood", new ItemStack(LandCraftContent.landia_planks, 1, OreDictionary.WILDCARD_VALUE));
 		
 		GameRegistry.register(LandCraftContent.cinnamon_bark);
 		
@@ -161,8 +160,8 @@ public class LandCraft {
 			proxy.registerItemRenderer(landia_wood_slab_item,
 					type.ordinal(), "landia_wood_slab",
 					variant);
+			OreDictionary.registerOre("slabWood", new ItemStack(LandCraftContent.landia_wood_slab, 1, type.ordinal()));
 		}
-		OreDictionary.registerOre("slabWood", new ItemStack(LandCraftContent.landia_wood_slab, 1, OreDictionary.WILDCARD_VALUE));
 		
 		for (LandiaTreeType type: LandiaTreeType.values()) {
 			BlockModStairs block = GameRegistry.register(new BlockModStairs(
@@ -173,7 +172,7 @@ public class LandCraft {
 			ItemBlock ib = new ItemBlock(block);
 			GameRegistry.register(ib, block.getRegistryName());
 			proxy.registerItemRenderer(ib, 0, block.getRegistryName().getResourcePath());
-			OreDictionary.registerOre("stairWood", new ItemStack(block, 1, OreDictionary.WILDCARD_VALUE));
+			OreDictionary.registerOre("stairWood", block);
 		}
 	}
 	

@@ -1,0 +1,82 @@
+{
+	"pools": [
+		{
+			"name": "landcraft:big_brother",
+			"rolls": {
+				"min": 15,
+				"max": 19
+			},
+			"bonus_rolls": {
+				"min": 2,
+				"max": 4
+			},
+			"entries": [
+				{
+					"type": "item",
+					"name": "minecraft:nether_star",
+					"weight": 1
+				},
+				{
+					"type": "item",
+					"name": "landcraft:pho",
+					"weight": 2,
+					"functions": [
+						{
+							"function": "set_data",
+							"data": 1
+						}
+					]
+				},
+				{
+					"type": "item",
+					"name": "landcraft:landmasters_wings",
+					"weight": 1
+				},
+				{
+					"type": "item",
+					"name": "minecraft:diamond",
+					"weight": 3
+				},
+				{
+					"type": "item",
+					"name": "minecraft:blaze_rod",
+					"weight": 3
+				},
+				{
+					"type": "item",
+					"name": "minecraft:ender_pearl",
+					"weight": 3
+				},
+				{
+					"type": "item",
+					"name": "minecraft:emerald",
+					"weight": 3
+				},
+				{
+					"type": "item",
+					"name": "minecraft:gold",
+					"weight": 3
+				},
+				{
+					"type": "item",
+					"name": "landcraft:landia_ingot",
+					"weight": 3,
+					"functions": [
+						{
+							"function": "set_data",
+							"data": {
+								"min": 0,
+								"max": 4
+							}
+						}
+					]
+				},
+				{
+					"type": "item",
+					"name": "minecraft:record_ward",
+					"weight": 1
+				}
+			]
+		}
+	]
+}

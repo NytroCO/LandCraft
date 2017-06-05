@@ -73,6 +73,7 @@ public class ClientProxy extends CommonProxy {
 		super.initEntities();
 		RenderingRegistry.registerEntityRenderingHandler(EntityWizard.class, RenderEntityWizard::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityWizardMagicFireball.class, RenderEntityWizardMagicFireball::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityBigBrother.class, RenderEntityBigBrother::new);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOW)

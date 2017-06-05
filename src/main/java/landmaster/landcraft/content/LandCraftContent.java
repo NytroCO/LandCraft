@@ -53,6 +53,7 @@ public class LandCraftContent {
 	.setUnlocalizedName("redstone_component")
 	.setRegistryName("redstone_component")
 	.setCreativeTab(creativeTab);
+	public static final ItemLandmastersWings landmasters_wings = new ItemLandmastersWings();
 	
 	// METALS
 	public static final BlockLandiaOre landia_ore = new BlockLandiaOre();

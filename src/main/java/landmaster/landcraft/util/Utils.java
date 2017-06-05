@@ -14,6 +14,7 @@ import landmaster.landcraft.item.*;
 import mcjty.lib.tools.*;
 import net.minecraft.client.*;
 import net.minecraft.client.resources.*;
+import net.minecraft.entity.*;
 import net.minecraft.item.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.math.*;
@@ -24,8 +25,73 @@ import net.minecraftforge.fml.relauncher.*;
 import net.minecraftforge.oredict.*;
 
 public class Utils {
+	// thanks Tinkers Construct
+	public static RayTraceResult raytraceEntityPlayerLook(EntityLivingBase player, float range) {
+		Vec3d eye = new Vec3d(player.posX, player.posY + (double) player.getEyeHeight(), player.posZ); // Entity.getPositionEyes
+		Vec3d look = player.getLook(1.0f);
+		
+		return raytraceEntity(player, eye, look, range, true);
+	}
+	
+	// based on EntityRenderer.getMouseOver
+	public static RayTraceResult raytraceEntity(Entity entity, Vec3d start, Vec3d look, double range,
+			boolean ignoreCanBeCollidedWith) {
+		// Vec3 look = entity.getLook(partialTicks);
+		Vec3d direction = start.addVector(look.xCoord * range, look.yCoord * range, look.zCoord * range);
+		
+		// Vec3 direction = vec3.addVector(vec31.xCoord * d0, vec31.yCoord * d0,
+		// vec31.zCoord * d0);
+		Entity pointedEntity = null;
+		Vec3d hit = null;
+		AxisAlignedBB bb = entity.getEntityBoundingBox()
+				.addCoord(look.xCoord * range, look.yCoord * range, look.zCoord * range).expand(1, 1, 1);
+		
+		List<Entity> entitiesInArea = entity.getEntityWorld().getEntitiesWithinAABBExcludingEntity(entity, bb);
+		double range2 = range; // range to the current candidate. Used to find
+								// the closest entity.
+		
+		for (Entity candidate : entitiesInArea) {
+			if (ignoreCanBeCollidedWith || candidate.canBeCollidedWith()) {
+				// does our vector go through the entity?
+				double colBorder = candidate.getCollisionBorderSize();
+				AxisAlignedBB entityBB = candidate.getEntityBoundingBox().expand(colBorder, colBorder, colBorder);
+				RayTraceResult movingobjectposition = entityBB.calculateIntercept(start, direction);
+				
+				// needs special casing: vector starts inside the entity
+				if (entityBB.isVecInside(start)) {
+					if (0.0D < range2 || range2 == 0.0D) {
+						pointedEntity = candidate;
+						hit = movingobjectposition == null ? start : movingobjectposition.hitVec;
+						range2 = 0.0D;
+					}
+				} else if (movingobjectposition != null) {
+					double dist = start.distanceTo(movingobjectposition.hitVec);
+					
+					if (dist < range2 || range2 == 0.0D) {
+						if (candidate == entity.getRidingEntity() && !entity.canRiderInteract()) {
+							if (range2 == 0.0D) {
+								pointedEntity = candidate;
+								hit = movingobjectposition.hitVec;
+							}
+						} else {
+							pointedEntity = candidate;
+							hit = movingobjectposition.hitVec;
+							range2 = dist;
+						}
+					}
+				}
+			}
+		}
+		
+		if (pointedEntity != null && range2 < range) {
+			return new RayTraceResult(pointedEntity, hit);
+		}
+		return null;
+	}
+	
 	public static boolean matchesOre(ItemStack is, String od) {
-		return OreDictionary.doesOreNameExist(od) && !ItemStackTools.isEmpty(is) && ArrayUtils.contains(OreDictionary.getOreIDs(is), OreDictionary.getOreID(od));
+		return OreDictionary.doesOreNameExist(od) && !ItemStackTools.isEmpty(is)
+				&& ArrayUtils.contains(OreDictionary.getOreIDs(is), OreDictionary.getOreID(od));
 	}
 	
 	private static final MethodHandle regionF;
@@ -43,7 +109,7 @@ public class Utils {
 	public static java.util.Locale getLocale() {
 		try {
 			final Language lang = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage();
-			return new java.util.Locale(lang.getLanguageCode(), (String)regionF.invokeExact(lang));
+			return new java.util.Locale(lang.getLanguageCode(), (String) regionF.invokeExact(lang));
 		} catch (Throwable e) {
 			throw Throwables.propagate(e);
 		}
@@ -62,7 +128,7 @@ public class Utils {
 	
 	public static List<ItemStack> getOres(int id) {
 		try {
-			return (List<ItemStack>)getOresM.invoke(id);
+			return (List<ItemStack>) getOresM.invoke(id);
 		} catch (Throwable e) {
 			throw Throwables.propagate(e);
 		}
@@ -76,24 +142,26 @@ public class Utils {
 		return fs != null ? fs.amount : 0;
 	}
 	
-	public static <T extends TileEntity> List<T> getTileEntitiesWithinAABB(World world, Class<? extends T> tileEntityClass, AxisAlignedBB aabb) {
+	public static <T extends TileEntity> List<T> getTileEntitiesWithinAABB(World world,
+			Class<? extends T> tileEntityClass, AxisAlignedBB aabb) {
 		int i = MathHelper.floor((aabb.minX - World.MAX_ENTITY_RADIUS) / 16.0D);
 		int j = MathHelper.floor((aabb.maxX + World.MAX_ENTITY_RADIUS) / 16.0D);
 		int k = MathHelper.floor((aabb.minZ - World.MAX_ENTITY_RADIUS) / 16.0D);
 		int l = MathHelper.floor((aabb.maxZ + World.MAX_ENTITY_RADIUS) / 16.0D);
 		ArrayList<T> arraylist = Lists.newArrayList();
-
+		
 		for (int i1 = i; i1 <= j; ++i1) {
 			for (int j1 = k; j1 <= l; ++j1) {
 				if (isChunkLoaded(world, i1, j1, true)) {
-					Iterator<TileEntity> iterator = world.getChunkFromChunkCoords(i1, j1).getTileEntityMap().values().iterator();
+					Iterator<TileEntity> iterator = world.getChunkFromChunkCoords(i1, j1).getTileEntityMap().values()
+							.iterator();
 					while (iterator.hasNext()) {
 						TileEntity te = iterator.next();
-						if(tileEntityClass.isInstance(te)) {
-							if (world.getBlockState(te.getPos()).getBoundingBox(world, te.getPos())
-									.offset(te.getPos()).intersectsWith(aabb)) {
+						if (tileEntityClass.isInstance(te)) {
+							if (world.getBlockState(te.getPos()).getBoundingBox(world, te.getPos()).offset(te.getPos())
+									.intersectsWith(aabb)) {
 								arraylist.add(tileEntityClass.cast(te));
-			                }
+							}
 						}
 					}
 				}
@@ -115,14 +183,13 @@ public class Utils {
 		public final ImmutableList<Item> tools;
 		public final LandiaOreType metal;
 		
-		ToolGroup(LandiaOreType metal, Item...items) {
+		ToolGroup(LandiaOreType metal, Item... items) {
 			Preconditions.checkNotNull(metal);
 			this.metal = metal;
 			
 			Preconditions.checkNotNull(items);
-			Preconditions.checkArgument(items.length == ToolType.values().length,
-					String.format("There should be %d items passed in but got %d instead",
-							ToolType.values().length, items.length));
+			Preconditions.checkArgument(items.length == ToolType.values().length, String.format(
+					"There should be %d items passed in but got %d instead", ToolType.values().length, items.length));
 			
 			this.tools = ImmutableList.copyOf(items);
 		}
@@ -134,36 +201,30 @@ public class Utils {
 		public void initRecipes() {
 			final String ingotName = "ingot" + StringUtils.capitalize(metal.toString());
 			
-			GameRegistry.addRecipe(new ShapedOreRecipe(getTool(ToolType.SWORD),
-					"I", "I", "S",
-					'I', ingotName, 'S', "stickWood"));
-			GameRegistry.addRecipe(new ShapedOreRecipe(getTool(ToolType.PICKAXE),
-					"III", " S ", " S ",
-					'I', ingotName, 'S', "stickWood"));
-			GameRegistry.addRecipe(new ShapedOreRecipe(getTool(ToolType.AXE),
-					"II", "IS", " S",
-					'I', ingotName, 'S', "stickWood"));
-			GameRegistry.addRecipe(new ShapedOreRecipe(getTool(ToolType.SHOVEL),
-					"I", "S", "S",
-					'I', ingotName, 'S', "stickWood"));
-			GameRegistry.addRecipe(new ShapedOreRecipe(getTool(ToolType.HOE),
-					"II", " S", " S",
-					'I', ingotName, 'S', "stickWood"));
+			GameRegistry.addRecipe(
+					new ShapedOreRecipe(getTool(ToolType.SWORD), "I", "I", "S", 'I', ingotName, 'S', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(getTool(ToolType.PICKAXE), "III", " S ", " S ", 'I', ingotName,
+					'S', "stickWood"));
+			GameRegistry.addRecipe(
+					new ShapedOreRecipe(getTool(ToolType.AXE), "II", "IS", " S", 'I', ingotName, 'S', "stickWood"));
+			GameRegistry.addRecipe(
+					new ShapedOreRecipe(getTool(ToolType.SHOVEL), "I", "S", "S", 'I', ingotName, 'S', "stickWood"));
+			GameRegistry.addRecipe(
+					new ShapedOreRecipe(getTool(ToolType.HOE), "II", " S", " S", 'I', ingotName, 'S', "stickWood"));
 		}
 	}
 	
-	public static ToolGroup registerTools(LandiaOreType metal, Item.ToolMaterial material, float axeDamage, float axeSpeed) {
-		Item[] items = new Item[] {
-				new ItemModSword(material, metal + "_" + ToolType.SWORD),
+	public static ToolGroup registerTools(LandiaOreType metal, Item.ToolMaterial material, float axeDamage,
+			float axeSpeed) {
+		Item[] items = new Item[] { new ItemModSword(material, metal + "_" + ToolType.SWORD),
 				new ItemModPickaxe(material, metal + "_" + ToolType.PICKAXE),
 				new ItemModAxe(material, axeDamage, axeSpeed, metal + "_" + ToolType.AXE),
 				new ItemModShovel(material, metal + "_" + ToolType.SHOVEL),
-				new ItemModHoe(material, metal + "_" + ToolType.HOE)
-		};
+				new ItemModHoe(material, metal + "_" + ToolType.HOE) };
 		
 		final ToolType[] values = ToolType.values();
 		
-		for (int i=0; i<items.length; ++i) {
+		for (int i = 0; i < items.length; ++i) {
 			GameRegistry.register(items[i]);
 			LandCraft.proxy.registerItemRenderer(items[i], 0, "tool/" + metal + "_" + values[i]);
 		}
@@ -174,8 +235,8 @@ public class Utils {
 	private static final MethodHandle isChunkLoadedM;
 	static {
 		try {
-			Method temp = World.class.getDeclaredMethod("func_175680_a"/*isChunkLoaded*/,
-					int.class, int.class, boolean.class);
+			Method temp = World.class.getDeclaredMethod("func_175680_a"/* isChunkLoaded */, int.class, int.class,
+					boolean.class);
 			temp.setAccessible(true);
 			isChunkLoadedM = MethodHandles.lookup().unreflect(temp);
 		} catch (Throwable e) {
@@ -185,7 +246,7 @@ public class Utils {
 	
 	private static boolean isChunkLoaded(World world, int x, int z, boolean allowEmpty) {
 		try {
-			return (boolean)isChunkLoadedM.invoke(world, x, z, allowEmpty);
+			return (boolean) isChunkLoadedM.invoke(world, x, z, allowEmpty);
 		} catch (Throwable e) {
 			throw Throwables.propagate(e);
 		}

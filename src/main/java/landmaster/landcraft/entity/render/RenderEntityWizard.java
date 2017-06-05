@@ -3,7 +3,7 @@ package landmaster.landcraft.entity.render;
 import landmaster.landcraft.*;
 import landmaster.landcraft.entity.*;
 import net.minecraft.client.model.*;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.util.*;

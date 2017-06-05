@@ -28,6 +28,7 @@ public class CommonProxy {
 	public void initEntities() {
 		EntityTools.registerModEntity(new ResourceLocation(LandCraft.MODID, "wizard"), EntityWizard.class, "wizard", 0, LandCraft.INSTANCE, 64, 3, true, 0x00FFFF, 0x000000);
 		EntityTools.registerModEntity(new ResourceLocation(LandCraft.MODID, "wizard_magic_fireball"), EntityWizardMagicFireball.class, "wizard_magic_fireball", 1, LandCraft.INSTANCE, 64, 1, true);
+		EntityTools.registerModEntity(new ResourceLocation(LandCraft.MODID, "big_brother"), EntityBigBrother.class, "big_brother", 2, LandCraft.INSTANCE, 128, 2, true);
 		
 		LootTableList.register(EntityWizard.LOOT);
 	}
