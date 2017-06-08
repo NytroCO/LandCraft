@@ -8,6 +8,7 @@ import org.apache.logging.log4j.*;
 import landmaster.landcore.api.item.*;
 import landmaster.landcraft.api.*;
 import landmaster.landcraft.block.*;
+import landmaster.landcraft.capabilities.*;
 import landmaster.landcraft.config.*;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.gui.proxy.*;
@@ -58,6 +59,9 @@ public class LandCraft {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		(config = new Config(event)).sync();
+		
+		// for the henchmen
+		IHenchman.initCaps();
 		
 		proxy.initEntities();
 		

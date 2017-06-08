@@ -43,7 +43,7 @@ public class EntityBigBrother extends EntityMob implements IRangedAttackMob {
 		this.setPathPriority(PathNodeType.DANGER_FIRE, 0.0F);
 		this.setPathPriority(PathNodeType.DAMAGE_FIRE, 0.0F);
 		this.isImmuneToFire = true;
-		this.experienceValue = 16;
+		this.experienceValue = 200;
 	}
 	
 	@Override
@@ -153,7 +153,7 @@ public class EntityBigBrother extends EntityMob implements IRangedAttackMob {
 			return Stream.generate(() -> HENCHMEN_LIST.get(owner.getRNG().nextInt(HENCHMEN_LIST.size())).apply(owner.getEntityWorld()))
 			.limit(2 + owner.getRNG().nextInt(3))
 			.iterator();
-		}, 0.03f, 6.7f));
+		}, 0.03f, 74.0f));
 		this.tasks.addTask(4, new EntityAIAttackRanged(this, 0.5f, MAX_LASER_DURATION, ATK_RANGE));
 		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
