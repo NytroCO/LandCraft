@@ -17,9 +17,16 @@ import landmaster.landcraft.proxy.*;
 import landmaster.landcraft.tile.*;
 import landmaster.landcraft.util.*;
 import landmaster.landcraft.world.*;
+import mcjty.lib.compat.*;
 import net.minecraft.block.*;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.*;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.*;
@@ -63,12 +70,25 @@ public class LandCraft {
 		initMetals();
 		
 		GameRegistry.register(LandCraftContent.landmasters_wings);
+		proxy.registerItemRenderer(LandCraftContent.landmasters_wings, 0, "landmasters_wings");
 		
-		ItemBlock landia_portal_marker_item = new ItemBlock(LandCraftContent.landia_portal_marker);
+		ItemBlock landia_portal_marker_item = new CompatItemBlock(LandCraftContent.landia_portal_marker);
 		GameRegistry.register(LandCraftContent.landia_portal_marker);
 		GameRegistry.register(landia_portal_marker_item, LandCraftContent.landia_portal_marker.getRegistryName());
 		proxy.registerItemRenderer(landia_portal_marker_item, 0, "landia_portal_marker");
 		GameRegistry.registerTileEntity(TELandiaPortalMarker.class, MODID+"_landia_portal_marker");
+		
+		ItemBlock landia_tower_item = new CompatItemBlock(LandCraftContent.landia_tower) {
+			@Override
+			protected EnumActionResult clOnItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+				return LandCraftContent.landia_tower.testBlockPlacement(world, pos) ? super.clOnItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ) : EnumActionResult.FAIL;
+			}
+		};
+		GameRegistry.register(LandCraftContent.landia_tower);
+		GameRegistry.register(landia_tower_item, LandCraftContent.landia_tower.getRegistryName());
+		proxy.registerItemRenderer(landia_tower_item, 0, "landia_tower");
+		GameRegistry.registerTileEntity(TELandiaTower.class, MODID+"_landia_tower");
+		
 		proxy.bindTESRs();
 		
 		GameRegistry.register(LandCraftContent.redstone_component);
@@ -169,7 +189,7 @@ public class LandCraft {
 					.withProperty(LandiaTreeType.L_TYPE, type),
 					type+"_stairs"));
 			LandCraftContent.landia_wood_stairs.put(type, block);
-			ItemBlock ib = new ItemBlock(block);
+			ItemBlock ib = new CompatItemBlock(block);
 			GameRegistry.register(ib, block.getRegistryName());
 			proxy.registerItemRenderer(ib, 0, block.getRegistryName().getResourcePath());
 			OreDictionary.registerOre("stairWood", block);
@@ -178,7 +198,7 @@ public class LandCraft {
 	
 	private static void initMachines() {
 		if (Config.breeder) {
-			ItemBlock breeder_item = new ItemBlock(LandCraftContent.breeder);
+			ItemBlock breeder_item = new CompatItemBlock(LandCraftContent.breeder);
 			GameRegistry.register(LandCraftContent.breeder);
 			GameRegistry.register(breeder_item, LandCraftContent.breeder.getRegistryName());
 			proxy.registerItemRenderer(breeder_item, 0, "breeder");
@@ -186,7 +206,7 @@ public class LandCraft {
 		}
 		
 		if (Config.player_mime) {
-			ItemBlock player_mime_item = new ItemBlock(LandCraftContent.player_mime);
+			ItemBlock player_mime_item = new CompatItemBlock(LandCraftContent.player_mime);
 			GameRegistry.register(LandCraftContent.player_mime);
 			GameRegistry.register(player_mime_item, LandCraftContent.player_mime.getRegistryName());
 			proxy.registerItemRenderer(player_mime_item, 0, "player_mime");
@@ -194,7 +214,7 @@ public class LandCraft {
 		}
 		
 		if (Config.thorium_generator) {
-			ItemBlock thorium_generator_item = new ItemBlock(LandCraftContent.thorium_generator);
+			ItemBlock thorium_generator_item = new CompatItemBlock(LandCraftContent.thorium_generator);
 			GameRegistry.register(LandCraftContent.thorium_generator);
 			GameRegistry.register(thorium_generator_item, LandCraftContent.thorium_generator.getRegistryName());
 			proxy.registerItemRenderer(thorium_generator_item, 0, "thorium_generator");
@@ -202,7 +222,7 @@ public class LandCraft {
 		}
 		
 		if (Config.pot) {
-			ItemBlock pot_item = new ItemBlock(LandCraftContent.pot);
+			ItemBlock pot_item = new CompatItemBlock(LandCraftContent.pot);
 			GameRegistry.register(LandCraftContent.pot);
 			GameRegistry.register(pot_item, LandCraftContent.pot.getRegistryName());
 			proxy.registerItemRenderer(pot_item, 0, "pot");
@@ -269,6 +289,11 @@ public class LandCraft {
 		initAgricultureRecipes();
 		
 		initMachineRecipes();
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(LandCraftContent.landia_tower,
+				" K ", "GLM", "FLR", 'K', "blockKelline", 'G', "blockGarfax",
+				'M', "blockMorganine", 'R', "blockRacheline", 'F', "blockFriscion",
+				'L', "blockLandium"));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(LandCraftContent.landia_portal_marker,
 				" d ", "lnl", "aea",

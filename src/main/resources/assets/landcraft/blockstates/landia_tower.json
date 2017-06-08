@@ -1,0 +1,39 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"textures": {
+			"end": "landcraft:blocks/landia_tower_end",
+			"side": "landcraft:blocks/landia_tower_side",
+			"particle": "#side"
+		}
+	},
+	"variants": {
+		"inventory": {
+			"model": "block",
+			"submodel": {
+				"tower0": { "model": "landcraft:landia_tower0" },
+				"tower1": { "model": "landcraft:landia_tower1", "transform": { "translation": [0, 1, 0] } },
+				"tower2": { "model": "landcraft:landia_tower2", "transform": { "translation": [0, 2, 0] } },
+				"tower3": { "model": "landcraft:landia_tower3", "transform": { "translation": [0, 3, 0] } }
+			},
+			"transform": {
+				"gui": {
+					"translation": [0, -0.375, 0],
+					"scale": 0.25
+				}
+			}
+		},
+		"position=0": {
+			"model": "landcraft:landia_tower0"
+		},
+		"position=1": {
+			"model": "landcraft:landia_tower1"
+		},
+		"position=2": {
+			"model": "landcraft:landia_tower2"
+		},
+		"position=3": {
+			"model": "landcraft:landia_tower3"
+		}
+	}
+}

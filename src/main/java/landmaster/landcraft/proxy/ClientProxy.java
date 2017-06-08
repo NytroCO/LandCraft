@@ -1,5 +1,9 @@
 package landmaster.landcraft.proxy;
 
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
 import landmaster.landcraft.*;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.entity.*;
@@ -45,6 +49,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void bindTESRs() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TELandiaPortalMarker.class, new TESRLandiaPortalMarker());
+		ClientRegistry.bindTileEntitySpecialRenderer(TELandiaTower.class, new TESRLandiaTower());
 	}
 	
 	@Override
@@ -74,6 +79,13 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityWizard.class, RenderEntityWizard::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityWizardMagicFireball.class, RenderEntityWizardMagicFireball::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBigBrother.class, RenderEntityBigBrother::new);
+	}
+	
+	@Override
+	public void setCustomStateMapper(Block block, Function<Block, Collection<Map.Entry<IBlockState, String>>> mapper) {
+		ModelBakery.registerItemVariants(null);
+		ModelLoader.setCustomStateMapper(block, mapper.andThen(coll -> coll.stream()
+				.collect(Collectors.toMap(Map.Entry::getKey, pair -> new ModelResourceLocation(pair.getValue()))))::apply);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOW)

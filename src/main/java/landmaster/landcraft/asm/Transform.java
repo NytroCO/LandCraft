@@ -34,6 +34,8 @@ public class Transform implements IClassTransformer {
 			classNode.methods.stream()
 			.filter(methodNode -> mapMethod(name, methodNode, obf).equals("func_184640_d"))
 			.forEach(methodNode -> {
+				FMLLog.info("Patching func_184640_d (getSlotForItemStack)");
+				
 				InsnList insns = new InsnList();
 				insns.add(new VarInsnNode(Opcodes.ALOAD, 0));
 				insns.add(new InsnNode(Opcodes.DUP));
@@ -70,7 +72,7 @@ public class Transform implements IClassTransformer {
 						@SuppressWarnings("unchecked")
 						List<String> stripped = (List<String>) node.values.get(3);
 						if (!modids.stream().anyMatch(Loader::isModLoaded)) {
-							System.out.println(String.format(
+							FMLLog.info(String.format(
 									"Stripping interfaces %s of class %s since none of the mods %s are loaded",
 									Arrays.toString(stripped.toArray()), transformedName, Arrays.toString(modids.toArray())));
 							classNode.interfaces.removeIf(stripped::contains);
@@ -90,7 +92,7 @@ public class Transform implements IClassTransformer {
 							return !modids.stream().anyMatch(Loader::isModLoaded);
 						});
 					if (doStrip) {
-						System.out.println(String.format(
+						FMLLog.info(String.format(
 								"Stripping method %s of class %s",
 								methodNode.name, transformedName));
 						methodIt.remove();

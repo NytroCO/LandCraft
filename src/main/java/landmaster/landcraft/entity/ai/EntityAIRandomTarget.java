@@ -10,8 +10,9 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 
 public class EntityAIRandomTarget extends EntityAITarget {
-	private final float range;
-	private final Predicate<EntityLivingBase> predicate;
+	protected final float range;
+	protected final Predicate<EntityLivingBase> predicate;
+	private int countdown;
 	
 	public EntityAIRandomTarget(EntityCreature entity, float range) {
 		this(entity, range, e -> true);
@@ -26,19 +27,35 @@ public class EntityAIRandomTarget extends EntityAITarget {
 	
 	@Override
 	public boolean shouldExecute() {
-		return this.taskOwner.getRNG().nextFloat() < 0.2f;
+		return this.taskOwner.getRNG().nextFloat() < 0.3f;
+	}
+	
+	@Override
+	public boolean continueExecuting() {
+		return countdown > 0;
+	}
+	
+	@Override
+	public void resetTask() {
+		countdown = 0;
+	}
+	
+	@Override
+	public void updateTask() {
+		--countdown;
 	}
 	
 	@Override
 	public void startExecuting() {
+		countdown = 100+this.taskOwner.getRNG().nextInt(100);
 		List<EntityLivingBase> targets = this.taskOwner.getEntityWorld()
 				.getEntitiesWithinAABB(EntityLivingBase.class, Utils.AABBfromVecs(
 						this.taskOwner.getPositionVector().subtract(range, range, range),
 						this.taskOwner.getPositionVector().addVector(range, range, range)),
 						predicate
-						.and(Predicate.isEqual(taskOwner).negate())
-						.and(entity -> entity.getDistanceSqToEntity(taskOwner) <= range*range)
-						.and(entity -> this.isSuitableTarget(entity, false))
+						.and(entity -> entity != taskOwner
+						&& entity.getDistanceSqToEntity(taskOwner) <= range*range
+						&& this.isSuitableTarget(entity, false))
 						::test);
 		if (!targets.isEmpty()) {
 			this.taskOwner.setAttackTarget(targets.get(this.taskOwner.getRNG().nextInt(targets.size())));

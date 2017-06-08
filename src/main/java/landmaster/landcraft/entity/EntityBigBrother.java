@@ -1,11 +1,17 @@
 package landmaster.landcraft.entity;
 
 import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 import javax.annotation.*;
 
+import com.google.common.collect.*;
+
+import landmaster.landcore.entity.*;
 import landmaster.landcraft.entity.ai.*;
 import landmaster.landcraft.util.*;
+import mcjty.lib.tools.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.*;
@@ -38,6 +44,11 @@ public class EntityBigBrother extends EntityMob implements IRangedAttackMob {
 		this.setPathPriority(PathNodeType.DAMAGE_FIRE, 0.0F);
 		this.isImmuneToFire = true;
 		this.experienceValue = 16;
+	}
+	
+	@Override
+	public boolean isImmuneToExplosions() {
+		return true;
 	}
 	
 	@Override
@@ -131,15 +142,25 @@ public class EntityBigBrother extends EntityMob implements IRangedAttackMob {
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
 	}
 	
+	private static final List<Function<World, EntityLiving>> HENCHMEN_LIST = ImmutableList.of(
+			EntityWizard::new, EntityPigZombie::new, EntityLandlord::new,
+			world -> EntityTools.createEntity(world, "WitherSkeleton"));
+	
 	@Override
 	protected void initEntityAI() {
 		this.tasks.addTask(1, new EntityAISwimming(this));
+		this.tasks.addTask(2, new EntityAISummonHenchmen<>(this, owner -> {
+			return Stream.generate(() -> HENCHMEN_LIST.get(owner.getRNG().nextInt(HENCHMEN_LIST.size())).apply(owner.getEntityWorld()))
+			.limit(2 + owner.getRNG().nextInt(3))
+			.iterator();
+		}, 0.03f, 6.7f));
 		this.tasks.addTask(4, new EntityAIAttackRanged(this, 0.5f, MAX_LASER_DURATION, ATK_RANGE));
 		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
 		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, false));
 		this.targetTasks.addTask(2, new EntityAIRandomTarget(this, ATK_RANGE));
 	}
 	

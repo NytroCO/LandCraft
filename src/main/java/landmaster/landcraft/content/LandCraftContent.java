@@ -18,6 +18,8 @@ public class LandCraftContent {
 		}
 	};
 	
+	public static final BlockLandiaTower landia_tower = new BlockLandiaTower();
+	
 	// MACHINES
 	public static final BlockBreeder breeder = new BlockBreeder();
 	public static final BlockPlayerMime player_mime = new BlockPlayerMime();
