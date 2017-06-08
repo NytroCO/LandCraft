@@ -8,6 +8,7 @@ import javax.annotation.*;
 
 import com.google.common.collect.*;
 
+import gnu.trove.set.hash.*;
 import landmaster.landcore.entity.*;
 import landmaster.landcraft.entity.ai.*;
 import landmaster.landcraft.util.*;
@@ -20,9 +21,14 @@ import net.minecraft.nbt.*;
 import net.minecraft.network.datasync.*;
 import net.minecraft.pathfinding.*;
 import net.minecraft.potion.*;
+import net.minecraft.server.*;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
+import net.minecraftforge.common.*;
+import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.*;
 
 public class EntityBigBrother extends EntityMob implements IRangedAttackMob {
 	private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(),
@@ -32,9 +38,27 @@ public class EntityBigBrother extends EntityMob implements IRangedAttackMob {
 	
 	private static final DataParameter<Integer> LASER_DURATION = EntityDataManager.createKey(EntityBigBrother.class, DataSerializers.VARINT);
 	
+	private final Set<UUID> henchmen = new THashSet<>();
+	private static final String HENCHMEN_NBT = "OrwellHenchmen";
+	
 	public static final float ATK_RANGE = 80.0f;
 	
 	private static final int MAX_LASER_DURATION = 10;
+	
+	static {
+		MinecraftForge.EVENT_BUS.register(EntityBigBrother.class);
+	}
+	
+	@SubscribeEvent
+	public static void attackTarget(LivingSetAttackTargetEvent event) {
+		if (event.getTarget() instanceof EntityBigBrother
+				&& ((EntityBigBrother)event.getTarget()).getAttackTarget() != null
+				&& ((EntityBigBrother)event.getTarget()).fetchHenchmen().contains(event.getEntity())
+				&& event.getEntity() instanceof EntityLiving
+				&& !((EntityLiving)event.getEntity()).getAttackTarget().equals(((EntityBigBrother)event.getTarget()).getAttackTarget())) {
+			((EntityLiving)event.getEntity()).setAttackTarget(((EntityBigBrother)event.getTarget()).getAttackTarget());
+		}
+	}
 	
 	public EntityBigBrother(World worldIn) {
 		super(worldIn);
@@ -44,6 +68,61 @@ public class EntityBigBrother extends EntityMob implements IRangedAttackMob {
 		this.setPathPriority(PathNodeType.DAMAGE_FIRE, 0.0F);
 		this.isImmuneToFire = true;
 		this.experienceValue = 200;
+	}
+	
+	public Set<Entity> fetchHenchmen() {
+		purgeHenchmen();
+		final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+		return henchmen.stream()
+				.map(server::getEntityFromUuid)
+				.collect(Collectors.toCollection(THashSet::new));
+	}
+	
+	private void purgeHenchmen() {
+		final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+		henchmen.removeIf(uuid -> server.getEntityFromUuid(uuid) == null);
+	}
+	
+	public void addHenchman(@Nonnull Entity entity) {
+		henchmen.add(entity.getUniqueID());
+	}
+	
+	@Override
+	public void readEntityFromNBT(NBTTagCompound compound) {
+		super.readEntityFromNBT(compound);
+		final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+		if (this.hasCustomName()) {
+			this.bossInfo.setName(this.getDisplayName());
+		}
+		int[] int_arr = compound.getIntArray(HENCHMEN_NBT);
+		for (int i=0; i<int_arr.length; i+=4) {
+			UUID uuid = new UUID((((long)int_arr[i]) << 32) | (int_arr[i+1] & 0xFFFFFFFFL),
+					(((long)int_arr[i+2]) << 32) | (int_arr[i+3] & 0xFFFFFFFFL));
+			if (server.getEntityFromUuid(uuid) != null) henchmen.add(uuid);
+		}
+	}
+	
+	@Override
+	public void writeEntityToNBT(NBTTagCompound compound) {
+		super.writeEntityToNBT(compound);
+		final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+		int[] int_arr = new int[henchmen.size()*4];
+		int i = 0;
+		for (UUID uuid: henchmen) {
+			if (server.getEntityFromUuid(uuid) != null) {
+				int_arr[i] = (int)(uuid.getMostSignificantBits() >> 32);
+				int_arr[i+1] = (int)uuid.getMostSignificantBits();
+				int_arr[i+2] = (int)(uuid.getLeastSignificantBits() >> 32);
+				int_arr[i+3] = (int)uuid.getLeastSignificantBits();
+				i += 4;
+			}
+		}
+		compound.setIntArray(HENCHMEN_NBT, int_arr);
+	}
+	
+	@Override
+	public boolean isOnSameTeam(Entity entityIn) {
+		return entityIn == null ? false : (entityIn == this ? true : (super.isOnSameTeam(entityIn) ? true : this.fetchHenchmen().contains(entityIn)));
 	}
 	
 	@Override
@@ -89,14 +168,6 @@ public class EntityBigBrother extends EntityMob implements IRangedAttackMob {
 	}
 	
 	@Override
-	public void readEntityFromNBT(NBTTagCompound compound) {
-		super.readEntityFromNBT(compound);
-		if (this.hasCustomName()) {
-			this.bossInfo.setName(this.getDisplayName());
-		}
-	}
-	
-	@Override
 	public void setCustomNameTag(String name) {
 		super.setCustomNameTag(name);
 		this.bossInfo.setName(this.getDisplayName());
@@ -124,8 +195,9 @@ public class EntityBigBrother extends EntityMob implements IRangedAttackMob {
 	public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
 		this.getLookHelper().setLookPosition(target.posX, target.posY, target.posZ, this.getHorizontalFaceSpeed(),
 				this.getVerticalFaceSpeed());
-		Optional.ofNullable(Utils.raytraceEntityPlayerLook(this, ATK_RANGE))
+		Optional.ofNullable(Utils.raytraceEntity(this, this.getPositionVector().add(this.getLookVec().scale(2.8)).addVector(0, this.getEyeHeight(), 0), this.getLookVec(), ATK_RANGE, true))
 				.map(rtr -> rtr.entityHit)
+				.map(entity -> { System.out.println("ENTITY CLASS: " + entity.getClass()); return entity; }) // TODO remove log
 				.filter(entity -> !(entity instanceof EntityBigBrother))
 				.ifPresent(this::attackEntityAsMob);
 		this.activateLaserDuration();
@@ -144,24 +216,28 @@ public class EntityBigBrother extends EntityMob implements IRangedAttackMob {
 	
 	private static final List<Function<World, EntityLiving>> HENCHMEN_LIST = ImmutableList.of(
 			EntityWizard::new, EntityPigZombie::new, EntityLandlord::new,
-			world -> EntityTools.createEntity(world, "WitherSkeleton"));
+			world -> EntityTools.createEntity(world, "WitherSkeleton"),
+			EntityEnderman::new);
 	
 	@Override
 	protected void initEntityAI() {
 		this.tasks.addTask(1, new EntityAISwimming(this));
-		this.tasks.addTask(2, new EntityAISummonHenchmen<>(this, owner -> {
-			return Stream.generate(() -> HENCHMEN_LIST.get(owner.getRNG().nextInt(HENCHMEN_LIST.size())).apply(owner.getEntityWorld()))
+		this.tasks.addTask(4, new EntityAISummonHenchmen(this, owner -> {
+			return Stream.generate(() -> HENCHMEN_LIST
+					.get(owner.getRNG().nextInt(HENCHMEN_LIST.size()))
+					.apply(owner.getEntityWorld()))
 			.limit(2 + owner.getRNG().nextInt(3))
 			.iterator();
-		}, 0.03f, 74.0f));
+		}, 0.02f, 74.0f));
 		this.tasks.addTask(4, new EntityAIAttackRanged(this, 0.5f, MAX_LASER_DURATION, ATK_RANGE));
-		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
+		this.tasks.addTask(5, new EntityAIMoveTowardsTarget(this, 1.0, 80));
+		this.tasks.addTask(6, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
 		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, false));
-		this.targetTasks.addTask(2, new EntityAIRandomTarget(this, ATK_RANGE));
+		this.targetTasks.addTask(3, new EntityAIRandomTarget(this, ATK_RANGE));
 	}
 	
 	@Override
