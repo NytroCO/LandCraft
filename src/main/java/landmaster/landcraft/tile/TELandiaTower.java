@@ -37,6 +37,13 @@ public class TELandiaTower extends TileEntity implements ITickable {
 	}
 	
 	@Override
+	public void onLoad() {
+		if (world.isRemote) {
+			PacketHandler.INSTANCE.sendToServer(new PacketRequestUpdateTE(new Coord4D(this)));
+		}
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
 		return new AxisAlignedBB(pos, new BlockPos(pos.getX()+1, world.getHeight(), pos.getZ()+1));
@@ -151,7 +158,7 @@ public class TELandiaTower extends TileEntity implements ITickable {
 	}
 	
 	private void syncTE() {
-		PacketHandler.INSTANCE.sendToAll(new PacketUpdateTELandiaTower(new Coord4D(this), targetEntity));
+		PacketHandler.INSTANCE.sendToDimension(new PacketUpdateTELandiaTower(new Coord4D(this), targetEntity), this.world.provider.getDimension());
 	}
 	
 	@Override

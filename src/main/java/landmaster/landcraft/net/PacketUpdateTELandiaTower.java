@@ -21,7 +21,7 @@ public class PacketUpdateTELandiaTower implements IMessage {
 	
 	public static IMessage onMessage(PacketUpdateTELandiaTower message, MessageContext ctx) {
 		Minecraft.getMinecraft().addScheduledTask(() -> {
-			TileEntity te = message.pos.TE();
+			TileEntity te = Minecraft.getMinecraft().world.getTileEntity(message.pos.pos());
 			if (te instanceof TELandiaTower) {
 				((TELandiaTower)te).setTargetEntity(message.uuid);
 			}
@@ -32,13 +32,18 @@ public class PacketUpdateTELandiaTower implements IMessage {
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		pos = Coord4D.fromByteBuf(buf);
-		uuid = new UUID(buf.readLong(), buf.readLong());
+		if (buf.readBoolean()) {
+			uuid = new UUID(buf.readLong(), buf.readLong());
+		}
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
 		pos.toByteBuf(buf);
-		buf.writeLong(uuid.getMostSignificantBits()).writeLong(uuid.getLeastSignificantBits());
+		buf.writeBoolean(uuid != null);
+		if (uuid != null) {
+			buf.writeLong(uuid.getMostSignificantBits()).writeLong(uuid.getLeastSignificantBits());
+		}
 	}
 	
 }
