@@ -14,12 +14,12 @@
 				{
 					"type": "item",
 					"name": "minecraft:nether_star",
-					"weight": 1
+					"weight": 4
 				},
 				{
 					"type": "item",
 					"name": "landcraft:pho",
-					"weight": 2,
+					"weight": 5,
 					"functions": [
 						{
 							"function": "set_data",
@@ -30,37 +30,37 @@
 				{
 					"type": "item",
 					"name": "landcraft:landmasters_wings",
-					"weight": 1
+					"weight": 4
 				},
 				{
 					"type": "item",
 					"name": "minecraft:diamond",
-					"weight": 3
+					"weight": 7
 				},
 				{
 					"type": "item",
 					"name": "minecraft:blaze_rod",
-					"weight": 3
+					"weight": 7
 				},
 				{
 					"type": "item",
 					"name": "minecraft:ender_pearl",
-					"weight": 3
+					"weight": 8
 				},
 				{
 					"type": "item",
 					"name": "minecraft:emerald",
-					"weight": 3
+					"weight": 7
 				},
 				{
 					"type": "item",
 					"name": "minecraft:gold_ingot",
-					"weight": 3
+					"weight": 9
 				},
 				{
 					"type": "item",
 					"name": "landcraft:landia_ingot",
-					"weight": 3,
+					"weight": 10,
 					"functions": [
 						{
 							"function": "set_data",
@@ -74,7 +74,7 @@
 				{
 					"type": "item",
 					"name": "minecraft:record_ward",
-					"weight": 1
+					"weight": 4
 				}
 			]
 		}

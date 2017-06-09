@@ -3,6 +3,7 @@ package landmaster.landcraft.tile.render;
 import org.lwjgl.opengl.*;
 
 import landmaster.landcraft.*;
+import landmaster.landcraft.block.*;
 import landmaster.landcraft.tile.*;
 import landmaster.landcraft.util.*;
 import net.minecraft.client.*;
@@ -34,8 +35,8 @@ public class TESRLandiaTower extends TileEntitySpecialRenderer<TELandiaTower> {
 			
 			
 			Vec3d vec = new Vec3d(doubleX, doubleY+player.getEyeHeight(), doubleZ);
-			Vec3d vec0 = new Vec3d(te.getPos()).addVector(0.5, 1, 0.5);
-			Vec3d vec1 = new Vec3d(te.getPos().getX(), te.getWorld().getHeight(), te.getPos().getZ());
+			Vec3d vec0 = new Vec3d(te.getPos()).addVector(0.5, BlockLandiaTower.MAX_POSITION+1, 0.5);
+			Vec3d vec1 = new Vec3d(te.getPos().getX()+0.5, te.getWorld().getHeight(), te.getPos().getZ()+0.5);
 			
 			GlStateManager.translate(-doubleX, -doubleY, -doubleZ);
 			

@@ -14,5 +14,6 @@ public class PacketHandler {
 		INSTANCE.registerMessage(PacketUpdateClientEnergy::onMessage, PacketUpdateClientEnergy.class, 2, Side.CLIENT);
 		INSTANCE.registerMessage(PacketUpdateClientFluid::onMessage, PacketUpdateClientFluid.class, 3, Side.CLIENT);
 		INSTANCE.registerMessage(PacketUpdateTEPot::onMessage, PacketUpdateTEPot.class, 4, Side.CLIENT);
+		INSTANCE.registerMessage(PacketUpdateTELandiaTower::onMessage, PacketUpdateTELandiaTower.class, 5, Side.CLIENT);
 	}
 }

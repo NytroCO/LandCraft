@@ -7,20 +7,22 @@ import java.util.function.*;
 import javax.annotation.*;
 
 import gnu.trove.set.hash.*;
+import landmaster.landcore.api.*;
 import landmaster.landcraft.block.*;
 import landmaster.landcraft.config.*;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.entity.*;
+import landmaster.landcraft.net.*;
 import landmaster.landcraft.util.*;
 import net.minecraft.block.state.*;
-import net.minecraft.init.Blocks;
+import net.minecraft.init.*;
 import net.minecraft.nbt.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraftforge.common.*;
 import net.minecraftforge.event.entity.living.*;
-import net.minecraftforge.fml.common.*;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.*;
 import net.minecraftforge.fml.relauncher.*;
 
@@ -135,6 +137,7 @@ public class TELandiaTower extends TileEntity implements ITickable {
 					set.forEach(bpos -> tile.world.setBlockState(bpos, Blocks.AIR.getDefaultState(), 0x2));
 					EntityBigBrother orwellEnemy = new EntityBigBrother(tile.getWorld()); // SUMMON THE BOSS!!
 					tile.targetEntity = orwellEnemy.getUniqueID();
+					tile.syncTE();
 					orwellEnemy.setLocationAndAngles(tile.pos.getX(), tile.pos.getY()+BlockLandiaTower.MAX_POSITION+1, tile.pos.getZ(),
 							orwellEnemy.getRNG().nextFloat()*360, 0);
 					tile.world.spawnEntity(orwellEnemy);
@@ -142,12 +145,21 @@ public class TELandiaTower extends TileEntity implements ITickable {
 			});
 		}
 	}
-
+	
+	public void setTargetEntity(UUID uuid) {
+		this.targetEntity = uuid;
+	}
+	
+	private void syncTE() {
+		PacketHandler.INSTANCE.sendToAll(new PacketUpdateTELandiaTower(new Coord4D(this), targetEntity));
+	}
+	
 	@Override
 	public void update() {
-		if (targetEntity != null
+		if (!world.isRemote && targetEntity != null
 				&& FMLCommonHandler.instance().getMinecraftServerInstance().getEntityFromUuid(targetEntity) == null) {
 			targetEntity = null;
+			this.syncTE();
 		}
 	}
 }

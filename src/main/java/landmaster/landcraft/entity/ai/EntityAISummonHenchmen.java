@@ -34,17 +34,23 @@ public class EntityAISummonHenchmen extends EntityAIBase {
     }
 	
 	@Override
+	public void resetTask() {
+		this.owner.fetchHenchmen().forEach(Entity::setDead);
+	}
+	
+	@Override
 	public void startExecuting() {
-		countdown = 100 + owner.getRNG().nextInt(70);
+		countdown = 200 + owner.getRNG().nextInt(200);
 	}
 	
 	@Override
 	public void updateTask() {
 		--countdown;
-		if (owner.getRNG().nextFloat() < chance) {
+		final EntityLivingBase target = owner.getAttackTarget();
+		if (owner.getRNG().nextFloat() < chance && target != null) {
 			factory.apply(owner).forEachRemaining(entity -> {
-				entity.setPosition(owner.posX + owner.getRNG().nextFloat() * scatterSize - scatterSize / 2,
-						owner.posY, owner.posZ + owner.getRNG().nextFloat() * scatterSize - scatterSize / 2);
+				entity.setPosition(target.posX + target.getRNG().nextFloat() * scatterSize - scatterSize / 2,
+						target.posY, target.posZ + owner.getRNG().nextFloat() * scatterSize - scatterSize / 2);
 				entity.setAttackTarget(owner.getAttackTarget());
 				owner.addHenchman(entity);
 				owner.getEntityWorld().spawnEntity(entity);
