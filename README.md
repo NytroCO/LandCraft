@@ -1,2 +1,2 @@
 # LandCraft
-Minecraft mod adding various machines and other doohickeys
+Minecraft mod adding the Landia dimension and various stuff
