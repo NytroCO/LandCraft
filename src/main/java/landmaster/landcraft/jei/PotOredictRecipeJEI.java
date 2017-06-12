@@ -3,7 +3,7 @@ package landmaster.landcraft.jei;
 import java.util.*;
 
 import landmaster.landcraft.api.*;
-import landmaster.landcraft.util.*;
+import mcjty.lib.tools.ItemStackTools;
 import mezz.jei.api.ingredients.*;
 import net.minecraft.client.*;
 import net.minecraft.item.*;
@@ -29,9 +29,10 @@ public class PotOredictRecipeJEI extends PotRecipeJEI {
 	public void getIngredients(IIngredients ingredients) {
 		ingredients.setInputLists(ItemStack.class,
 				Arrays.asList(
-						Utils.getOres(prc.i1),
-						Utils.getOres(prc.i2),
-						Utils.getOres(prc.i3)));
+						ItemStackTools.getOres(prc.s1),
+						ItemStackTools.getOres(prc.s2),
+						ItemStackTools.getOres(prc.s3)
+						));
 		ingredients.setInput(FluidStack.class, prc.fs);
 		ingredients.setOutput(ItemStack.class, prc.out.out);
 	}

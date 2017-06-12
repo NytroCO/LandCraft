@@ -1,5 +1,6 @@
 package landmaster.landcraft.container;
 
+import landmaster.landcore.api.*;
 import landmaster.landcraft.container.slots.*;
 import landmaster.landcraft.net.*;
 import landmaster.landcraft.tile.*;
@@ -12,7 +13,7 @@ import net.minecraftforge.fluids.*;
 import net.minecraftforge.items.*;
 
 public class ContTEPot extends ContEnergy {
-	private int progress = 0, time = 0;
+	private int energy = 0, progress = 0, time = 0;
 	private FluidStack fs;
 	private TEPot te;
 	
@@ -27,19 +28,16 @@ public class ContTEPot extends ContEnergy {
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		FluidStack nfs = te.getFluid();
-		if ((fs != null && !fs.isFluidStackIdentical(nfs)) || (fs == null && nfs != null)) {
-			if (this.player instanceof EntityPlayerMP) {
-				fs = nfs;
-				if (fs != null) fs = fs.copy();
-				PacketHandler.INSTANCE.sendTo(new PacketUpdateClientFluid(fs),
-						(EntityPlayerMP)player);
-			}
-		}
-		if (progress != te.getProgress() || time != te.getTime()) {
+		if (progress != te.getProgress() || time != te.getCachedTime()
+				|| (fs != null && !fs.isFluidStackIdentical(nfs)) || (fs == null && nfs != null)
+				|| energy != te.getEnergyStored(null)) {
 			if (this.player instanceof EntityPlayerMP) {
 				progress = te.getProgress();
-				time = te.getTime();
-				PacketHandler.INSTANCE.sendTo(new PacketUpdateTEPot(progress, time),
+				time = te.getCachedTime();
+				fs = nfs;
+				energy = te.getEnergyStored(null);
+				if (fs != null) fs = fs.copy();
+				PacketHandler.INSTANCE.sendTo(new PacketUpdateTE(new Coord4D(te), new PacketUpdateTEPot(energy, progress, time)),
 						(EntityPlayerMP)player);
 			}
 		}

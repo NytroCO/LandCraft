@@ -1,5 +1,6 @@
 package landmaster.landcraft.container;
 
+import landmaster.landcore.api.*;
 import landmaster.landcraft.container.slots.*;
 import landmaster.landcraft.net.*;
 import landmaster.landcraft.tile.*;
@@ -12,7 +13,7 @@ import net.minecraftforge.fluids.*;
 import net.minecraftforge.items.*;
 
 public class ContTEThoriumGenerator extends ContEnergy {
-	private int progress = 0;
+	private int energy = 0, progress = 0;
 	private FluidStack fs;
 	private TEThoriumGenerator te;
 	
@@ -27,18 +28,13 @@ public class ContTEThoriumGenerator extends ContEnergy {
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		FluidStack nfs = te.getFluid();
-		if ((fs != null && !fs.isFluidStackIdentical(nfs)) || (fs == null && nfs != null)) {
-			if (this.player instanceof EntityPlayerMP) {
-				fs = nfs;
-				if (fs != null) fs = fs.copy();
-				PacketHandler.INSTANCE.sendTo(new PacketUpdateClientFluid(fs),
-						(EntityPlayerMP)player);
-			}
-		}
-		if (progress != te.getProgress()) {
+		if (progress != te.getProgress()
+				|| (fs != null && !fs.isFluidStackIdentical(nfs)) || (fs == null && nfs != null)) {
 			if (this.player instanceof EntityPlayerMP) {
 				progress = te.getProgress();
-				PacketHandler.INSTANCE.sendTo(new PacketUpdateTEThoriumGenerator(progress),
+				fs = nfs;
+				if (fs != null) fs = fs.copy();
+				PacketHandler.INSTANCE.sendTo(new PacketUpdateTE(new Coord4D(te), new PacketUpdateTEThoriumGenerator(energy, progress, fs)),
 						(EntityPlayerMP)player);
 			}
 		}

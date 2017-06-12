@@ -34,12 +34,15 @@ public class TELandiaTower extends TileEntity implements ITickable {
 	
 	static {
 		MinecraftForge.EVENT_BUS.register(TELandiaTower.class);
+		
+		PacketHandler.registerTEHandler(TELandiaTower.class,
+				new PacketHandler.Handle<>(PacketUpdateTELandiaTower::new, PacketUpdateTELandiaTower::onMessage));
 	}
 	
 	@Override
 	public void onLoad() {
 		if (world.isRemote) {
-			PacketHandler.INSTANCE.sendToServer(new PacketRequestUpdateTE(new Coord4D(this)));
+			PacketHandler.INSTANCE.sendToServer(new PacketRequestUpdateTELandiaTower(new Coord4D(this)));
 		}
 	}
 	
@@ -158,7 +161,7 @@ public class TELandiaTower extends TileEntity implements ITickable {
 	}
 	
 	private void syncTE() {
-		PacketHandler.INSTANCE.sendToDimension(new PacketUpdateTELandiaTower(new Coord4D(this), targetEntity), this.world.provider.getDimension());
+		PacketHandler.INSTANCE.sendToDimension(new PacketUpdateTE(new Coord4D(this), new PacketUpdateTELandiaTower(targetEntity)), this.world.provider.getDimension());
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package landmaster.landcraft.tile;
 import org.apache.commons.lang3.*;
 
 import landmaster.landcraft.api.*;
+import landmaster.landcraft.net.*;
 import landmaster.landcraft.util.*;
 import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.*;
@@ -28,6 +29,11 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder>, Comp
 	
 	public static enum Slots {
 		FEEDSTOCK, REACTANT, OUTPUT
+	}
+	
+	static {
+		PacketHandler.registerTEHandler(TEBreeder.class,
+				new PacketHandler.Handle<>(PacketUpdateTEBreeder::new, PacketUpdateTEBreeder::onMessage));
 	}
 	
 	public TEBreeder() {

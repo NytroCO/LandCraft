@@ -2,10 +2,17 @@ package landmaster.landcraft.tile;
 
 import javax.annotation.*;
 
+import landmaster.landcraft.net.*;
+
 public class TEPlayerMime extends TEEnergy
 implements RedstoneControl.Provider<TEPlayerMime> {
 	public TEPlayerMime() {
 		super(240000, 1000, 1000);
+	}
+	
+	static {
+		PacketHandler.registerTEHandler(TEPlayerMime.class,
+				new PacketHandler.Handle<>(PacketUpdateTEPlayerMime::new, PacketUpdateTEPlayerMime::onMessage));
 	}
 	
 	public @Nonnull RedstoneControl.State getRedstoneState() {

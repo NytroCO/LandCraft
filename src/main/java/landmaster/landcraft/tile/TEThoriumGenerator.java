@@ -2,6 +2,7 @@ package landmaster.landcraft.tile;
 
 import org.apache.commons.lang3.*;
 
+import landmaster.landcraft.net.*;
 import mcjty.lib.compat.*;
 import mcjty.lib.tools.*;
 import net.minecraft.entity.player.*;
@@ -24,6 +25,11 @@ implements ITickable, RedstoneControl.Provider<TEThoriumGenerator>, CompatInvent
 	public static final int THORIUM_BURN_TIME = 400;
 	public static final int ENERGY_PER_TICK = 1000;
 	public static final int WATER_PER_TICK = 10;
+	
+	static {
+		PacketHandler.registerTEHandler(TEThoriumGenerator.class,
+				new PacketHandler.Handle<>(PacketUpdateTEThoriumGenerator::new, PacketUpdateTEThoriumGenerator::onMessage));
+	}
 	
 	public TEThoriumGenerator() {
 		super(400000, ENERGY_PER_TICK, ENERGY_PER_TICK);
@@ -109,6 +115,9 @@ implements ITickable, RedstoneControl.Provider<TEThoriumGenerator>, CompatInvent
 	
 	public FluidStack getFluid() {
 		return ft.getFluid();
+	}
+	public void setFluid(FluidStack fs) {
+		ft.setFluid(fs);
 	}
 	
 	public int getProgress() { return progress; }

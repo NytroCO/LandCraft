@@ -15,7 +15,6 @@ import gnu.trove.list.array.*;
 import mcjty.lib.tools.*;
 import net.minecraft.item.*;
 import net.minecraftforge.fluids.*;
-import net.minecraftforge.fml.common.*;
 import net.minecraftforge.oredict.*;
 
 public class PotRecipes {
@@ -37,27 +36,26 @@ public class PotRecipes {
 	}
 	
 	public static class RecipePOredict implements RecipeProcess {
-		public final int i1, i2, i3;
+		public final String s1, s2, s3;
 		public final FluidStack fs;
 		public final RecipeOutput out;
 		
+		@Deprecated
 		public RecipePOredict(int i1, int i2, int i3, FluidStack fs, RecipeOutput out) {
-			this.i1 = i1;
-			this.i2 = i2;
-			this.i3 = i3;
+			this(OreDictionary.getOreName(i1), OreDictionary.getOreName(i2), OreDictionary.getOreName(i3), fs, out);
+		}
+		
+		public RecipePOredict(String s1, String s2, String s3, FluidStack fs, RecipeOutput out) {
+			this.s1 = s1;
+			this.s2 = s2;
+			this.s3 = s3;
 			this.fs = fs;
 			if (this.fs != null) this.fs.amount = out.fluidPerTick;
 			this.out = out;
 		}
 		
 		public static RecipePOredict of(String s1, String s2, String s3, FluidStack fs, RecipeOutput out) {
-			if (!OreDictionary.doesOreNameExist(s1)
-					|| !OreDictionary.doesOreNameExist(s2)
-					|| !OreDictionary.doesOreNameExist(s3)) {
-				FMLLog.warning(String.format(Locale.US, "One of the ore names (%s, %s, %s) does not exist, skipping", s1, s2, s3));
-				return new RecipePOredict(-1, -1, -1, null, new RecipeOutput());
-			}
-			return new RecipePOredict(OreDictionary.getOreID(s1), OreDictionary.getOreID(s2), OreDictionary.getOreID(s3), fs, out);
+			return new RecipePOredict(s1, s2, s3, fs, out);
 		}
 		
 		@Override
@@ -67,7 +65,8 @@ public class PotRecipes {
 			}
 			List<int[]> stacks_ods = Lists
 					.transform(Arrays.asList(in1, in2, in3), OreDictionary::getOreIDs);
-			TIntList required = TIntArrayList.wrap(new int[] {i1, i2, i3}); // list never grows
+			TIntList required = TIntArrayList.wrap(new int[] {
+					OreDictionary.getOreID(s1), OreDictionary.getOreID(s2), OreDictionary.getOreID(s3)}); // list never grows
 			
 			for (int[] stack_ods: stacks_ods) {
 				boolean valid = false;

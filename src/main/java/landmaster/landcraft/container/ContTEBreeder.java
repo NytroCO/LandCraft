@@ -1,5 +1,6 @@
 package landmaster.landcraft.container;
 
+import landmaster.landcore.api.*;
 import landmaster.landcraft.container.slots.*;
 import landmaster.landcraft.net.*;
 import landmaster.landcraft.tile.*;
@@ -43,7 +44,7 @@ public class ContTEBreeder extends Container {
 		super.detectAndSendChanges();
 		if (temp != te.getTemp() || fuel != te.getFuel() || product != te.getProduct()) {
 			if (player instanceof EntityPlayerMP) {
-				PacketHandler.INSTANCE.sendTo(new PacketUpdateTEBreeder(te), (EntityPlayerMP)player);
+				PacketHandler.INSTANCE.sendTo(new PacketUpdateTE(new Coord4D(te), new PacketUpdateTEBreeder(te)), (EntityPlayerMP)player);
 			}
 			temp = te.getTemp();
 			fuel = te.getFuel();

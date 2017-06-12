@@ -20,7 +20,9 @@ public class GuiTEPlayerMime extends GuiEnergy {
 		mc.renderEngine.bindTexture(background);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		drawBackBar(guiLeft+130, guiTop+14);
+		int energy = cont.getTE().getEnergyStored(null);
+		
+		drawBackBar(energy, guiLeft+130, guiTop+14);
 	}
 	
 	@Override
@@ -28,6 +30,8 @@ public class GuiTEPlayerMime extends GuiEnergy {
 		fontRenderer.drawString(I18n.format("tile.player_mime.name"), 8, 6, 0x404040);
 		fontRenderer.drawString(cont.getPlayerInv().getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
 		
-		drawFrontBar(130, 14, mouseX, mouseY);
+		int energy = cont.getTE().getEnergyStored(null);
+		
+		drawFrontBar(energy, 130, 14, mouseX, mouseY);
 	}
 }

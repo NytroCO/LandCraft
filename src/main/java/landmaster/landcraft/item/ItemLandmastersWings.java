@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.*;
 import net.minecraft.client.resources.*;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.creativetab.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.player.*;
 import net.minecraft.inventory.*;
@@ -41,6 +41,11 @@ public class ItemLandmastersWings extends ItemEnergyBase {
 		this.setCreativeTab(LandCraftContent.creativeTab);
 		
 		proxy.initEvents();
+	}
+	
+	@Override
+	public EnumRarity getRarity(ItemStack stack) {
+		return EnumRarity.EPIC;
 	}
 	
 	@SideOnly(Side.CLIENT)

@@ -12,13 +12,11 @@ import net.minecraft.client.resources.*;
 import net.minecraft.util.*;
 import net.minecraftforge.fluids.*;
 
-public class GuiTEThoriumGenerator extends GuiEnergy implements IGuiFluid {
+public class GuiTEThoriumGenerator extends GuiEnergy {
 	private static final ResourceLocation background = new ResourceLocation(LandCraft.MODID, "textures/gui/thorium_generator.png");
 	
 	private int fheight = 0;
 	
-	private int progress;
-	private FluidStack fs;
 	private ContTEThoriumGenerator cont;
 	
 	public GuiTEThoriumGenerator(ContTEThoriumGenerator cont) {
@@ -31,6 +29,9 @@ public class GuiTEThoriumGenerator extends GuiEnergy implements IGuiFluid {
 		mc.renderEngine.bindTexture(background);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		fheight = 0;
+		
+		FluidStack fs = ((TEThoriumGenerator)cont.getTE()).getFluid();
+		
 		if (fs != null) {
 			TextureAtlasSprite ftex = mc.getTextureMapBlocks().getTextureExtry(
 					fs.getFluid().getStill().toString());
@@ -40,7 +41,10 @@ public class GuiTEThoriumGenerator extends GuiEnergy implements IGuiFluid {
 		}
 		mc.renderEngine.bindTexture(background);
 		drawTexturedModalRect(guiLeft+60, guiTop+15, 176, 0, 64, 50);
-		this.drawBackBar(guiLeft+130, guiTop+15);
+		
+		int energy = cont.getTE().getEnergyStored(null);
+		
+		this.drawBackBar(energy, guiLeft+130, guiTop+15);
 	}
 	
 	@Override
@@ -48,6 +52,9 @@ public class GuiTEThoriumGenerator extends GuiEnergy implements IGuiFluid {
 		int k = (this.width - this.xSize) / 2; //X asis on GUI
 		int l = (this.height - this.ySize) / 2; //Y asis on GUI
 		int trueX = mouseX-k, trueY = mouseY-l;
+		
+		int progress = ((TEThoriumGenerator)cont.getTE()).getProgress();
+		FluidStack fs = ((TEThoriumGenerator)cont.getTE()).getFluid();
 		
 		fontRenderer.drawString(I18n.format("tile.thorium_generator.name"), 8, 6, 0x404040);
 		fontRenderer.drawString(cont.getPlayerInv().getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
@@ -64,15 +71,8 @@ public class GuiTEThoriumGenerator extends GuiEnergy implements IGuiFluid {
 			drawHoveringText(Arrays.asList(fs.getLocalizedName(), fs.amount+"mB"), trueX, trueY);
 		}
 		
-		this.drawFrontBar(130, 15, mouseX, mouseY);
-	}
-	
-	public void setProgress(int progress) {
-		this.progress = progress;
-	}
-
-	@Override
-	public void setFluidStack(FluidStack fs) {
-		this.fs = fs;
+		int energy = cont.getTE().getEnergyStored(null);
+		
+		this.drawFrontBar(energy, 130, 15, mouseX, mouseY);
 	}
 }

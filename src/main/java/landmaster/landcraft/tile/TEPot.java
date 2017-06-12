@@ -5,6 +5,7 @@ import javax.annotation.*;
 import org.apache.commons.lang3.tuple.*;
 
 import landmaster.landcraft.api.*;
+import landmaster.landcraft.net.*;
 import landmaster.landcraft.util.*;
 import mcjty.lib.compat.*;
 import mcjty.lib.tools.*;
@@ -15,6 +16,7 @@ import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.*;
+import net.minecraftforge.fml.relauncher.*;
 import net.minecraftforge.items.*;
 
 public class TEPot extends TEEnergy
@@ -28,6 +30,11 @@ implements ITickable, RedstoneControl.Provider<TEPot>, CompatInventory {
 	
 	public static enum Slots {
 		IN1, IN2, IN3, OUT
+	}
+	
+	static {
+		PacketHandler.registerTEHandler(TEPot.class,
+				new PacketHandler.Handle<>(PacketUpdateTEPot::new, PacketUpdateTEPot::onMessage));
 	}
 	
 	public TEPot() {
@@ -122,13 +129,30 @@ implements ITickable, RedstoneControl.Provider<TEPot>, CompatInventory {
 	public FluidStack getFluid() {
 		return ft.getFluid();
 	}
+	public void setFluid(FluidStack fs) {
+		ft.setFluid(fs);
+	}
 	
 	public int getProgress() { return progress; }
 	public void setProgress(int progress) { this.progress = progress; }
 	
-	public int getTime() {
+	public int getCachedTime() {
 		return cache.getRight().time;
 	}
+	
+	@SideOnly(Side.CLIENT)
+	private int clientTime;
+	
+	@SideOnly(Side.CLIENT)
+	public int getClientTime() {
+		return clientTime;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void setClientTime(int time) {
+		clientTime = time;
+	}
+	
 
 	@Override
 	public String getName() {

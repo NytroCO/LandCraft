@@ -1,13 +1,10 @@
 package landmaster.landcraft.net;
 
 import io.netty.buffer.*;
-import landmaster.landcraft.gui.*;
 import landmaster.landcraft.tile.*;
-import net.minecraft.client.*;
-import net.minecraft.client.gui.*;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 
-public class PacketUpdateTEBreeder implements IMessage {
+public class PacketUpdateTEBreeder implements ITEUpdatePacket {
 	private int fuel;
 	private double temp;
 	private int product;
@@ -23,16 +20,10 @@ public class PacketUpdateTEBreeder implements IMessage {
 		this.product = product;
 	}
 	
-	public static IMessage onMessage(PacketUpdateTEBreeder message, MessageContext ctx) {
-		Minecraft.getMinecraft().addScheduledTask(() -> {
-			GuiScreen gs = Minecraft.getMinecraft().currentScreen;
-			if (gs instanceof GuiTEBreeder) {
-				GuiTEBreeder gb = (GuiTEBreeder)gs;
-				gb.setFuel(message.fuel);
-				gb.setTemp(message.temp);
-				gb.setProduct(message.product);
-			}
-		});
+	public static IMessage onMessage(TEBreeder te, PacketUpdateTEBreeder message, MessageContext ctx) {
+		te.setFuel(message.fuel);
+		te.setTemp(message.temp);
+		te.setProduct(message.product);
 		return null;
 	}
 
