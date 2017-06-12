@@ -4,15 +4,15 @@ import io.netty.buffer.*;
 import landmaster.landcraft.tile.*;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 
-public class PacketUpdateTEPlayerMime implements ITEUpdatePacket {
+public class UpdateTEPlayerMime implements ITEUpdatePacket {
 	private int energy;
 	
-	public PacketUpdateTEPlayerMime() {};
-	public PacketUpdateTEPlayerMime(int energy) {
+	public UpdateTEPlayerMime() {};
+	public UpdateTEPlayerMime(int energy) {
 		this.energy = energy;
 	}
 	
-	public static IMessage onMessage(TEPlayerMime te, PacketUpdateTEPlayerMime message, MessageContext ctx) {
+	public static IMessage onMessage(TEPlayerMime te, UpdateTEPlayerMime message, MessageContext ctx) {
 		te.setEnergyStored(null, message.energy);
 		return null;
 	}

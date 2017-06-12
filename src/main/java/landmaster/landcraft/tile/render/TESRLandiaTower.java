@@ -47,7 +47,7 @@ public class TESRLandiaTower extends TileEntitySpecialRenderer<TELandiaTower> {
             
             buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
 			
-			ClientUtils.drawBeam(vec0, vec1, vec, 0.3f);
+			ClientUtils.drawBeam(buffer, vec0, vec1, vec, 0.3f);
 			
 			tessellator.draw();
 			

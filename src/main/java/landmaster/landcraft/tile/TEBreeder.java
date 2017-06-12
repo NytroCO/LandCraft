@@ -33,7 +33,7 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder>, Comp
 	
 	static {
 		PacketHandler.registerTEHandler(TEBreeder.class,
-				new PacketHandler.Handle<>(PacketUpdateTEBreeder::new, PacketUpdateTEBreeder::onMessage));
+				new Handle<>(UpdateTEBreeder::new, UpdateTEBreeder::onMessage));
 	}
 	
 	public TEBreeder() {

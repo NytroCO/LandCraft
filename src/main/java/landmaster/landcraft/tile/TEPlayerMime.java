@@ -12,7 +12,7 @@ implements RedstoneControl.Provider<TEPlayerMime> {
 	
 	static {
 		PacketHandler.registerTEHandler(TEPlayerMime.class,
-				new PacketHandler.Handle<>(PacketUpdateTEPlayerMime::new, PacketUpdateTEPlayerMime::onMessage));
+				new Handle<>(UpdateTEPlayerMime::new, UpdateTEPlayerMime::onMessage));
 	}
 	
 	public @Nonnull RedstoneControl.State getRedstoneState() {

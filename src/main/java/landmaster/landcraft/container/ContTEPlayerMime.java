@@ -32,8 +32,8 @@ public class ContTEPlayerMime extends ContEnergy {
 		super.detectAndSendChanges();
 		if (energy != te.getEnergyStored(null)) {
 			if (player instanceof EntityPlayerMP) {
-				PacketHandler.INSTANCE.sendTo(new PacketUpdateTE(new Coord4D(te), new PacketUpdateTEPlayerMime(energy)), (EntityPlayerMP)player);
 				energy = te.getEnergyStored(null);
+				PacketHandler.INSTANCE.sendTo(new PacketUpdateTE(new Coord4D(te), new UpdateTEPlayerMime(energy)), (EntityPlayerMP)player);
 			}
 		}
 	}

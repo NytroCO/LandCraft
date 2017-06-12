@@ -1,5 +1,6 @@
 package landmaster.landcraft.world;
 
+import landmaster.landcraft.world.biome.LandcraftBiomes;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.layer.*;
 

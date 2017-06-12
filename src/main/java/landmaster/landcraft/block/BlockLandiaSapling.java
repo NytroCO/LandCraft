@@ -6,9 +6,9 @@ import javax.annotation.*;
 
 import landmaster.landcore.api.block.*;
 import landmaster.landcraft.*;
-import landmaster.landcraft.content.LandCraftContent;
+import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
-import landmaster.landcraft.world.*;
+import landmaster.landcraft.world.gen.*;
 import net.minecraft.block.*;
 import net.minecraft.block.state.*;
 import net.minecraft.creativetab.*;
@@ -105,7 +105,7 @@ public class BlockLandiaSapling extends BlockSapling implements IMetaBlockName {
 		if (!TerrainGen.saplingGrowTree(worldIn, rand, pos)) {
 			return;
 		}
-		BaseTreeGenerator gen = new BaseTreeGenerator();
+		ITreeGenerator gen = new TreeGenerator();
 		IBlockState log;
 		IBlockState leaves;
 		

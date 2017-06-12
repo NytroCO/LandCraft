@@ -6,15 +6,15 @@ import io.netty.buffer.*;
 import landmaster.landcraft.tile.*;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 
-public class PacketUpdateTELandiaTower implements ITEUpdatePacket {
+public class UpdateTELandiaTower implements ITEUpdatePacket {
 	private UUID uuid;
 	
-	public PacketUpdateTELandiaTower() {}
-	public PacketUpdateTELandiaTower(UUID uuid) {
+	public UpdateTELandiaTower() {}
+	public UpdateTELandiaTower(UUID uuid) {
 		this.uuid = uuid;
 	}
 	
-	public static IMessage onMessage(TELandiaTower te, PacketUpdateTELandiaTower message, MessageContext ctx) {
+	public static IMessage onMessage(TELandiaTower te, UpdateTELandiaTower message, MessageContext ctx) {
 		te.setTargetEntity(message.uuid);
 		return null;
 	}

@@ -28,7 +28,7 @@ implements ITickable, RedstoneControl.Provider<TEThoriumGenerator>, CompatInvent
 	
 	static {
 		PacketHandler.registerTEHandler(TEThoriumGenerator.class,
-				new PacketHandler.Handle<>(PacketUpdateTEThoriumGenerator::new, PacketUpdateTEThoriumGenerator::onMessage));
+				new Handle<>(UpdateTEThoriumGenerator::new, UpdateTEThoriumGenerator::onMessage));
 	}
 	
 	public TEThoriumGenerator() {

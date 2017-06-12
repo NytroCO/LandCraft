@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.*;
 
 public class PacketUpdateTE implements IMessage {
 	private ByteBuf storedBuf = null;
-	private ITEUpdatePacket _payload;
+	private ITEUpdatePacket _payload = null;
 	
 	private Coord4D coord;
 	

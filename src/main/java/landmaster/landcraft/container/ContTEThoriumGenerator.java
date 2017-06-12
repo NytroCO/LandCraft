@@ -29,12 +29,14 @@ public class ContTEThoriumGenerator extends ContEnergy {
 		super.detectAndSendChanges();
 		FluidStack nfs = te.getFluid();
 		if (progress != te.getProgress()
-				|| (fs != null && !fs.isFluidStackIdentical(nfs)) || (fs == null && nfs != null)) {
+				|| (fs != null && !fs.isFluidStackIdentical(nfs)) || (fs == null && nfs != null)
+				|| (energy != te.getEnergyStored(null))) {
 			if (this.player instanceof EntityPlayerMP) {
+				energy = te.getEnergyStored(null);
 				progress = te.getProgress();
 				fs = nfs;
 				if (fs != null) fs = fs.copy();
-				PacketHandler.INSTANCE.sendTo(new PacketUpdateTE(new Coord4D(te), new PacketUpdateTEThoriumGenerator(energy, progress, fs)),
+				PacketHandler.INSTANCE.sendTo(new PacketUpdateTE(new Coord4D(te), new UpdateTEThoriumGenerator(energy, progress, fs)),
 						(EntityPlayerMP)player);
 			}
 		}

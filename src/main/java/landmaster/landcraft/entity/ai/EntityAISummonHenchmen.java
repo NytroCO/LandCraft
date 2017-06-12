@@ -4,8 +4,10 @@ import java.util.*;
 import java.util.function.*;
 
 import landmaster.landcraft.entity.*;
+import mcjty.lib.tools.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
+import net.minecraft.util.text.*;
 
 public class EntityAISummonHenchmen extends EntityAIBase {
 	protected final EntityBigBrother owner;
@@ -41,6 +43,11 @@ public class EntityAISummonHenchmen extends EntityAIBase {
 	@Override
 	public void startExecuting() {
 		countdown = 200 + owner.getRNG().nextInt(200);
+		if (!owner.getEntityWorld().isRemote) {
+			owner.getEntityWorld().playerEntities.stream()
+			.filter(player -> owner.getDistanceSqToEntity(player) < EntityBigBrother.ATK_RANGE*EntityBigBrother.ATK_RANGE)
+			.forEach(player -> ChatTools.addChatMessage(player, new TextComponentTranslation("msg.big_brother.henchmen.summon")));
+		}
 	}
 	
 	@Override

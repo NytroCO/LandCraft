@@ -17,7 +17,7 @@ public class PacketRequestUpdateTELandiaTower implements IMessage {
 	public static IMessage onMessage(PacketRequestUpdateTELandiaTower message, MessageContext ctx) {
 		TileEntity te = message.pos.TE();
 		if (te instanceof TELandiaTower) {
-			return new PacketUpdateTE(message.pos, new PacketUpdateTELandiaTower(((TELandiaTower)te).getTargetEntity()));
+			return new PacketUpdateTE(message.pos, new UpdateTELandiaTower(((TELandiaTower)te).getTargetEntity()));
 		}
 		return null;
 	}

@@ -12,11 +12,12 @@ import landmaster.landcraft.config.*;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.gui.proxy.*;
 import landmaster.landcraft.item.*;
-import landmaster.landcraft.net.*;
 import landmaster.landcraft.proxy.*;
 import landmaster.landcraft.tile.*;
 import landmaster.landcraft.util.*;
 import landmaster.landcraft.world.*;
+import landmaster.landcraft.world.biome.*;
+import landmaster.landcraft.world.gen.*;
 import mcjty.lib.compat.*;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -97,6 +98,16 @@ public class LandCraft {
 		LandcraftBiomes.init();
 		
 		LandiaWorldProvider.register();
+		
+		initWorldgen();
+	}
+	
+	private static void initWorldgen() {
+		GameRegistry.registerWorldGenerator(new LandiaOreWorldgen(), 10);
+		GameRegistry.registerWorldGenerator(new CinnamonWorldgen(), 50);
+		
+		GameRegistry.registerWorldGenerator(new OnionWorldgen(), 28);
+		GameRegistry.registerWorldGenerator(new RiceWorldgen(), 33);
 	}
 	
 	private static void initAgriculture() {
@@ -275,8 +286,6 @@ public class LandCraft {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		proxy.initColorHandlers();
-		
-		PacketHandler.init();
 		
 		BreederFeedstock.addOreDict("ingotIron", 16, 200);
 		BreederFeedstock.addOreDict("ingotTungsten", 64, 1000);

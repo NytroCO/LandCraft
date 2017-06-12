@@ -44,7 +44,7 @@ public class ContTEBreeder extends Container {
 		super.detectAndSendChanges();
 		if (temp != te.getTemp() || fuel != te.getFuel() || product != te.getProduct()) {
 			if (player instanceof EntityPlayerMP) {
-				PacketHandler.INSTANCE.sendTo(new PacketUpdateTE(new Coord4D(te), new PacketUpdateTEBreeder(te)), (EntityPlayerMP)player);
+				PacketHandler.INSTANCE.sendTo(new PacketUpdateTE(new Coord4D(te), new UpdateTEBreeder(te)), (EntityPlayerMP)player);
 			}
 			temp = te.getTemp();
 			fuel = te.getFuel();

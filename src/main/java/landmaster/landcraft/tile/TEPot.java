@@ -34,7 +34,7 @@ implements ITickable, RedstoneControl.Provider<TEPot>, CompatInventory {
 	
 	static {
 		PacketHandler.registerTEHandler(TEPot.class,
-				new PacketHandler.Handle<>(PacketUpdateTEPot::new, PacketUpdateTEPot::onMessage));
+				new Handle<>(UpdateTEPot::new, UpdateTEPot::onMessage));
 	}
 	
 	public TEPot() {

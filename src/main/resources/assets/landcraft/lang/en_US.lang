@@ -22,6 +22,8 @@ msg.landia_tower.check.6=with the §cLandmaster§r in the nether layer, and the 
 msg.landia_tower.nearcomplete.0=The tower is almost activated.
 msg.landia_tower.nearcomplete.1=Now, sacrifice the one who has the power of the Azanor.
 
+msg.big_brother.henchmen.summon=Big Brother is watching you!
+
 # NATURE
 
 tile.landia_sapling.cinnamon.name=Cinnamon Sapling

@@ -1,4 +1,4 @@
-package landmaster.landcraft.world;
+package landmaster.landcraft.world.gen;
 
 import java.util.*;
 
@@ -12,7 +12,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 
-public class LandiaTreeGenerator extends BaseTreeGenerator {
+public class LandiaTreeGenerator extends TreeGenerator {
 	public final int minTreeHeight;
 	
 	public final int treeHeightRange;

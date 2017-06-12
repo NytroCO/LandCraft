@@ -4,23 +4,23 @@ import io.netty.buffer.*;
 import landmaster.landcraft.tile.*;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 
-public class PacketUpdateTEBreeder implements ITEUpdatePacket {
+public class UpdateTEBreeder implements ITEUpdatePacket {
 	private int fuel;
 	private double temp;
 	private int product;
 	
-	public PacketUpdateTEBreeder() {
+	public UpdateTEBreeder() {
 	}
-	public PacketUpdateTEBreeder(TEBreeder te) {
+	public UpdateTEBreeder(TEBreeder te) {
 		this(te.getFuel(), te.getTemp(), te.getProduct());
 	}
-	public PacketUpdateTEBreeder(int fuel, double temp, int product) {
+	public UpdateTEBreeder(int fuel, double temp, int product) {
 		this.fuel = fuel;
 		this.temp = temp;
 		this.product = product;
 	}
 	
-	public static IMessage onMessage(TEBreeder te, PacketUpdateTEBreeder message, MessageContext ctx) {
+	public static IMessage onMessage(TEBreeder te, UpdateTEBreeder message, MessageContext ctx) {
 		te.setFuel(message.fuel);
 		te.setTemp(message.temp);
 		te.setProduct(message.product);

@@ -180,7 +180,7 @@ public class ItemLandmastersWings extends ItemEnergyBase {
 							5 * MathHelper.sin((float) Math.PI * i / 6)))
 									.rotatePitch((float) ((pitch + player.ticksExisted + partialTicks + (player.getUniqueID().hashCode() % 360)) * Math.PI / 180))
 									.rotateYaw((float) (yaw * Math.PI / 180));
-					ClientUtils.drawBeam(vec0, vec0.add(spoke), vec, 0.1f);
+					ClientUtils.drawBeam(buffer, vec0, vec0.add(spoke), vec, 0.1f);
 				}
 				
 				tessellator.draw();
