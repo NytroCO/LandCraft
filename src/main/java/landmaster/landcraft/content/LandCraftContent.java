@@ -48,6 +48,7 @@ public class LandCraftContent {
 	public static final BlockRiceCrop rice_crop = new BlockRiceCrop();
 	public static final ItemRice rice = new ItemRice();
 	public static final ItemPho pho = new ItemPho();
+	public static final ItemOlive olive = new ItemOlive();
 	
 	// TECH ITEMS
 	public static final ItemWrench wrench = new ItemWrench();
@@ -56,6 +57,7 @@ public class LandCraftContent {
 	.setRegistryName("redstone_component")
 	.setCreativeTab(creativeTab);
 	public static final ItemLandmastersWings landmasters_wings = new ItemLandmastersWings();
+	public static final ItemWeatherWand weather_wand = new ItemWeatherWand();
 	
 	// METALS
 	public static final BlockLandiaOre landia_ore = new BlockLandiaOre();

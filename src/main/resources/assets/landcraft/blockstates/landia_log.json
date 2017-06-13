@@ -11,6 +11,13 @@
 					"side": "landcraft:blocks/landia_log_cinnamon",
 					"all": "#side"
 				}
+			},
+			"olive": {
+				"textures": {
+					"end": "landcraft:blocks/landia_log_olive_top",
+					"side": "landcraft:blocks/landia_log_olive",
+					"all": "#side"
+				}
 			}
 		},
 		"axis": {

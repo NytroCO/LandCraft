@@ -1,20 +1,26 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-    	"transform": "forge:default-block",
-    	"model": "leaves",
-        "textures": {
-            "all": "landcraft:blocks/landia_leaves_cinnamon"
-        }
-    },
-    "variants": {
-    	"l_type": {
-    		"cinnamon": {
-    			"model": "leaves",
-    			"textures": {
-    				"all": "landcraft:blocks/landia_leaves_cinnamon"
-    			}
-    		}
-    	}
-    }
+	"forge_marker": 1,
+	"defaults": {
+		"transform": "forge:default-block",
+		"model": "leaves",
+		"textures": {
+			"all": "landcraft:blocks/landia_leaves_cinnamon"
+		}
+	},
+	"variants": {
+		"l_type": {
+			"cinnamon": {
+				"model": "leaves",
+				"textures": {
+					"all": "landcraft:blocks/landia_leaves_cinnamon"
+				}
+			},
+			"olive": {
+				"model": "leaves",
+				"textures": {
+					"all": "landcraft:blocks/landia_leaves_olive"
+				}
+			}
+		}
+	}
 }

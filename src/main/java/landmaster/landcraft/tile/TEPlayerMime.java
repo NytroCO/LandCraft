@@ -3,6 +3,7 @@ package landmaster.landcraft.tile;
 import javax.annotation.*;
 
 import landmaster.landcraft.net.*;
+import landmaster.landcraft.net.teupdate.UpdateTEPlayerMime;
 
 public class TEPlayerMime extends TEEnergy
 implements RedstoneControl.Provider<TEPlayerMime> {

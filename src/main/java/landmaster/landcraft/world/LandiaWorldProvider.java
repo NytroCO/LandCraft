@@ -1,6 +1,7 @@
 package landmaster.landcraft.world;
 
 import landmaster.landcraft.config.*;
+import landmaster.landcraft.world.save.LandiaWeather;
 import mcjty.lib.compat.*;
 import net.minecraft.world.*;
 import net.minecraft.world.chunk.*;
@@ -11,7 +12,8 @@ public class LandiaWorldProvider extends CompatWorldProvider {
 	public static DimensionType DIMENSION_TYPE;
 	
 	public static void register() {
-		DIMENSION_TYPE = DimensionType.register("landia", "landia", Config.landiaDimensionID, LandiaWorldProvider.class, false);
+		DIMENSION_TYPE = DimensionType.register("landia", "landia", Config.landiaDimensionID, LandiaWorldProvider.class,
+				false);
 		
 		DimensionManager.registerDimension(Config.landiaDimensionID, DIMENSION_TYPE);
 	}
@@ -22,7 +24,7 @@ public class LandiaWorldProvider extends CompatWorldProvider {
 	}
 	
 	@Override
-    public String getSaveFolder() {
+	public String getSaveFolder() {
 		return "LANDIA";
 	}
 	
@@ -35,29 +37,48 @@ public class LandiaWorldProvider extends CompatWorldProvider {
 	}
 	
 	@Override
-    public void calculateInitialWeather() {
-        getWorld().thunderingStrength = 1.0F;
-        getWorld().rainingStrength = 1.0F;
-        getWorld().getWorldInfo().setThundering(true);
-        getWorld().getWorldInfo().setRaining(true);
-    }
-
-    @Override
-    public void updateWeather() {
-        WorldInfo worldInfo = getWorld().getWorldInfo();
-        if (!getWorld().isRemote) {
-            getWorld().thunderingStrength = 1.0f;
-            getWorld().rainingStrength = 1.0F;
-            worldInfo.setThundering(true);
-            worldInfo.setRaining(true);
-        }
-        worldInfo.setCleanWeatherTime(0);
-        worldInfo.setThunderTime(worldInfo.getThunderTime() - 100);
-        getWorld().updateWeatherBody();
-    }
+	public void calculateInitialWeather() {
+		if (LandiaWeather.get(world).isClear()) {
+			getWorld().thunderingStrength = 0.0F;
+			getWorld().rainingStrength = 0.0F;
+			getWorld().getWorldInfo().setThundering(false);
+			getWorld().getWorldInfo().setRaining(false);
+		} else {
+			getWorld().thunderingStrength = 1.0F;
+			getWorld().rainingStrength = 1.0F;
+			getWorld().getWorldInfo().setThundering(true);
+			getWorld().getWorldInfo().setRaining(true);
+		}
+	}
 	
 	@Override
-    public IChunkGenerator createChunkGenerator() {
+	public void updateWeather() {
+		if (LandiaWeather.get(world).isClear()) {
+			WorldInfo worldInfo = getWorld().getWorldInfo();
+			if (!getWorld().isRemote) {
+				getWorld().thunderingStrength = 0.0f;
+				getWorld().rainingStrength = 0.0F;
+				worldInfo.setThundering(false);
+				worldInfo.setRaining(false);
+			}
+			worldInfo.setCleanWeatherTime(Integer.MAX_VALUE);
+			getWorld().updateWeatherBody();
+		} else {
+			WorldInfo worldInfo = getWorld().getWorldInfo();
+			if (!getWorld().isRemote) {
+				getWorld().thunderingStrength = 1.0f;
+				getWorld().rainingStrength = 1.0F;
+				worldInfo.setThundering(true);
+				worldInfo.setRaining(true);
+			}
+			worldInfo.setCleanWeatherTime(0);
+			worldInfo.setThunderTime(worldInfo.getThunderTime() - 100);
+			getWorld().updateWeatherBody();
+		}
+	}
+	
+	@Override
+	public IChunkGenerator createChunkGenerator() {
 		return new LandiaChunkGenerator(getWorld());
 	}
 }

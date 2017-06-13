@@ -14,6 +14,11 @@
 				"textures": {
 					"all": "landcraft:blocks/landia_planks_cinnamon"
 				}
+			},
+			"olive": {
+				"textures": {
+					"all": "landcraft:blocks/landia_planks_olive"
+				}
 			}
 		}
 	}

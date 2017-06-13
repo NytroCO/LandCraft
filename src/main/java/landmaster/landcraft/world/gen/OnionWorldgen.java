@@ -18,7 +18,7 @@ public class OnionWorldgen extends LandiaPlantWorldgen {
 
 	@Override
 	protected long randomUniquifier() {
-		return 14237;
+		return 14237L;
 	}
 	
 }

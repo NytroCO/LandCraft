@@ -73,10 +73,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 	@Override
 	@SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
-		BlockPos posL = new BlockPos(pos.getX(), 0, pos.getZ());
-		AxisAlignedBB aabb = new AxisAlignedBB(posL, pos.add(1, 1, 1));
-		//System.out.println(aabb);
-		return aabb;
+		return new AxisAlignedBB(new BlockPos(pos.getX(), 0, pos.getZ()), pos.add(1, 1, 1));
 	}
 	
 	@Override
@@ -152,9 +149,11 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 	//=============================================================================
 	
 	static ClRes searchPortal(World world, BlockPos pos) {
+		world.getBlockState(pos); // load area
+		
 		List<TELandiaPortalMarker> markers = Utils.getTileEntitiesWithinAABB(world,
 				TELandiaPortalMarker.class,
-				new AxisAlignedBB(pos.add(-128, -128, -128), pos.add(128, 128, 128)));
+				new AxisAlignedBB(pos.add(-128, -256, -128), pos.add(128, 256, 128)));
 		return markers.stream()
 				.map(marker -> Pair.of(marker, checkValidClearance(world, marker.getSolidBottom(), false)))
 				.filter(pair -> pair.getRight() != null)

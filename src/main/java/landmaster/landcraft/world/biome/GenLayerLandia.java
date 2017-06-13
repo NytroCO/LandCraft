@@ -1,4 +1,4 @@
-package landmaster.landcraft.world;
+package landmaster.landcraft.world.biome;
 
 import net.minecraft.world.*;
 import net.minecraft.world.gen.layer.*;

@@ -42,7 +42,7 @@ public class EntityAISummonHenchmen extends EntityAIBase {
 	
 	@Override
 	public void startExecuting() {
-		countdown = 200 + owner.getRNG().nextInt(200);
+		countdown = 240 + owner.getRNG().nextInt(260);
 		if (!owner.getEntityWorld().isRemote) {
 			owner.getEntityWorld().playerEntities.stream()
 			.filter(player -> owner.getDistanceSqToEntity(player) < EntityBigBrother.ATK_RANGE*EntityBigBrother.ATK_RANGE)
@@ -56,9 +56,9 @@ public class EntityAISummonHenchmen extends EntityAIBase {
 		final EntityLivingBase target = owner.getAttackTarget();
 		if (owner.getRNG().nextFloat() < chance && target != null) {
 			factory.apply(owner).forEachRemaining(entity -> {
-				entity.setPosition(target.posX + target.getRNG().nextFloat() * scatterSize - scatterSize / 2,
+				entity.setPosition(target.posX + owner.getRNG().nextFloat() * scatterSize - scatterSize / 2,
 						target.posY, target.posZ + owner.getRNG().nextFloat() * scatterSize - scatterSize / 2);
-				entity.setAttackTarget(owner.getAttackTarget());
+				entity.setAttackTarget(target);
 				owner.addHenchman(entity);
 				owner.getEntityWorld().spawnEntity(entity);
 			});

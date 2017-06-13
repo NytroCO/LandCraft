@@ -31,7 +31,11 @@ public class BreederFeedstock {
 	}
 	
 	public static void addOreDict(String ore, int mass, int temp) {
-		if (OreDictionary.doesOreNameExist(ore)) {
+		addOreDict(ore, mass, temp, false);
+	}
+	
+	public static void addOreDict(String ore, int mass, int temp, boolean force) {
+		if (force || OreDictionary.doesOreNameExist(ore)) {
 			addOreDict(OreDictionary.getOreID(ore), mass, temp);
 		} else {
 			FMLLog.warning("OreDictionary entry "+ore+" does not exist; skipping for BreederFeedstock");

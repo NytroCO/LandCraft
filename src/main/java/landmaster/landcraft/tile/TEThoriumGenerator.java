@@ -3,6 +3,7 @@ package landmaster.landcraft.tile;
 import org.apache.commons.lang3.*;
 
 import landmaster.landcraft.net.*;
+import landmaster.landcraft.net.teupdate.UpdateTEThoriumGenerator;
 import mcjty.lib.compat.*;
 import mcjty.lib.tools.*;
 import net.minecraft.entity.player.*;

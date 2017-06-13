@@ -6,6 +6,7 @@ import org.apache.commons.lang3.tuple.*;
 
 import landmaster.landcraft.api.*;
 import landmaster.landcraft.net.*;
+import landmaster.landcraft.net.teupdate.UpdateTEPot;
 import landmaster.landcraft.util.*;
 import mcjty.lib.compat.*;
 import mcjty.lib.tools.*;

@@ -6,7 +6,7 @@ import net.minecraft.block.properties.*;
 import net.minecraft.util.*;
 
 public enum LandiaTreeType implements IStringSerializable {
-    CINNAMON;
+    CINNAMON, OLIVE;
 	
 	public static final PropertyEnum<LandiaTreeType> L_TYPE = PropertyEnum.create("l_type", LandiaTreeType.class);
 	

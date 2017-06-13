@@ -10,6 +10,11 @@
     			"textures": {
     				"cross": "landcraft:blocks/landia_sapling_cinnamon"
     			}
+    		},
+    		"olive": {
+    			"textures": {
+    				"cross": "landcraft:blocks/landia_sapling_olive"
+    			}
     		}
     	}
     }

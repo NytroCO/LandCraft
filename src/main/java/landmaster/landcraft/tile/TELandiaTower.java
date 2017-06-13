@@ -13,6 +13,7 @@ import landmaster.landcraft.config.*;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.entity.*;
 import landmaster.landcraft.net.*;
+import landmaster.landcraft.net.teupdate.*;
 import landmaster.landcraft.util.*;
 import net.minecraft.block.state.*;
 import net.minecraft.init.*;
@@ -26,7 +27,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.*;
 import net.minecraftforge.fml.relauncher.*;
 
-public class TELandiaTower extends TileEntity implements ITickable {
+public class TELandiaTower extends TileEntity {
 	public static final int SUB_DIST = 4;
 	public static final int SUB_HEIGHT = 2;
 	
@@ -49,7 +50,7 @@ public class TELandiaTower extends TileEntity implements ITickable {
 	@Override
 	@SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
-		return new AxisAlignedBB(pos, new BlockPos(pos.getX()+1, world.getHeight(), pos.getZ()+1));
+		return INFINITE_EXTENT_AABB;
 	}
 	
 	@Override
@@ -67,6 +68,11 @@ public class TELandiaTower extends TileEntity implements ITickable {
 			compound.setUniqueId("TargetEntity", targetEntity);
 		}
 		return compound;
+	}
+	
+	public boolean isActive() {
+		return targetEntity != null && FMLCommonHandler.instance().getMinecraftServerInstance()
+				.getEntityFromUuid(targetEntity) != null;
 	}
 	
 	public UUID getTargetEntity() {
@@ -162,21 +168,5 @@ public class TELandiaTower extends TileEntity implements ITickable {
 	
 	private void syncTE() {
 		PacketHandler.INSTANCE.sendToDimension(new PacketUpdateTE(new Coord4D(this), new UpdateTELandiaTower(targetEntity)), this.world.provider.getDimension());
-	}
-	
-	private boolean _delay = true;
-	
-	@Override
-	public void update() {
-		if (!world.isRemote && targetEntity != null
-				&& FMLCommonHandler.instance().getMinecraftServerInstance().getEntityFromUuid(targetEntity) == null) {
-			if (_delay) {
-				_delay = false;
-			} else {
-				targetEntity = null;
-				this.syncTE();
-				_delay = true;
-			}
-		}
 	}
 }

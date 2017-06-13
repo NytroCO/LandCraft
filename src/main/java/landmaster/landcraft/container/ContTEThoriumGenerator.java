@@ -3,6 +3,7 @@ package landmaster.landcraft.container;
 import landmaster.landcore.api.*;
 import landmaster.landcraft.container.slots.*;
 import landmaster.landcraft.net.*;
+import landmaster.landcraft.net.teupdate.UpdateTEThoriumGenerator;
 import landmaster.landcraft.tile.*;
 import mcjty.lib.compat.*;
 import mcjty.lib.tools.*;

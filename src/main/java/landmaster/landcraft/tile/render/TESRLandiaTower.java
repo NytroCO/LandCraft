@@ -20,7 +20,7 @@ public class TESRLandiaTower extends TileEntitySpecialRenderer<TELandiaTower> {
 	
 	@Override
 	public void renderTileEntityAt(TELandiaTower te, double x, double y, double z, float partialTicks, int destroyStage) {
-		if (te.getTargetEntity() != null) {
+		if (te.isActive()) {
 			GlStateManager.depthMask(false);
             GlStateManager.enableBlend();
 			GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);

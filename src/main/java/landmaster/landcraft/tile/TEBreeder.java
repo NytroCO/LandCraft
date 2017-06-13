@@ -4,6 +4,7 @@ import org.apache.commons.lang3.*;
 
 import landmaster.landcraft.api.*;
 import landmaster.landcraft.net.*;
+import landmaster.landcraft.net.teupdate.UpdateTEBreeder;
 import landmaster.landcraft.util.*;
 import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.*;
@@ -109,7 +110,6 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder>, Comp
 		
 		if (temperature > maxTemp()) {
 			getWorld().newExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 3, true, true);
-			getWorld().destroyBlock(pos, true);
 		}
 	}
 	

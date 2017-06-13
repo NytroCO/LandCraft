@@ -42,6 +42,10 @@ public class EntityBigBrother extends EntityMob {
 		MinecraftForge.EVENT_BUS.register(EntityBigBrother.class);
 	}
 	
+	/**
+	 * Prevent henchmen from targeting Big Brother.
+	 * @param event
+	 */
 	@SubscribeEvent
 	public static void attackTarget(LivingSetAttackTargetEvent event) {
 		if (event.getTarget() instanceof EntityBigBrother
@@ -55,13 +59,16 @@ public class EntityBigBrother extends EntityMob {
 	
 	public EntityBigBrother(World worldIn) {
 		super(worldIn);
-		this.setSize(0.6F*4, 1.95F*4);
+		this.setSize(0.6F*4, 1.95F*4.28f);
 		this.setPathPriority(PathNodeType.LAVA, 8.0F);
 		this.setPathPriority(PathNodeType.DANGER_FIRE, 0.0F);
 		this.setPathPriority(PathNodeType.DAMAGE_FIRE, 0.0F);
 		this.isImmuneToFire = true;
 		this.experienceValue = 200;
 	}
+	
+	@Override
+	protected void despawnEntity() {} // entity is omnipresent (no, I'm kidding)
 	
 	public Set<Entity> fetchHenchmen() {
 		purgeHenchmen();
@@ -71,7 +78,7 @@ public class EntityBigBrother extends EntityMob {
 				.collect(Collectors.toCollection(THashSet::new));
 	}
 	
-	private void purgeHenchmen() {
+	protected void purgeHenchmen() {
 		final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 		henchmen.removeIf(uuid -> server.getEntityFromUuid(uuid) == null);
 	}
@@ -129,9 +136,23 @@ public class EntityBigBrother extends EntityMob {
 		return LOOT;
 	}
 	
+	/**
+	 * Make the items dropped from this mob invulnerable.
+	 * @param event
+	 */
+	@SubscribeEvent
+	public static void onLivingDrops(LivingDropsEvent event) {
+		if (event.getEntity() instanceof EntityBigBrother) {
+			event.getDrops().forEach(item -> item.setEntityInvulnerable(true));
+		}
+	}
+	
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
+		if (this.rand.nextFloat() < 0.03f) {
+			this.heal(1);
+		}
 	}
 	
 	@Override

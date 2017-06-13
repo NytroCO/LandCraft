@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.google.common.collect.*;
 
+import landmaster.landcraft.world.biome.GenLayerLandia;
 import landmaster.landcraft.world.biome.LandcraftBiomes;
 import net.minecraft.crash.*;
 import net.minecraft.util.*;

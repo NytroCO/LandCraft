@@ -72,7 +72,16 @@ public class BlockLandiaLeaves extends BlockLeaves implements IMetaBlockName {
 	
 	@Override
 	protected int getSaplingDropChance(IBlockState state) {
-		return 25;
+		final LandiaTreeType type = state.getValue(LandiaTreeType.L_TYPE);
+		switch (type) {
+		case CINNAMON:
+			return 18;
+		case OLIVE:
+			return 15;
+		default:
+			throw new RuntimeException(
+					"Invalid block state with "+LandiaTreeType.L_TYPE.getName()+"="+type+". This should not happen!");
+		}
 	}
 	
 	// sapling item
@@ -81,8 +90,15 @@ public class BlockLandiaLeaves extends BlockLeaves implements IMetaBlockName {
 		return Item.getItemFromBlock(LandCraftContent.landia_sapling);
 	}
 	
+	// olives, etc.
 	@Override
 	protected void dropApple(World worldIn, BlockPos pos, IBlockState state, int chance) {
+		if (worldIn.rand.nextInt(chance) == 0) {
+			final LandiaTreeType type = state.getValue(LandiaTreeType.L_TYPE);
+			if (type == LandiaTreeType.OLIVE) { // add the olive
+				spawnAsEntity(worldIn, pos, new ItemStack(LandCraftContent.olive));
+			}
+		}
 	}
 	
 	// sapling meta

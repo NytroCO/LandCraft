@@ -1,6 +1,7 @@
-package landmaster.landcraft.net;
+package landmaster.landcraft.net.teupdate;
 
 import io.netty.buffer.*;
+import landmaster.landcraft.net.ITEUpdatePacket;
 import landmaster.landcraft.tile.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.*;

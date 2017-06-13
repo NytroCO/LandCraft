@@ -22,7 +22,9 @@ msg.landia_tower.check.6=with the §cLandmaster§r in the nether layer, and the 
 msg.landia_tower.nearcomplete.0=The tower is almost activated.
 msg.landia_tower.nearcomplete.1=Now, sacrifice the one who has the power of the Azanor.
 
-msg.big_brother.henchmen.summon=Big Brother is watching you!
+msg.big_brother.henchmen.summon=§l§o§1Big Brother§r is watching you!
+
+msg.weather_wand.use=The landlords have come...
 
 # NATURE
 
@@ -37,6 +39,16 @@ tile.cinnamon_stairs.name=Cinnamon Stairs
 tile.cinnamon_bark.name=Cinnamon Bark
 
 item.cinnamon.name=Cinnamon
+
+tile.landia_sapling.olive.name=Olive Sapling
+tile.landia_leaves.olive.name=Olive Leaves
+tile.landia_log.olive.name=Olive Wood
+tile.landia_planks.olive.name=Olive Planks
+tile.landia_wood_slab.olive.name=Olive Slab
+
+tile.olive_stairs.name=Olive Stairs
+
+item.olive.name=Olive
 
 # AGRICULTURE
 
@@ -64,6 +76,8 @@ item.item_wrench.name=Wrench
 item.redstone_component.name=Redstone Component
 
 item.landmasters_wings.name=Landmaster's Wings
+
+item.weather_wand.name=Landia Weather Wand
 
 # METALS
 
@@ -133,5 +147,6 @@ info.breeder.jei.product=Output (in 1/16 of a thorium ingot): %d
 # TOOLTIPS
 
 tooltip.landia_portal_marker.info=§bOnce placed, activate by killing an undead mob in the vicinity.
+tooltip.weather_wand.info=§5Right-click in Landia to change the weather there.
 tooltip.per_tick=(Amount per tick)
 tooltip.landmasters_wings.info=§bAllows flying when powered and in the chest slot. (%d RF/tick)

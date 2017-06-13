@@ -60,10 +60,15 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void initColorHandlers() {
 		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler((state, world, pos, index) -> {
-			if (state.getValue(LandiaTreeType.L_TYPE) == LandiaTreeType.CINNAMON) {
+			// TODO add more types when they are added
+			switch (state.getValue(LandiaTreeType.L_TYPE)) {
+			case CINNAMON:
 				return 0x04961C;
+			case OLIVE:
+				return 0x4F9E00;
+			default:
+				return 0xFFFFFF;
 			}
-			return 0xFFFFFF;
 		}, LandCraftContent.landia_leaves);
 		
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, index) -> {
@@ -83,9 +88,9 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void setCustomStateMapper(Block block, Function<Block, Collection<Map.Entry<IBlockState, String>>> mapper) {
-		ModelBakery.registerItemVariants(null);
 		ModelLoader.setCustomStateMapper(block, mapper.andThen(coll -> coll.stream()
-				.collect(Collectors.toMap(Map.Entry::getKey, pair -> new ModelResourceLocation(pair.getValue()))))::apply);
+				.collect(Collectors.toMap(Map.Entry::getKey,
+						pair -> new ModelResourceLocation(pair.getValue()))))::apply);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOW)

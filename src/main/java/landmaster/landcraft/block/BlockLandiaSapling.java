@@ -106,17 +106,18 @@ public class BlockLandiaSapling extends BlockSapling implements IMetaBlockName {
 			return;
 		}
 		ITreeGenerator gen = new TreeGenerator();
-		IBlockState log;
-		IBlockState leaves;
 		
-		switch (state.getValue(LandiaTreeType.L_TYPE)) {
+		final LandiaTreeType val = state.getValue(LandiaTreeType.L_TYPE);
+		
+		IBlockState log = LandCraftContent.landia_log.getDefaultState().withProperty(LandiaTreeType.L_TYPE, val);
+		IBlockState leaves = LandCraftContent.landia_leaves.getDefaultState().withProperty(LandiaTreeType.L_TYPE, val);
+		
+		switch (val) {
 		case CINNAMON:
-			log = LandCraftContent.landia_log.getDefaultState().withProperty(LandiaTreeType.L_TYPE, LandiaTreeType.CINNAMON);
-			leaves = LandCraftContent.landia_leaves.getDefaultState().withProperty(LandiaTreeType.L_TYPE,
-					LandiaTreeType.CINNAMON);
-			
 			gen = new LandiaTreeGenerator(9, 7, log, leaves, true, true);
-			
+			break;
+		case OLIVE:
+			gen = new LandiaTreeGenerator(5, 3, log, leaves, true, true);
 			break;
 		default:
 			LandCraft.log.warn("BlockLandiaLog Warning: Invalid sapling meta/foliage, "

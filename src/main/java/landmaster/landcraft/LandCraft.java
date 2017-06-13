@@ -16,18 +16,17 @@ import landmaster.landcraft.proxy.*;
 import landmaster.landcraft.tile.*;
 import landmaster.landcraft.util.*;
 import landmaster.landcraft.world.*;
-import landmaster.landcraft.world.biome.*;
 import landmaster.landcraft.world.gen.*;
 import mcjty.lib.compat.*;
 import net.minecraft.block.*;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.*;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.util.math.*;
+import net.minecraft.world.*;
 import net.minecraftforge.common.util.*;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.*;
@@ -41,7 +40,7 @@ import net.minecraftforge.oredict.*;
 public class LandCraft {
 	public static final String MODID = "landcraft";
 	public static final String NAME = "Land Craft";
-	public static final String VERSION = "1.3.0.0";
+	public static final String VERSION = "2.0.0.0";
 	public static final String DEPENDS = "required-after:landcore@[1.3.5.0,);required-after:compatlayer@[0.2.8,);"
 			+ "after:OpenComputers;after:opencomputers;after:JEI;after:jei";
 	
@@ -70,8 +69,21 @@ public class LandCraft {
 		
 		initMetals();
 		
+		initMisc();
+		
+		proxy.bindTESRs();
+		
+		LandiaWorldProvider.register();
+		
+		initWorldgen();
+	}
+	
+	private static void initMisc() {
 		GameRegistry.register(LandCraftContent.landmasters_wings);
 		proxy.registerItemRenderer(LandCraftContent.landmasters_wings, 0, "landmasters_wings");
+		
+		GameRegistry.register(LandCraftContent.weather_wand);
+		proxy.registerItemRenderer(LandCraftContent.weather_wand, 0, "weather_wand");
 		
 		ItemBlock landia_portal_marker_item = new CompatItemBlock(LandCraftContent.landia_portal_marker);
 		GameRegistry.register(LandCraftContent.landia_portal_marker);
@@ -90,21 +102,15 @@ public class LandCraft {
 		proxy.registerItemRenderer(landia_tower_item, 0, "landia_tower");
 		GameRegistry.registerTileEntity(TELandiaTower.class, MODID+"_landia_tower");
 		
-		proxy.bindTESRs();
-		
 		GameRegistry.register(LandCraftContent.redstone_component);
 		proxy.registerItemRenderer(LandCraftContent.redstone_component, 0, "redstone_component");
-		
-		LandcraftBiomes.init();
-		
-		LandiaWorldProvider.register();
-		
-		initWorldgen();
 	}
 	
 	private static void initWorldgen() {
 		GameRegistry.registerWorldGenerator(new LandiaOreWorldgen(), 10);
+		
 		GameRegistry.registerWorldGenerator(new CinnamonWorldgen(), 50);
+		GameRegistry.registerWorldGenerator(new OliveWorldgen(), 51);
 		
 		GameRegistry.registerWorldGenerator(new OnionWorldgen(), 28);
 		GameRegistry.registerWorldGenerator(new RiceWorldgen(), 33);
@@ -124,6 +130,11 @@ public class LandCraft {
 		OreDictionary.registerOre("cropRice", LandCraftContent.rice);
 		OreDictionary.registerOre("seedRice", LandCraftContent.rice);
 		proxy.registerItemRenderer(LandCraftContent.rice, 0, "rice");
+		
+		GameRegistry.register(LandCraftContent.olive);
+		OreDictionary.registerOre("cropOlive", LandCraftContent.olive);
+		OreDictionary.registerOre("olive", LandCraftContent.olive);
+		proxy.registerItemRenderer(LandCraftContent.olive, 0, "olive");
 		
 		GameRegistry.register(LandCraftContent.potato_onion_pastry);
 		proxy.registerItemRenderer(LandCraftContent.potato_onion_pastry, 0, "potato_onion_pastry");

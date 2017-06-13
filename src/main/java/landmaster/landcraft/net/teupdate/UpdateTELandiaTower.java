@@ -1,8 +1,9 @@
-package landmaster.landcraft.net;
+package landmaster.landcraft.net.teupdate;
 
 import java.util.*;
 
 import io.netty.buffer.*;
+import landmaster.landcraft.net.ITEUpdatePacket;
 import landmaster.landcraft.tile.*;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 
