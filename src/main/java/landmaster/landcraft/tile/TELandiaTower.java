@@ -56,7 +56,7 @@ public class TELandiaTower extends TileEntity {
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		if (compound.hasKey("TargetEntity")) {
+		if (compound.hasUniqueId("TargetEntity")) {
 			targetEntity = compound.getUniqueId("TargetEntity");
 		}
 	}

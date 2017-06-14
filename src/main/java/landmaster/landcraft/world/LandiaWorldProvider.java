@@ -38,16 +38,18 @@ public class LandiaWorldProvider extends CompatWorldProvider {
 	
 	@Override
 	public void calculateInitialWeather() {
-		if (LandiaWeather.get(world).isClear()) {
-			getWorld().thunderingStrength = 0.0F;
-			getWorld().rainingStrength = 0.0F;
-			getWorld().getWorldInfo().setThundering(false);
-			getWorld().getWorldInfo().setRaining(false);
-		} else {
-			getWorld().thunderingStrength = 1.0F;
-			getWorld().rainingStrength = 1.0F;
-			getWorld().getWorldInfo().setThundering(true);
-			getWorld().getWorldInfo().setRaining(true);
+		if (!world.isRemote) {
+			if (LandiaWeather.get(world).isClear()) {
+				getWorld().thunderingStrength = 0.0F;
+				getWorld().rainingStrength = 0.0F;
+				getWorld().getWorldInfo().setThundering(false);
+				getWorld().getWorldInfo().setRaining(false);
+			} else {
+				getWorld().thunderingStrength = 1.0F;
+				getWorld().rainingStrength = 1.0F;
+				getWorld().getWorldInfo().setThundering(true);
+				getWorld().getWorldInfo().setRaining(true);
+			}
 		}
 	}
 	
@@ -61,8 +63,9 @@ public class LandiaWorldProvider extends CompatWorldProvider {
 				worldInfo.setThundering(false);
 				worldInfo.setRaining(false);
 			}
-			worldInfo.setCleanWeatherTime(Integer.MAX_VALUE);
-			getWorld().updateWeatherBody();
+			worldInfo.setCleanWeatherTime(0);
+			worldInfo.setThunderTime(1000);
+			worldInfo.setRainTime(1000);
 		} else {
 			WorldInfo worldInfo = getWorld().getWorldInfo();
 			if (!getWorld().isRemote) {
@@ -73,8 +76,8 @@ public class LandiaWorldProvider extends CompatWorldProvider {
 			}
 			worldInfo.setCleanWeatherTime(0);
 			worldInfo.setThunderTime(worldInfo.getThunderTime() - 100);
-			getWorld().updateWeatherBody();
 		}
+		getWorld().updateWeatherBody();
 	}
 	
 	@Override
