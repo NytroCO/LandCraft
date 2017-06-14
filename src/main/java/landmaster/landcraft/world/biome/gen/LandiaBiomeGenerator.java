@@ -1,11 +1,8 @@
-package landmaster.landcraft.world;
+package landmaster.landcraft.world.biome.gen;
 
 import java.util.*;
 
-import com.google.common.collect.*;
-
-import landmaster.landcraft.world.biome.GenLayerLandia;
-import landmaster.landcraft.world.biome.LandcraftBiomes;
+import landmaster.landcraft.world.biome.*;
 import net.minecraft.crash.*;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
@@ -21,7 +18,7 @@ public class LandiaBiomeGenerator extends BiomeProvider {
 	
 	private LandiaBiomeGenerator() {
 		biomeCache = new BiomeCache(this);
-		biomesToSpawnIn = Lists.newArrayList();
+		biomesToSpawnIn = new ArrayList<>(Arrays.asList(LandcraftBiomes.dunans, LandcraftBiomes.tunis));
 	}
 	
 	public LandiaBiomeGenerator(World world) {

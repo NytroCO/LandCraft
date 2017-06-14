@@ -1,7 +1,8 @@
 package landmaster.landcraft.world;
 
 import landmaster.landcraft.config.*;
-import landmaster.landcraft.world.save.LandiaWeather;
+import landmaster.landcraft.world.biome.gen.LandiaBiomeGenerator;
+import landmaster.landcraft.world.save.*;
 import mcjty.lib.compat.*;
 import net.minecraft.world.*;
 import net.minecraft.world.chunk.*;

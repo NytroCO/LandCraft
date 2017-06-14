@@ -1,15 +1,16 @@
-package landmaster.landcraft.world.biome;
+package landmaster.landcraft.world.biome.gen;
 
 import java.util.*;
 
 import com.google.common.collect.*;
 
+import landmaster.landcraft.world.biome.LandcraftBiomes;
 import net.minecraft.util.*;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.layer.*;
 import net.minecraftforge.common.BiomeManager.BiomeEntry;
 
-public class GenLayerLandiaBiomes extends GenLayer {
+public class GenLayerLandiaBiomes extends GenLayerLandia {
 	protected static final List<BiomeEntry> allowedBiomes = ImmutableList.of(
 			new BiomeEntry(LandcraftBiomes.dunans, 20),
 			new BiomeEntry(LandcraftBiomes.tunis, 13)

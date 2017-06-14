@@ -180,7 +180,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 			}
 		}
 		if (loc == null) {
-			loc = new BlockPos(pos.getX(), Math.max(pos.getY(), 77), pos.getZ());
+			loc = new BlockPos(pos.getX(), Math.max(pos.getY(), 63), pos.getZ());
 		}
 		for (BlockPos.MutableBlockPos setters: BlockPos.getAllInBoxMutable(
 				loc.add(-2, 0, -2), loc.add(2, 0, 2))) {
