@@ -40,7 +40,7 @@ import net.minecraftforge.oredict.*;
 public class LandCraft {
 	public static final String MODID = "landcraft";
 	public static final String NAME = "Land Craft";
-	public static final String VERSION = "2.0.0.0";
+	public static final String VERSION = "2.0.0.1";
 	public static final String DEPENDS = "required-after:landcore@[1.3.5.0,);required-after:compatlayer@[0.2.8,);"
 			+ "after:OpenComputers;after:opencomputers;after:JEI;after:jei";
 	
