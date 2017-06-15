@@ -34,7 +34,7 @@ public class BlockWildRice extends BlockBush {
 	
 	@Override
 	public int quantityDroppedWithBonus(int fortune, Random random) {
-		return super.quantityDroppedWithBonus(fortune, random) + (fortune > 0 ? random.nextInt(fortune) : 0);
+		return super.quantityDroppedWithBonus(fortune, random) + random.nextInt(fortune+1);
 	}
 	
 	@Override
