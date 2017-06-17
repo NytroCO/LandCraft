@@ -50,11 +50,13 @@ public class ItemLandmastersWings extends ItemEnergyBase {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		ItemStack empty = new ItemStack(this);
-		subItems.add(empty);
-		ItemStack full = empty.copy();
-		this.setEnergyStored(full, MAX_ENERGY);
-		subItems.add(full);
+		if (this.isInCreativeTab(tab)) {
+			ItemStack empty = new ItemStack(this);
+			subItems.add(empty);
+			ItemStack full = empty.copy();
+			this.setEnergyStored(full, MAX_ENERGY);
+			subItems.add(full);
+		}
 	}
 	
 	@Override
