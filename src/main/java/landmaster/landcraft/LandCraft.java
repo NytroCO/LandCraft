@@ -36,7 +36,7 @@ import net.minecraftforge.fml.common.network.*;
 import net.minecraftforge.fml.common.registry.*;
 import net.minecraftforge.oredict.*;
 
-@Mod(modid = LandCraft.MODID, name = LandCraft.NAME, version = LandCraft.VERSION, dependencies = LandCraft.DEPENDS, useMetadata = true, acceptedMinecraftVersions = "[1.9,1.12)")
+@Mod(modid = LandCraft.MODID, name = LandCraft.NAME, version = LandCraft.VERSION, dependencies = LandCraft.DEPENDS, useMetadata = true)
 public class LandCraft {
 	public static final String MODID = "landcraft";
 	public static final String NAME = "Land Craft";
