@@ -30,6 +30,7 @@ public class LandiaWorldProvider extends WorldProvider {
 	
 	@Override
 	protected void init() {
+		super.init();
 		this.biomeProvider = new LandiaBiomeGenerator(world);
 		if (this.world.getWorldInfo().getTerrainType() == WorldType.FLAT) {
 			this.world.getWorldInfo().setTerrainType(WorldType.DEFAULT);
