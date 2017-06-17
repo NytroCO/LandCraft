@@ -2,11 +2,12 @@ package landmaster.landcraft.world;
 
 import java.util.*;
 
+import javax.annotation.*;
+
 import com.google.common.collect.*;
 
 import landmaster.landcore.entity.*;
 import landmaster.landcraft.entity.*;
-import mcjty.lib.compat.*;
 import net.minecraft.entity.*;
 import net.minecraft.init.*;
 import net.minecraft.util.math.*;
@@ -18,7 +19,7 @@ import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.structure.*;
 import net.minecraftforge.event.terraingen.*;
 
-public class LandiaChunkGenerator implements CompatChunkGenerator {
+public class LandiaChunkGenerator implements IChunkGenerator {
 	private final World worldObj;
 	private Random random;
 	private Biome[] biomesForGeneration;
@@ -44,7 +45,7 @@ public class LandiaChunkGenerator implements CompatChunkGenerator {
 	}
 	
 	@Override
-	public Chunk provideChunk(int x, int z) {
+	public Chunk generateChunk(int x, int z) {
 		ChunkPrimer chunkprimer = new ChunkPrimer();
 		
 		// Setup biomes for terraingen
@@ -126,7 +127,13 @@ public class LandiaChunkGenerator implements CompatChunkGenerator {
 	}
 	
 	@Override
-	public BlockPos clGetStrongholdGen(World worldIn, String structureName, BlockPos position) {
+	@Nullable
+    public BlockPos getNearestStructurePos(World worldIn, String structureName, BlockPos position, boolean findUnexplored) {
 		return null;
+	}
+
+	@Override
+	public boolean isInsideStructure(World worldIn, String structureName, BlockPos pos) {
+		return false;
 	}
 }

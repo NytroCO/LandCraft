@@ -1,14 +1,12 @@
 package landmaster.landcraft.item;
 
-import java.util.*;
-
 import landmaster.landcraft.content.*;
-import mcjty.lib.compat.*;
 import net.minecraft.creativetab.*;
 import net.minecraft.item.*;
+import net.minecraft.util.*;
 import net.minecraftforge.fml.relauncher.*;
 
-public class ItemPotatoOnionPastry extends CompatItemFood {
+public class ItemPotatoOnionPastry extends ItemFood {
 	public ItemPotatoOnionPastry() {
 		super(5, 0.5f, false); // base for raw; overriden for cooked (meta > 0)
 		this.setHasSubtypes(true);
@@ -45,8 +43,8 @@ public class ItemPotatoOnionPastry extends CompatItemFood {
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	protected void clGetSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-		subItems.add(new ItemStack(itemIn, 1, 0)); // raw
-		subItems.add(new ItemStack(itemIn, 1, 1)); // cooked
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+		subItems.add(new ItemStack(this, 1, 0)); // raw
+		subItems.add(new ItemStack(this, 1, 1)); // cooked
 	}
 }

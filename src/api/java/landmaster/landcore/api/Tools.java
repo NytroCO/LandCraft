@@ -1,11 +1,9 @@
 package landmaster.landcore.api;
 
-import java.lang.invoke.*;
 import java.util.*;
 
 import com.google.common.base.*;
 
-import mcjty.lib.tools.*;
 import net.minecraft.block.state.*;
 import net.minecraft.block.state.pattern.*;
 import net.minecraft.entity.*;
@@ -16,40 +14,25 @@ import net.minecraft.nbt.*;
 import net.minecraft.network.play.server.*;
 import net.minecraft.potion.*;
 import net.minecraft.server.*;
+import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraft.world.gen.feature.*;
 import net.minecraftforge.fml.common.*;
 
 public class Tools {
-	private static final MethodHandle getCollisionBoundingBoxM;
-	
-	static {
-		try {
-			MethodHandle temp;
-			try {
-				temp = MethodHandles.lookup().findVirtual(IBlockState.class, "func_185890_d", MethodType.methodType(AxisAlignedBB.class, IBlockAccess.class, BlockPos.class));
-			} catch (NoSuchMethodException e) {
-				temp = MethodHandles.lookup().findVirtual(IBlockState.class, "func_185890_d", MethodType.methodType(AxisAlignedBB.class, World.class, BlockPos.class));
-			}
-			getCollisionBoundingBoxM = temp;
-		} catch (Throwable e) {
-			throw Throwables.propagate(e);
-		}
+	public static ResourceLocation suffix(ResourceLocation original, Object suffix) {
+		return new ResourceLocation(original.getResourceDomain(), original.getResourcePath()+suffix);
 	}
 	
-	public static AxisAlignedBB getCollisionBoundingBox(IBlockState state, World world, BlockPos pos) {
-		try {
-			return (AxisAlignedBB)getCollisionBoundingBoxM.invoke(state, world, pos);
-		} catch (Throwable e) {
-			throw Throwables.propagate(e);
-		}
+	public static ResourceLocation underscoreSuffix(ResourceLocation original, Object suffix) {
+		return suffix(original, "_"+suffix);
 	}
 	
 	public static boolean canTeleportTo(EntityPlayer player, Coord4D dest) {
 		if (dest == null || dest.world() == null) return false;
 		for (int i=1; i<=2; ++i) {
-			if (getCollisionBoundingBox(dest.add(0, i, 0).blockState(), dest.world(), dest.pos()) != null) {
+			if (dest.add(0, i, 0).blockState().getCollisionBoundingBox(dest.world(), dest.pos()) != null) {
 				return false;
 			}
 		}
@@ -57,7 +40,7 @@ public class Tools {
 	}
 	
 	public static NBTTagCompound getTagSafe(ItemStack is, boolean set) {
-		if (ItemStackTools.isEmpty(is)) {
+		if (is.isEmpty()) {
 			return new NBTTagCompound();
 		}
 		NBTTagCompound nbt = is.getTagCompound();
@@ -71,9 +54,9 @@ public class Tools {
 	public static void teleportPlayerTo(EntityPlayerMP player, Coord4D coord) {
 		if (player.dimension != coord.dimensionId) {
 			int id = player.dimension;
-			WorldServer oldWorld = player.mcServer.worldServerForDimension(player.dimension);
+			WorldServer oldWorld = player.mcServer.getWorld(player.dimension);
 			player.dimension = coord.dimensionId;
-			WorldServer newWorld = player.mcServer.worldServerForDimension(player.dimension);
+			WorldServer newWorld = player.mcServer.getWorld(player.dimension);
 			player.connection.sendPacket(new SPacketRespawn(player.dimension, player.world.getDifficulty(), newWorld.getWorldInfo().getTerrainType(), player.interactionManager.getGameType()));
 			oldWorld.removeEntityDangerously(player);
 			player.isDead = false;
@@ -108,7 +91,7 @@ public class Tools {
 	
 	public static void teleportEntityTo(Entity entity, Coord4D coord) {
 		final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-		WorldServer world = server.worldServerForDimension(coord.dimensionId);
+		WorldServer world = server.getWorld(coord.dimensionId);
 
 		if (entity.world.provider.getDimension() != coord.dimensionId) {
 			synchronized (entity) {

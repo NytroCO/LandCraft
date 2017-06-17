@@ -1,9 +1,5 @@
 package landmaster.landcraft.world.biome;
 
-import java.lang.invoke.*;
-
-import com.google.common.base.*;
-
 import landmaster.landcraft.*;
 import net.minecraft.world.biome.*;
 import net.minecraftforge.common.*;
@@ -40,34 +36,13 @@ public class LandcraftBiomes {
 	public static void init(RegistryEvent.Register<Biome> event) {
 		event.getRegistry().registerAll(dunans, tunis);
 		
-		try {
-			registerBiomeTypeM.invoke(dunans,
-					BiomeDictionary.Type.WET,
-					BiomeDictionary.Type.MUSHROOM,
-					BiomeDictionary.Type.FOREST,
-					BiomeDictionary.Type.DENSE);
-			
-			registerBiomeTypeM.invoke(tunis,
-					BiomeDictionary.Type.DRY);
-		} catch (Throwable e) {
-			throw Throwables.propagate(e);
-		}
-	}
-	
-	// ===============================================================
-	
-	private static final MethodHandle registerBiomeTypeM;
-	static {
-		try {
-			MethodHandle temp;
-			try {
-				temp = MethodHandles.lookup().findStatic(BiomeDictionary.class, "addTypes", MethodType.methodType(void.class, Biome.class, BiomeDictionary.Type[].class));
-			} catch (NoSuchMethodException e) {
-				temp = MethodHandles.lookup().findStatic(BiomeDictionary.class, "registerBiomeType", MethodType.methodType(boolean.class, Biome.class, BiomeDictionary.Type[].class));
-			}
-			registerBiomeTypeM = temp;
-		} catch (Throwable e) {
-			throw Throwables.propagate(e);
-		}
+		BiomeDictionary.addTypes(dunans,
+				BiomeDictionary.Type.WET,
+				BiomeDictionary.Type.MUSHROOM,
+				BiomeDictionary.Type.FOREST,
+				BiomeDictionary.Type.DENSE);
+		
+		BiomeDictionary.addTypes(tunis,
+				BiomeDictionary.Type.DRY);
 	}
 }

@@ -12,7 +12,6 @@ import com.google.common.collect.*;
 import gnu.trove.iterator.*;
 import gnu.trove.list.*;
 import gnu.trove.list.array.*;
-import mcjty.lib.tools.*;
 import net.minecraft.item.*;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.*;
@@ -60,7 +59,7 @@ public class PotRecipes {
 		
 		@Override
 		public RecipeOutput process(ItemStack in1, ItemStack in2, ItemStack in3, FluidStack fs) {
-			if (ItemStackTools.isEmpty(in1) || ItemStackTools.isEmpty(in2) || ItemStackTools.isEmpty(in3)) {
+			if (in1.isEmpty() || in2.isEmpty() || in3.isEmpty()) {
 				return new RecipeOutput();
 			}
 			List<int[]> stacks_ods = Lists
@@ -95,7 +94,7 @@ public class PotRecipes {
 	 * @author Landmaster
 	 */
 	public static class RecipeOutput {
-		public ItemStack out = ItemStackTools.getEmptyStack();
+		public ItemStack out = ItemStack.EMPTY;
 		public int fluidPerTick;
 		public int energyPerTick;
 		public int time;
@@ -165,7 +164,7 @@ public class PotRecipes {
 	}
 	
 	public static boolean isEmptyROutput(RecipeOutput out) {
-		return ItemStackTools.isEmpty(out.out);
+		return out.out.isEmpty();
 	}
 	
 	@Nonnull

@@ -10,7 +10,7 @@ import net.minecraft.client.*;
 import net.minecraft.client.resources.*;
 import net.minecraft.item.*;
 
-public class BreederFeedstockJEI extends BlankRecipeWrapper {
+public class BreederFeedstockJEI implements IRecipeWrapper {
 	private BreederFeedstock.OreMassTempTri omt;
 	
 	public BreederFeedstockJEI(BreederFeedstock.OreMassTempTri omt) {

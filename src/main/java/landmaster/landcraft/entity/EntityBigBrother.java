@@ -11,7 +11,6 @@ import com.google.common.collect.*;
 import gnu.trove.set.hash.*;
 import landmaster.landcore.entity.*;
 import landmaster.landcraft.entity.ai.*;
-import mcjty.lib.tools.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.*;
@@ -201,8 +200,7 @@ public class EntityBigBrother extends EntityMob {
 	}
 	
 	private static final List<Function<World, EntityLiving>> HENCHMEN_LIST = ImmutableList.of(
-			EntityWizard::new, EntityPigZombie::new, EntityLandlord::new,
-			world -> EntityTools.createEntity(world, "WitherSkeleton"));
+			EntityWizard::new, EntityPigZombie::new, EntityLandlord::new, EntityWitherSkeleton::new);
 	
 	@Override
 	protected void initEntityAI() {

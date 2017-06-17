@@ -4,7 +4,6 @@ import java.util.*;
 
 import gnu.trove.map.*;
 import gnu.trove.map.hash.*;
-import mcjty.lib.tools.*;
 import net.minecraft.item.*;
 import net.minecraftforge.fml.common.*;
 import net.minecraftforge.oredict.*;
@@ -54,7 +53,7 @@ public class BreederFeedstock {
 	}
 	
 	public static int getMass(ItemStack is) {
-		if (!ItemStackTools.isEmpty(is)) {
+		if (!is.isEmpty()) {
 			int[] arr = OreDictionary.getOreIDs(is);
 			for (int i=0; i<arr.length; ++i) {
 				if (feedstockMassDict.containsKey(arr[i])) {
@@ -66,7 +65,7 @@ public class BreederFeedstock {
 	}
 	
 	public static int getTemp(ItemStack is) {
-		if (!ItemStackTools.isEmpty(is)) {
+		if (!is.isEmpty()) {
 			int[] arr = OreDictionary.getOreIDs(is);
 			for (int i=0; i<arr.length; ++i) {
 				if (feedstockTempDict.containsKey(arr[i])) {

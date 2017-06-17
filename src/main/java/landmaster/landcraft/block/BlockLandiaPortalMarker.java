@@ -7,14 +7,13 @@ import javax.annotation.*;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.tile.*;
 import landmaster.landcraft.util.*;
-import mcjty.lib.compat.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
 import net.minecraft.block.properties.*;
 import net.minecraft.block.state.*;
 import net.minecraft.client.resources.*;
+import net.minecraft.client.util.*;
 import net.minecraft.entity.*;
-import net.minecraft.entity.player.*;
 import net.minecraft.item.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
@@ -23,7 +22,7 @@ import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.fml.common.eventhandler.*;
 import net.minecraftforge.fml.relauncher.*;
 
-public class BlockLandiaPortalMarker extends CompatBlock {
+public class BlockLandiaPortalMarker extends Block {
 	public static final AxisAlignedBB LANDIA_PORTAL_MARKER_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 1.0D, 0.9375D);
 	
 	public static final PropertyBool ACTIVATED = PropertyBool.create("activated");
@@ -104,7 +103,7 @@ public class BlockLandiaPortalMarker extends CompatBlock {
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void clAddInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag) {
 		tooltip.add(I18n.format("tooltip.landia_portal_marker.info"));
 	}
 }

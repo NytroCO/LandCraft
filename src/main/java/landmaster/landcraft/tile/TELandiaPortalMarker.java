@@ -164,7 +164,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 	
 	static ClRes generateClearance(BlockPos pos, int dimID) {
 		final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-		WorldServer world = server.worldServerForDimension(dimID);
+		WorldServer world = server.getWorld(dimID);
 		ClRes search = searchPortal(world, pos);
 		if (search != null) {
 			return search;

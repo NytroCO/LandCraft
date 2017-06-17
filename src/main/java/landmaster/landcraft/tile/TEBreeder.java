@@ -1,16 +1,14 @@
 package landmaster.landcraft.tile;
 
+import java.util.stream.*;
+
 import org.apache.commons.lang3.*;
 
 import landmaster.landcraft.api.*;
 import landmaster.landcraft.net.*;
-import landmaster.landcraft.net.teupdate.UpdateTEBreeder;
-import landmaster.landcraft.util.*;
-import li.cil.oc.api.machine.*;
-import li.cil.oc.api.network.*;
-import mcjty.lib.compat.*;
-import mcjty.lib.tools.*;
+import landmaster.landcraft.net.teupdate.*;
 import net.minecraft.entity.player.*;
+import net.minecraft.inventory.*;
 import net.minecraft.item.*;
 import net.minecraft.nbt.*;
 import net.minecraft.tileentity.*;
@@ -19,9 +17,8 @@ import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.items.*;
 import net.minecraftforge.oredict.*;
 
-@OptionalM(modids = {"OpenComputers", "opencomputers"}, stripped = "li/cil/oc/api/network/SimpleComponent")
 public class TEBreeder extends TileEntity
-implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder>, CompatInventory {
+implements ITickable, RedstoneControl.Provider<TEBreeder>, IInventory {
 	private ItemStackHandler ish;
 	private double temperature;
 	private int fuel, product;
@@ -67,9 +64,9 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder>, Comp
 	@Override
 	public void update() {
 		if (getWorld().isRemote || !isEnabled(this)) return;
-		ItemStack reactant = ItemStackTools.safeCopy(ish.getStackInSlot(Slots.REACTANT.ordinal()));
-		if (!ItemStackTools.isEmpty(reactant) && ArrayUtils.contains(OreDictionary.getOreIDs(reactant), OreDictionary.getOreID("ingotThorium"))) {
-			int consume = Math.min(ItemStackTools.getStackSize(reactant), (MAX_FUEL - fuel)/THORIUM_SCALAR);
+		ItemStack reactant = ish.getStackInSlot(Slots.REACTANT.ordinal()).copy();
+		if (!reactant.isEmpty() && ArrayUtils.contains(OreDictionary.getOreIDs(reactant), OreDictionary.getOreID("ingotThorium"))) {
+			int consume = Math.min(reactant.getCount(), (MAX_FUEL - fuel)/THORIUM_SCALAR);
 			fuel += consume * THORIUM_SCALAR;
 			ish.extractItem(Slots.REACTANT.ordinal(), consume, false);
 			markDirty();
@@ -80,13 +77,13 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder>, Comp
 			temperature += getTempFromFuel(fuelConsumption);
 			markDirty();
 		}
-		ItemStack feedstock = ItemStackTools.safeCopy(ish.getStackInSlot(Slots.FEEDSTOCK.ordinal()));
+		ItemStack feedstock = ish.getStackInSlot(Slots.FEEDSTOCK.ordinal()).copy();
 		int mass, temp;
-		if (!ItemStackTools.isEmpty(feedstock) && (mass = BreederFeedstock.getMass(feedstock)) > 0) {
+		if (!feedstock.isEmpty() && (mass = BreederFeedstock.getMass(feedstock)) > 0) {
 			temp = BreederFeedstock.getTemp(feedstock);
 			if (temp < temperature) {
 				ItemStack feed = ish.extractItem(Slots.FEEDSTOCK.ordinal(), 1, false);
-				if (ItemStackTools.getStackSize(feed) >= 1) {
+				if (feed.getCount() >= 1) {
 					temperature -= temp;
 					product += mass;
 					markDirty();
@@ -98,7 +95,7 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder>, Comp
 		if (thoriumProduct > 0) {
 			ItemStack rem = ish.insertItem(Slots.OUTPUT.ordinal(), new ItemStack(
 					Item.REGISTRY.getObject(new ResourceLocation("landcore:item_ingot")), thoriumProduct, 0), false);
-			int remSize = ItemStackTools.getStackSize(rem);
+			int remSize = rem.getCount();
 			product = remSize * THORIUM_SCALAR + thoriumRem;
 			markDirty();
 		}
@@ -146,34 +143,12 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder>, Comp
 	public void setProduct(int arg) { product = arg; }
 	
 	@Override
-	public String getComponentName() {
-		return "breeder_reactor";
-	}
-	
-	@Callback
-    @OptionalM(modids = {"OpenComputers", "opencomputers"})
-    public Object[] getFuel(Context context, Arguments args) {
-		return new Object[] {fuel};
-	}
-	
-	@Callback
-	@OptionalM(modids = {"OpenComputers", "opencomputers"})
-    public Object[] getTemp(Context context, Arguments args) {
-		return new Object[] {temperature};
-	}
-	
-	@Callback
-	@OptionalM(modids = {"OpenComputers", "opencomputers"})
-    public Object[] getProduct(Context context, Arguments args) {
-		return new Object[] {product};
-	}
-	@Override
 	public RedstoneControl.State getRedstoneState() {
 		return RedstoneControl.State.CONTINUOUS;
 	}
 	@Override
 	public String getName() {
-		return getComponentName();
+		return "breeder_reactor";
 	}
 	@Override
 	public boolean hasCustomName() {
@@ -204,7 +179,7 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder>, Comp
 		return 64;
 	}
 	@Override
-	public boolean isUsable(EntityPlayer player) {
+	public boolean isUsableByPlayer(EntityPlayer player) {
 		return true;
 	}
 	@Override
@@ -231,7 +206,13 @@ implements ITickable, SimpleComponent, RedstoneControl.Provider<TEBreeder>, Comp
 	@Override
 	public void clear() {
 		for (int i=0; i<ish.getSlots(); ++i) {
-			ish.setStackInSlot(i, ItemStackTools.getEmptyStack());
+			ish.setStackInSlot(i, ItemStack.EMPTY);
 		}
+	}
+	@Override
+	public boolean isEmpty() {
+		return IntStream.range(0, ish.getSlots())
+				.mapToObj(ish::getStackInSlot)
+				.allMatch(ItemStack::isEmpty);
 	}
 }

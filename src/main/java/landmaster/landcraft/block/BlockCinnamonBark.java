@@ -5,7 +5,6 @@ import java.util.*;
 import com.google.common.collect.*;
 
 import landmaster.landcraft.content.*;
-import mcjty.lib.compat.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
 import net.minecraft.block.properties.*;
@@ -16,7 +15,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 
-public class BlockCinnamonBark extends CompatBlock {
+public class BlockCinnamonBark extends Block {
 	public static final PropertyEnum<EnumFacing> COVER = PropertyEnum.create("cover", EnumFacing.class);
 	
 	public static final List<AxisAlignedBB> AABBs = ImmutableList.of(

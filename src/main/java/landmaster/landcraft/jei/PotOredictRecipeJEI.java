@@ -3,12 +3,12 @@ package landmaster.landcraft.jei;
 import java.util.*;
 
 import landmaster.landcraft.api.*;
-import mcjty.lib.tools.ItemStackTools;
 import mezz.jei.api.ingredients.*;
 import net.minecraft.client.*;
 import net.minecraft.item.*;
 import net.minecraft.util.text.*;
 import net.minecraftforge.fluids.*;
+import net.minecraftforge.oredict.*;
 
 public class PotOredictRecipeJEI extends PotRecipeJEI {
 	private PotRecipes.RecipePOredict prc;
@@ -29,9 +29,9 @@ public class PotOredictRecipeJEI extends PotRecipeJEI {
 	public void getIngredients(IIngredients ingredients) {
 		ingredients.setInputLists(ItemStack.class,
 				Arrays.asList(
-						ItemStackTools.getOres(prc.s1),
-						ItemStackTools.getOres(prc.s2),
-						ItemStackTools.getOres(prc.s3)
+						OreDictionary.getOres(prc.s1),
+						OreDictionary.getOres(prc.s2),
+						OreDictionary.getOres(prc.s3)
 						));
 		ingredients.setInput(FluidStack.class, prc.fs);
 		ingredients.setOutput(ItemStack.class, prc.out.out);

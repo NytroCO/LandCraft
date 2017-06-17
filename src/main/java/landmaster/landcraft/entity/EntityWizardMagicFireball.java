@@ -47,7 +47,7 @@ public class EntityWizardMagicFireball extends EntityFireball {
                 }
             }
             
-            this.world.createExplosion(this, result.hitVec.xCoord, result.hitVec.yCoord, result.hitVec.zCoord, 0.5f, false);
+            this.world.createExplosion(this, result.hitVec.x, result.hitVec.y, result.hitVec.z, 0.5f, false);
 
             this.setDead();
         }

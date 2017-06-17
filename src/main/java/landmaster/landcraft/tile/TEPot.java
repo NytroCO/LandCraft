@@ -1,16 +1,17 @@
 package landmaster.landcraft.tile;
 
+import java.util.stream.IntStream;
+
 import javax.annotation.*;
 
 import org.apache.commons.lang3.tuple.*;
 
 import landmaster.landcraft.api.*;
 import landmaster.landcraft.net.*;
-import landmaster.landcraft.net.teupdate.UpdateTEPot;
+import landmaster.landcraft.net.teupdate.*;
 import landmaster.landcraft.util.*;
-import mcjty.lib.compat.*;
-import mcjty.lib.tools.*;
 import net.minecraft.entity.player.*;
+import net.minecraft.inventory.*;
 import net.minecraft.item.*;
 import net.minecraft.nbt.*;
 import net.minecraft.util.*;
@@ -21,7 +22,7 @@ import net.minecraftforge.fml.relauncher.*;
 import net.minecraftforge.items.*;
 
 public class TEPot extends TEEnergy
-implements ITickable, RedstoneControl.Provider<TEPot>, CompatInventory {
+implements ITickable, RedstoneControl.Provider<TEPot>, IInventory {
 	private ItemStackHandler ish;
 	private FluidTank ft;
 	
@@ -71,9 +72,9 @@ implements ITickable, RedstoneControl.Provider<TEPot>, CompatInventory {
 	public void update() {
 		if (world.isRemote) return; // server logic only
 		
-		ItemStack in1 = ItemStackTools.safeCopy(ish.getStackInSlot(Slots.IN1.ordinal()));
-		ItemStack in2 = ItemStackTools.safeCopy(ish.getStackInSlot(Slots.IN2.ordinal()));
-		ItemStack in3 = ItemStackTools.safeCopy(ish.getStackInSlot(Slots.IN3.ordinal()));
+		ItemStack in1 = ish.getStackInSlot(Slots.IN1.ordinal()).copy();
+		ItemStack in2 = ish.getStackInSlot(Slots.IN2.ordinal()).copy();
+		ItemStack in3 = ish.getStackInSlot(Slots.IN3.ordinal()).copy();
 		FluidStack fs = ft.getFluid() != null ? ft.getFluid().copy() : null;
 		if (PotRecipes.isEmptyRPair(cache)) {
 			cache = PotRecipes.findRecipe(in1, in2, in3, fs); // start new recipe, or re-calculate from save
@@ -83,11 +84,11 @@ implements ITickable, RedstoneControl.Provider<TEPot>, CompatInventory {
 		}
 		if (!PotRecipes.isEmptyRPair(cache)) {
 			if (progress >= cache.getRight().time) {
-				ItemStack toOut = ItemStackTools.safeCopy(cache.getRight().out);
-				if (ItemStackTools.isEmpty(ish.insertItem(Slots.OUT.ordinal(), toOut, true))
-						&& ItemStackTools.getStackSize(ish.extractItem(Slots.IN1.ordinal(), 1, true)) > 0
-						&& ItemStackTools.getStackSize(ish.extractItem(Slots.IN2.ordinal(), 1, true)) > 0
-						&& ItemStackTools.getStackSize(ish.extractItem(Slots.IN3.ordinal(), 1, true)) > 0) {
+				ItemStack toOut = cache.getRight().out.copy();
+				if (ish.insertItem(Slots.OUT.ordinal(), toOut, true).isEmpty()
+						&& ish.extractItem(Slots.IN1.ordinal(), 1, true).getCount() > 0
+						&& ish.extractItem(Slots.IN2.ordinal(), 1, true).getCount() > 0
+						&& ish.extractItem(Slots.IN3.ordinal(), 1, true).getCount() > 0) {
 					ish.insertItem(Slots.OUT.ordinal(), toOut, false);
 					ish.extractItem(Slots.IN1.ordinal(), 1, false);
 					ish.extractItem(Slots.IN2.ordinal(), 1, false);
@@ -188,7 +189,7 @@ implements ITickable, RedstoneControl.Provider<TEPot>, CompatInventory {
 		return 64;
 	}
 	@Override
-	public boolean isUsable(EntityPlayer player) {
+	public boolean isUsableByPlayer(EntityPlayer player) {
 		return true;
 	}
 	@Override
@@ -215,12 +216,19 @@ implements ITickable, RedstoneControl.Provider<TEPot>, CompatInventory {
 	@Override
 	public void clear() {
 		for (int i=0; i<ish.getSlots(); ++i) {
-			ish.setStackInSlot(i, ItemStackTools.getEmptyStack());
+			ish.setStackInSlot(i, ItemStack.EMPTY);
 		}
 	}
 
 	@Override
 	public RedstoneControl.State getRedstoneState() {
 		return RedstoneControl.State.CONTINUOUS;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return IntStream.range(0, ish.getSlots())
+				.mapToObj(ish::getStackInSlot)
+				.allMatch(ItemStack::isEmpty);
 	}
 }

@@ -9,7 +9,6 @@ import landmaster.landcraft.util.*;
 import net.minecraft.client.*;
 import net.minecraft.client.entity.*;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.tileentity.*;
 import net.minecraft.client.renderer.vertex.*;
 import net.minecraft.util.*;
@@ -19,7 +18,7 @@ public class TESRLandiaPortalMarker extends TileEntitySpecialRenderer<TELandiaPo
 	public static final ResourceLocation LASER_LOC = new ResourceLocation(LandCraft.MODID, "textures/effects/laserbeam.png");
 	
 	@Override
-	public void renderTileEntityAt(TELandiaPortalMarker te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void renderTileEntityAt(TELandiaPortalMarker te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		if (te.getWorld().getBlockState(te.getPos()).getValue(BlockLandiaPortalMarker.ACTIVATED)) {
 			GlStateManager.depthMask(false);
             GlStateManager.enableBlend();
@@ -43,7 +42,7 @@ public class TESRLandiaPortalMarker extends TileEntitySpecialRenderer<TELandiaPo
 			GlStateManager.translate(-doubleX, -doubleY, -doubleZ);
 			
 			Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer buffer = tessellator.getBuffer();
+            BufferBuilder buffer = tessellator.getBuffer();
             
             this.bindTexture(LASER_LOC);
             

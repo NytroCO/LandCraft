@@ -5,7 +5,6 @@ import javax.annotation.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.*;
-import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.*;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.init.SoundEvents;
@@ -60,7 +59,7 @@ public class EntityLandlord extends EntityMob {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getBrightnessForRender(float par1) {
+	public int getBrightnessForRender() {
 		return 0xF000F0;
 	}
 	
@@ -121,10 +120,8 @@ public class EntityLandlord extends EntityMob {
         this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, EntityLandlord.class));
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityWolf.class, true));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityVillager.class, true));
 	}
 	
 	static class AIFireballAttack extends EntityAIBase

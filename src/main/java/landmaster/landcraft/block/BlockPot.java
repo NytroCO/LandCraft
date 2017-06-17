@@ -4,7 +4,6 @@ import javax.annotation.*;
 
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.tile.*;
-import mcjty.lib.tools.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
 import net.minecraft.block.state.*;
@@ -34,7 +33,7 @@ public class BlockPot extends BlockMachineBase {
 					CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 			for (int i=0; i<handler.getSlots(); ++i) {
 				ItemStack is = handler.getStackInSlot(i);
-				if (!ItemStackTools.isEmpty(is)) {
+				if (!is.isEmpty()) {
 					EntityItem ent = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), is);
 					world.spawnEntity(ent);
 				}

@@ -1,18 +1,16 @@
 package landmaster.landcraft.item;
 
-import java.util.*;
-
 import landmaster.landcraft.content.*;
-import mcjty.lib.compat.*;
 import net.minecraft.creativetab.*;
 import net.minecraft.entity.player.*;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
 import net.minecraft.potion.*;
+import net.minecraft.util.*;
 import net.minecraft.world.*;
 import net.minecraftforge.fml.relauncher.*;
 
-public class ItemPho extends CompatItemFood {
+public class ItemPho extends ItemFood {
 	public ItemPho() {
 		super(10, 0.7f, false); // base for soup only; overriden if noodles present (meta > 0)
 		this.setHasSubtypes(true);
@@ -71,8 +69,8 @@ public class ItemPho extends CompatItemFood {
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	protected void clGetSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-		subItems.add(new ItemStack(itemIn, 1, 0)); // broth only
-		subItems.add(new ItemStack(itemIn, 1, 1)); // with noodles
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+		subItems.add(new ItemStack(this, 1, 0)); // broth only
+		subItems.add(new ItemStack(this, 1, 1)); // with noodles
 	}
 }

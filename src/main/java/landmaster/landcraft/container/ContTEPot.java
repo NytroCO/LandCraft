@@ -5,8 +5,6 @@ import landmaster.landcraft.container.slots.*;
 import landmaster.landcraft.net.*;
 import landmaster.landcraft.net.teupdate.UpdateTEPot;
 import landmaster.landcraft.tile.*;
-import mcjty.lib.compat.*;
-import mcjty.lib.tools.*;
 import net.minecraft.entity.player.*;
 import net.minecraft.inventory.*;
 import net.minecraft.item.*;
@@ -54,31 +52,31 @@ public class ContTEPot extends ContEnergy {
 		int slotY;
 		for (slotY = 0; slotY < 3; slotY++) {
 			for (int slotX = 0; slotX < 9; slotX++) {
-				addSlotToContainer(new CompatSlot(playerInv, slotX + slotY * 9 + 9, 8 + slotX * 18, 84 + slotY * 18));
+				addSlotToContainer(new Slot(playerInv, slotX + slotY * 9 + 9, 8 + slotX * 18, 84 + slotY * 18));
 			}
 		}
 		for (slotY = 0; slotY < 9; slotY++) {
-			addSlotToContainer(new CompatSlot(playerInv, slotY, 8 + slotY * 18, 142));
+			addSlotToContainer(new Slot(playerInv, slotY, 8 + slotY * 18, 142));
 		}
     }
 	
 	@Override
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
 		int invSize = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).getSlots();
-        ItemStack itemstack = ItemStackTools.getEmptyStack();
+        ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
         if (slot != null && slot.getHasStack()) {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
             if (index < invSize) {
                 if (!this.mergeItemStack(itemstack1, invSize, this.inventorySlots.size(), true)) {
-                    return ItemStackTools.getEmptyStack();
+                    return ItemStack.EMPTY;
                 }
             } else if (!this.mergeItemStack(itemstack1, 0, invSize, false)) {
-                return ItemStackTools.getEmptyStack();
+                return ItemStack.EMPTY;
             }
-            if (ItemStackTools.getStackSize(itemstack1) == 0) {
-                slot.putStack(ItemStackTools.getEmptyStack());
+            if (itemstack1.getCount() == 0) {
+                slot.putStack(ItemStack.EMPTY);
             } else {
                 slot.onSlotChanged();
             }

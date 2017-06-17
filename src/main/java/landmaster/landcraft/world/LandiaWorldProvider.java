@@ -1,15 +1,14 @@
 package landmaster.landcraft.world;
 
 import landmaster.landcraft.config.*;
-import landmaster.landcraft.world.biome.gen.LandiaBiomeGenerator;
+import landmaster.landcraft.world.biome.gen.*;
 import landmaster.landcraft.world.save.*;
-import mcjty.lib.compat.*;
 import net.minecraft.world.*;
-import net.minecraft.world.chunk.*;
+import net.minecraft.world.gen.*;
 import net.minecraft.world.storage.*;
 import net.minecraftforge.common.*;
 
-public class LandiaWorldProvider extends CompatWorldProvider {
+public class LandiaWorldProvider extends WorldProvider {
 	public static DimensionType DIMENSION_TYPE;
 	
 	public static void register() {
@@ -30,10 +29,10 @@ public class LandiaWorldProvider extends CompatWorldProvider {
 	}
 	
 	@Override
-	protected void initialize() {
-		this.biomeProvider = new LandiaBiomeGenerator(getWorld());
-		if (this.getWorld().getWorldInfo().getTerrainType() == WorldType.FLAT) {
-			this.getWorld().getWorldInfo().setTerrainType(WorldType.DEFAULT);
+	protected void init() {
+		this.biomeProvider = new LandiaBiomeGenerator(world);
+		if (this.world.getWorldInfo().getTerrainType() == WorldType.FLAT) {
+			this.world.getWorldInfo().setTerrainType(WorldType.DEFAULT);
 		}
 	}
 	
@@ -41,15 +40,15 @@ public class LandiaWorldProvider extends CompatWorldProvider {
 	public void calculateInitialWeather() {
 		if (!world.isRemote) {
 			if (LandiaWeather.get(world).isClear()) {
-				getWorld().thunderingStrength = 0.0F;
-				getWorld().rainingStrength = 0.0F;
-				getWorld().getWorldInfo().setThundering(false);
-				getWorld().getWorldInfo().setRaining(false);
+				world.thunderingStrength = 0.0F;
+				world.rainingStrength = 0.0F;
+				world.getWorldInfo().setThundering(false);
+				world.getWorldInfo().setRaining(false);
 			} else {
-				getWorld().thunderingStrength = 1.0F;
-				getWorld().rainingStrength = 1.0F;
-				getWorld().getWorldInfo().setThundering(true);
-				getWorld().getWorldInfo().setRaining(true);
+				world.thunderingStrength = 1.0F;
+				world.rainingStrength = 1.0F;
+				world.getWorldInfo().setThundering(true);
+				world.getWorldInfo().setRaining(true);
 			}
 		}
 	}
@@ -57,10 +56,10 @@ public class LandiaWorldProvider extends CompatWorldProvider {
 	@Override
 	public void updateWeather() {
 		if (LandiaWeather.get(world).isClear()) {
-			WorldInfo worldInfo = getWorld().getWorldInfo();
-			if (!getWorld().isRemote) {
-				getWorld().thunderingStrength = 0.0f;
-				getWorld().rainingStrength = 0.0F;
+			WorldInfo worldInfo = world.getWorldInfo();
+			if (!world.isRemote) {
+				world.thunderingStrength = 0.0f;
+				world.rainingStrength = 0.0F;
 				worldInfo.setThundering(false);
 				worldInfo.setRaining(false);
 			}
@@ -68,21 +67,21 @@ public class LandiaWorldProvider extends CompatWorldProvider {
 			worldInfo.setThunderTime(1000);
 			worldInfo.setRainTime(1000);
 		} else {
-			WorldInfo worldInfo = getWorld().getWorldInfo();
-			if (!getWorld().isRemote) {
-				getWorld().thunderingStrength = 1.0f;
-				getWorld().rainingStrength = 1.0F;
+			WorldInfo worldInfo = world.getWorldInfo();
+			if (!world.isRemote) {
+				world.thunderingStrength = 1.0f;
+				world.rainingStrength = 1.0F;
 				worldInfo.setThundering(true);
 				worldInfo.setRaining(true);
 			}
 			worldInfo.setCleanWeatherTime(0);
 			worldInfo.setThunderTime(worldInfo.getThunderTime() - 100);
 		}
-		getWorld().updateWeatherBody();
+		world.updateWeatherBody();
 	}
 	
 	@Override
 	public IChunkGenerator createChunkGenerator() {
-		return new LandiaChunkGenerator(getWorld());
+		return new LandiaChunkGenerator(world);
 	}
 }

@@ -5,8 +5,6 @@ import javax.annotation.*;
 import landmaster.landcraft.config.*;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.tile.*;
-import mcjty.lib.compat.*;
-import mcjty.lib.tools.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
 import net.minecraft.block.properties.*;
@@ -18,7 +16,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.util.text.*;
 import net.minecraft.world.*;
 
-public class BlockLandiaTower extends CompatBlock {
+public class BlockLandiaTower extends Block {
 	public static final int MAX_POSITION = 3;
 	
 	public static final IProperty<Integer> POSITION = PropertyInteger.create("position", 0, MAX_POSITION);
@@ -38,7 +36,7 @@ public class BlockLandiaTower extends CompatBlock {
 	public static final int LANDIA_NEARCOMPLETE_MSG_SIZE = 2;
 	
 	@Override
-	protected boolean clOnBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote)
 			return true;
@@ -46,7 +44,7 @@ public class BlockLandiaTower extends CompatBlock {
 			return false;
 		
 		for (int i=0; i<LANDIA_CHECK_MSG_SIZE; ++i) {
-			ChatTools.addChatMessage(playerIn,
+			playerIn.sendMessage(
 					new TextComponentTranslation("msg.landia_tower.check."+i,
 							TELandiaTower.SUB_HEIGHT, TELandiaTower.SUB_DIST - 1));
 		}
@@ -55,7 +53,7 @@ public class BlockLandiaTower extends CompatBlock {
 		if (tileGeneral instanceof TELandiaTower) {
 			if (((TELandiaTower) tileGeneral).checkTowers()) {
 				for (int i=0; i<LANDIA_NEARCOMPLETE_MSG_SIZE; ++i) {
-					ChatTools.addChatMessage(playerIn,
+					playerIn.sendMessage(
 							new TextComponentTranslation("msg.landia_tower.nearcomplete."+i));
 				}
 			}
@@ -104,7 +102,7 @@ public class BlockLandiaTower extends CompatBlock {
 	}
 	
 	@Override
-	protected void clOnNeighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos from) {
 		if (!verifyNeighborPos(worldIn, state, pos)) {
 			worldIn.setBlockToAir(pos);
 		}

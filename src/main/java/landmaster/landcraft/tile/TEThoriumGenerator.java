@@ -1,12 +1,13 @@
 package landmaster.landcraft.tile;
 
+import java.util.stream.IntStream;
+
 import org.apache.commons.lang3.*;
 
 import landmaster.landcraft.net.*;
-import landmaster.landcraft.net.teupdate.UpdateTEThoriumGenerator;
-import mcjty.lib.compat.*;
-import mcjty.lib.tools.*;
+import landmaster.landcraft.net.teupdate.*;
 import net.minecraft.entity.player.*;
+import net.minecraft.inventory.*;
 import net.minecraft.item.*;
 import net.minecraft.nbt.*;
 import net.minecraft.util.*;
@@ -17,7 +18,7 @@ import net.minecraftforge.items.*;
 import net.minecraftforge.oredict.*;
 
 public class TEThoriumGenerator extends TEEnergy
-implements ITickable, RedstoneControl.Provider<TEThoriumGenerator>, CompatInventory {
+implements ITickable, RedstoneControl.Provider<TEThoriumGenerator>, IInventory {
 	private ItemStackHandler ish;
 	private FluidTank ft;
 	
@@ -91,7 +92,7 @@ implements ITickable, RedstoneControl.Provider<TEThoriumGenerator>, CompatInvent
 		if (getWorld().isRemote || !this.isEnabled(this)) return;
 		if (progress < 0) {
 			ItemStack is = ish.extractItem(0, 1, true);
-			if (!ItemStackTools.isEmpty(is) && ArrayUtils.contains(OreDictionary.getOreIDs(is), OreDictionary.getOreID("ingotThorium"))) {
+			if (!is.isEmpty() && ArrayUtils.contains(OreDictionary.getOreIDs(is), OreDictionary.getOreID("ingotThorium"))) {
 				ish.extractItem(0, 1, false);
 				++progress;
 				markDirty();
@@ -162,7 +163,7 @@ implements ITickable, RedstoneControl.Provider<TEThoriumGenerator>, CompatInvent
 		return 64;
 	}
 	@Override
-	public boolean isUsable(EntityPlayer player) {
+	public boolean isUsableByPlayer(EntityPlayer player) {
 		return true;
 	}
 	@Override
@@ -189,7 +190,13 @@ implements ITickable, RedstoneControl.Provider<TEThoriumGenerator>, CompatInvent
 	@Override
 	public void clear() {
 		for (int i=0; i<ish.getSlots(); ++i) {
-			ish.setStackInSlot(i, ItemStackTools.getEmptyStack());
+			ish.setStackInSlot(i, ItemStack.EMPTY);
 		}
+	}
+	@Override
+	public boolean isEmpty() {
+		return IntStream.range(0, ish.getSlots())
+				.mapToObj(ish::getStackInSlot)
+				.allMatch(ItemStack::isEmpty);
 	}
 }

@@ -1,9 +1,9 @@
 package landmaster.landcraft.item;
 
 import landmaster.landcraft.content.*;
-import mcjty.lib.compat.*;
+import net.minecraft.item.*;
 
-public class ItemOlive extends CompatItemFood {
+public class ItemOlive extends ItemFood {
 	public ItemOlive() {
 		super(3, 1.0f, false);
 		this.setCreativeTab(LandCraftContent.creativeTab);

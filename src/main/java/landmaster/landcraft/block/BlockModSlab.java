@@ -1,7 +1,5 @@
 package landmaster.landcraft.block;
 
-import java.util.*;
-
 import javax.annotation.*;
 
 import landmaster.landcore.api.block.IMetaBlockName;
@@ -38,11 +36,7 @@ public abstract class BlockModSlab<E extends Enum<E> & IStringSerializable> exte
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void getSubBlocks(@Nonnull Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
-		this.func_149666_a(itemIn, tab, list);
-	}
-	
-	public void func_149666_a(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (E type : values) {
 			list.add(new ItemStack(this, 1, type.ordinal()));
 		}

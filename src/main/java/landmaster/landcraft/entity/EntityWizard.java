@@ -41,7 +41,7 @@ public class EntityWizard extends EntityMob implements IRangedAttackMob {
 	protected float applyPotionDamageCalculations(DamageSource source, float damage) {
         damage = super.applyPotionDamageCalculations(source, damage);
 
-        if (source.getEntity() == this)
+        if (source.getTrueSource() == this)
         {
             damage = 0.0F;
         }
@@ -114,5 +114,10 @@ public class EntityWizard extends EntityMob implements IRangedAttackMob {
 		} else {
 			this.world.addWeatherEffect(new EntityLightningBolt(world, target.posX, target.posY, target.posZ, false));
 		}
+	}
+
+	@Override
+	public void setSwingingArms(boolean swingingArms) {
+		// no-op
 	}
 }

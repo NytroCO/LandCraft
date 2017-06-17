@@ -6,11 +6,10 @@ public class TunisBiome extends LandiaBiome {
 
 	public TunisBiome(BiomeProperties properties) {
 		super(properties);
-		this.theBiomeDecorator.treesPerChunk = 1;
-		this.theBiomeDecorator.flowersPerChunk = 10;
-		this.theBiomeDecorator.sandPerChunk = 2;
-		this.theBiomeDecorator.sandPerChunk2 = 1;
-		this.theBiomeDecorator.clayPerChunk = 3;
+		this.decorator.treesPerChunk = 1;
+		this.decorator.flowersPerChunk = 10;
+		this.decorator.sandPatchesPerChunk = 3;
+		this.decorator.clayPerChunk = 3;
 	}
 	
 	

@@ -4,7 +4,6 @@ import landmaster.landcraft.entity.*;
 import net.minecraft.block.state.*;
 import net.minecraft.client.*;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.texture.*;
 import net.minecraft.client.renderer.vertex.*;
@@ -31,7 +30,7 @@ public class RenderEntityWizardMagicFireball extends Render<EntityWizardMagicFir
         GlStateManager.scale(scale, scale, scale);
         TextureAtlasSprite textureatlassprite = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getParticleIcon(Items.FIRE_CHARGE);
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        BufferBuilder vertexbuffer = tessellator.getBuffer();
         float f = textureatlassprite.getMinU();
         float f1 = textureatlassprite.getMaxU();
         float f2 = textureatlassprite.getMinV();
@@ -129,7 +128,7 @@ public class RenderEntityWizardMagicFireball extends Render<EntityWizardMagicFir
         double d3 = y - d0;
         double d4 = z - d1;
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        BufferBuilder vertexbuffer = tessellator.getBuffer();
         vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 
         for (BlockPos blockpos : BlockPos.getAllInBoxMutable(new BlockPos(i, k, i1), new BlockPos(j, l, j1)))
@@ -153,7 +152,7 @@ public class RenderEntityWizardMagicFireball extends Render<EntityWizardMagicFir
         if (state.isFullCube())
         {
             Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer vertexbuffer = tessellator.getBuffer();
+            BufferBuilder vertexbuffer = tessellator.getBuffer();
             double d0 = ((double)p_188299_9_ - (p_188299_4_ - ((double)p_188299_8_.getY() + p_188299_13_)) / 2.0D) * 0.5D * (double)this.getWorldFromRenderManager().getLightBrightness(p_188299_8_);
 
             if (d0 >= 0.0D)
@@ -192,7 +191,7 @@ public class RenderEntityWizardMagicFireball extends Render<EntityWizardMagicFir
         float f = entity.width * 1.4F;
         GlStateManager.scale(f, f, f);
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        BufferBuilder vertexbuffer = tessellator.getBuffer();
         float f1 = 0.5F;
         //float f2 = 0.0F;
         float f3 = entity.height / f;

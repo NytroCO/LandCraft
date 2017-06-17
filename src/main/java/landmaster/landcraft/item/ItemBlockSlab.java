@@ -4,7 +4,6 @@ import javax.annotation.*;
 
 import landmaster.landcore.api.item.*;
 import landmaster.landcraft.block.*;
-import mcjty.lib.tools.*;
 import net.minecraft.block.*;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.player.*;
@@ -27,11 +26,11 @@ public class ItemBlockSlab<T extends Enum<T> & IStringSerializable> extends Item
 	 */
 	@Nonnull
 	@Override
-	protected EnumActionResult clOnItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
 			EnumFacing facing, float hitX, float hitY, float hitZ) {
 		final ItemStack stack = player.getHeldItem(hand);
 		// don't place the slab if unable to edit
-		if (!ItemStackTools.isEmpty(stack) && player.canPlayerEdit(pos.offset(facing), facing, stack)) {
+		if (!stack.isEmpty() && player.canPlayerEdit(pos.offset(facing), facing, stack)) {
 			
 			// try placing the slab at the current position
 			// note that this requires the slab to be extended on the side the
@@ -44,7 +43,7 @@ public class ItemBlockSlab<T extends Enum<T> & IStringSerializable> extends Item
 				return EnumActionResult.SUCCESS;
 			}
 			
-			return super.clOnItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);
+			return super.onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);
 		} else {
 			return EnumActionResult.FAIL;
 		}
@@ -95,7 +94,7 @@ public class ItemBlockSlab<T extends Enum<T> & IStringSerializable> extends Item
 						SoundType soundtype = fullBlock.getBlock().getSoundType(fullBlock, worldIn, pos, player);
 						worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS,
 								(soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-						ItemStackTools.incStackSize(stack, -1);
+						stack.shrink(1);
 					}
 					
 					return true;

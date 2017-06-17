@@ -9,7 +9,7 @@ import net.minecraft.client.resources.*;
 import net.minecraft.util.*;
 import net.minecraft.util.text.*;
 
-public class PotRecipeCategory extends BlankRecipeCategory<PotRecipeJEI> {
+public class PotRecipeCategory implements IRecipeCategory<PotRecipeJEI> {
 	public static final ResourceLocation background_rl = new ResourceLocation(LandCraft.MODID, "textures/gui/pot.png");
 	
 	private final IDrawable background;
@@ -58,5 +58,10 @@ public class PotRecipeCategory extends BlankRecipeCategory<PotRecipeJEI> {
 		});
 		
 		fgroup.set(ingredients);
+	}
+
+	@Override
+	public String getModName() {
+		return LandCraft.NAME;
 	}
 }

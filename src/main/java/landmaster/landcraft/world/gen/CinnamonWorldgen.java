@@ -12,6 +12,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.chunk.*;
+import net.minecraft.world.gen.*;
 import net.minecraftforge.fml.common.*;
 
 public class CinnamonWorldgen implements IWorldGenerator {

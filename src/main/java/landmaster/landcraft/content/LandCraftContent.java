@@ -6,15 +6,15 @@ import landmaster.landcraft.*;
 import landmaster.landcraft.block.*;
 import landmaster.landcraft.item.*;
 import landmaster.landcraft.util.*;
-import mcjty.lib.compat.*;
+import net.minecraft.creativetab.*;
 import net.minecraft.item.*;
 
 public class LandCraftContent {
 
-	public static final CompatCreativeTabs creativeTab = new CompatCreativeTabs(LandCraft.MODID) {
+	public static final CreativeTabs creativeTab = new CreativeTabs(LandCraft.MODID) {
 		@Override
-		public Item getItem() {
-			return LandCraftContent.redstone_component;
+		public ItemStack getTabIconItem() {
+			return new ItemStack(LandCraftContent.redstone_component);
 		}
 	};
 	
@@ -52,7 +52,7 @@ public class LandCraftContent {
 	
 	// TECH ITEMS
 	public static final ItemWrench wrench = new ItemWrench();
-	public static final Item redstone_component = new CompatItem()
+	public static final Item redstone_component = new Item()
 	.setUnlocalizedName("redstone_component")
 	.setRegistryName("redstone_component")
 	.setCreativeTab(creativeTab);

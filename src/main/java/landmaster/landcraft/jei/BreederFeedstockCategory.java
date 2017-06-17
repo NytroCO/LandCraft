@@ -8,7 +8,7 @@ import mezz.jei.api.recipe.*;
 import net.minecraft.client.resources.*;
 import net.minecraft.util.*;
 
-public class BreederFeedstockCategory extends BlankRecipeCategory<BreederFeedstockJEI> {
+public class BreederFeedstockCategory implements IRecipeCategory<BreederFeedstockJEI> {
 	public static final ResourceLocation background_rl = new ResourceLocation(LandCraft.MODID, "textures/jei/breeder_feedstock.png");
 	
 	private final IDrawable background;
@@ -41,5 +41,10 @@ public class BreederFeedstockCategory extends BlankRecipeCategory<BreederFeedsto
 		igroup.init(0, true, 20-1, 20-1);
 		
 		igroup.set(ingredients);
+	}
+
+	@Override
+	public String getModName() {
+		return LandCraft.NAME;
 	}
 }

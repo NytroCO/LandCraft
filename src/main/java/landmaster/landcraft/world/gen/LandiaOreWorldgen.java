@@ -11,6 +11,7 @@ import net.minecraft.block.state.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraft.world.chunk.*;
+import net.minecraft.world.gen.*;
 import net.minecraftforge.fml.common.*;
 
 public class LandiaOreWorldgen implements IWorldGenerator {

@@ -1,11 +1,8 @@
 package landmaster.landcraft.block;
 
-import java.util.*;
-
 import landmaster.landcore.api.block.*;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
-import mcjty.lib.compat.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
 import net.minecraft.block.state.*;
@@ -13,11 +10,12 @@ import net.minecraft.creativetab.*;
 import net.minecraft.entity.player.*;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraftforge.fml.relauncher.*;
 
-public class BlockLandiaPlanks extends CompatBlock implements IMetaBlockName {
+public class BlockLandiaPlanks extends Block implements IMetaBlockName {
 	public BlockLandiaPlanks() {
 		super(Material.WOOD);
 		Blocks.FIRE.setFireInfo(this, 5, 20);
@@ -52,9 +50,9 @@ public class BlockLandiaPlanks extends CompatBlock implements IMetaBlockName {
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	protected void clGetSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (int i=0; i<LandiaTreeType.values().length; ++i) {
-			list.add(new ItemStack(itemIn, 1, i));
+			list.add(new ItemStack(this, 1, i));
 		}
 	}
 	

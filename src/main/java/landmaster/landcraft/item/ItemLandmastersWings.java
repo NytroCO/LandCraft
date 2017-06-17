@@ -8,13 +8,12 @@ import landmaster.landcore.api.item.*;
 import landmaster.landcraft.*;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
-import mcjty.lib.tools.*;
 import net.minecraft.client.*;
 import net.minecraft.client.entity.*;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.*;
 import net.minecraft.client.resources.*;
+import net.minecraft.client.util.*;
 import net.minecraft.creativetab.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.player.*;
@@ -50,8 +49,8 @@ public class ItemLandmastersWings extends ItemEnergyBase {
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	protected void clGetSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-		ItemStack empty = new ItemStack(itemIn);
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+		ItemStack empty = new ItemStack(this);
 		subItems.add(empty);
 		ItemStack full = empty.copy();
 		this.setEnergyStored(full, MAX_ENERGY);
@@ -70,13 +69,13 @@ public class ItemLandmastersWings extends ItemEnergyBase {
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void clAddInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag) {
 		tooltip.add(I18n.format("tooltip.landmasters_wings.info", ENERGY_PER_TICK));
 		tooltip.add(TextFormatting.GREEN+String.format("%d RF / %d RF", getEnergyStored(stack), getMaxEnergyStored(stack)));
 	}
 	
 	@Override
-	public ActionResult<ItemStack> clOnItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		ItemStack stack = playerIn.getHeldItem(hand);
 		
 		if (worldIn.isRemote) {
@@ -86,9 +85,9 @@ public class ItemLandmastersWings extends ItemEnergyBase {
 		EntityEquipmentSlot slot = EntityLiving.getSlotForItemStack(stack);
 		ItemStack old = playerIn.getItemStackFromSlot(slot);
 		
-		if (ItemStackTools.isEmpty(old)) { // vacant
+		if (old.isEmpty()) { // vacant
 			playerIn.setItemStackToSlot(slot, stack.copy());
-			ItemStackTools.setStackSize(stack, 0);
+			stack.setCount(0);
 			return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 		}
 		
@@ -169,7 +168,7 @@ public class ItemLandmastersWings extends ItemEnergyBase {
 				GlStateManager.translate(-doubleX, -doubleY, -doubleZ);
 				
 				Tessellator tessellator = Tessellator.getInstance();
-	            VertexBuffer buffer = tessellator.getBuffer();
+	            BufferBuilder buffer = tessellator.getBuffer();
 	            
 	            Minecraft.getMinecraft().renderEngine.bindTexture(LASER_LOC);
 	            

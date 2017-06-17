@@ -37,11 +37,7 @@ public class BlockLandiaLeaves extends BlockLeaves implements IMetaBlockName {
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void getSubBlocks(@Nonnull Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
-		this.func_149666_a(itemIn, tab, list);
-	}
-	
-	public void func_149666_a(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (LandiaTreeType type : LandiaTreeType.values()) {
 			list.add(new ItemStack(this, 1,
 					this.getMetaFromState(this.getDefaultState().withProperty(LandiaTreeType.L_TYPE, type))));

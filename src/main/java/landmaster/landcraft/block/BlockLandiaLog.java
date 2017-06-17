@@ -1,11 +1,8 @@
 package landmaster.landcraft.block;
 
-import java.util.*;
-
 import landmaster.landcore.api.block.*;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
-import mcjty.lib.compat.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
 import net.minecraft.block.properties.*;
@@ -20,7 +17,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraftforge.fml.relauncher.*;
 
-public class BlockLandiaLog extends CompatBlock implements IMetaBlockName {
+public class BlockLandiaLog extends Block implements IMetaBlockName {
 	public BlockLandiaLog() {
 		super(Material.WOOD);
 		
@@ -61,9 +58,9 @@ public class BlockLandiaLog extends CompatBlock implements IMetaBlockName {
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	protected void clGetSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (LandiaTreeType type: LandiaTreeType.values()) {
-			list.add(new ItemStack(itemIn, 1, getMetaFromState(getDefaultState()
+			list.add(new ItemStack(this, 1, getMetaFromState(getDefaultState()
 					.withProperty(LandiaTreeType.L_TYPE, type))));
 		}
 	}

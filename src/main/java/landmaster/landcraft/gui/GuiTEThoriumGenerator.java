@@ -6,7 +6,7 @@ import java.util.*;
 import landmaster.landcraft.*;
 import landmaster.landcraft.container.*;
 import landmaster.landcraft.tile.*;
-import landmaster.landcraft.util.*;
+import net.minecraft.client.*;
 import net.minecraft.client.renderer.texture.*;
 import net.minecraft.client.resources.*;
 import net.minecraft.util.*;
@@ -60,7 +60,7 @@ public class GuiTEThoriumGenerator extends GuiEnergy {
 		fontRenderer.drawString(cont.getPlayerInv().getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
 		
 		if (progress >= 0) {
-			NumberFormat nf = NumberFormat.getPercentInstance(Utils.getLocale());
+			NumberFormat nf = NumberFormat.getPercentInstance(Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getJavaLocale());
 			nf.setMaximumFractionDigits(1);
 			fontRenderer.drawString(nf.format(
 					((double)progress) / TEThoriumGenerator.THORIUM_BURN_TIME),

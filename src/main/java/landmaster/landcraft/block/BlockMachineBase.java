@@ -2,7 +2,7 @@ package landmaster.landcraft.block;
 
 import landmaster.landcraft.*;
 import landmaster.landcraft.gui.proxy.*;
-import mcjty.lib.compat.*;
+import net.minecraft.block.*;
 import net.minecraft.block.material.*;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.player.*;
@@ -13,7 +13,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 
-public class BlockMachineBase extends CompatBlock {
+public class BlockMachineBase extends Block {
 	public BlockMachineBase(Material blockMaterialIn, MapColor blockMapColorIn) {
         super(blockMaterialIn, blockMapColorIn);
     }
@@ -23,7 +23,7 @@ public class BlockMachineBase extends CompatBlock {
     }
     
     @Override
-	protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side,
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side,
             float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
 			player.openGui(LandCraft.INSTANCE, GuiProxy.GUI_TE_ID, world, pos.getX(), pos.getY(), pos.getZ());
