@@ -180,19 +180,24 @@ public class Utils {
 			
 			GameRegistry.register(
 					new ShapedOreRecipe(getTool(ToolType.SWORD).getRegistryName(),
-							getTool(ToolType.SWORD), "I", "I", "S", 'I', ingotName, 'S', "stickWood"));
+							getTool(ToolType.SWORD), "I", "I", "S", 'I', ingotName, 'S', "stickWood")
+					.setRegistryName(getTool(ToolType.SWORD).getRegistryName()));
 			GameRegistry.register(
 					new ShapedOreRecipe(getTool(ToolType.PICKAXE).getRegistryName(),
-							getTool(ToolType.PICKAXE), "III", " S ", " S ", 'I', ingotName, 'S', "stickWood"));
+							getTool(ToolType.PICKAXE), "III", " S ", " S ", 'I', ingotName, 'S', "stickWood")
+					.setRegistryName(getTool(ToolType.PICKAXE).getRegistryName()));
 			GameRegistry.register(
 					new ShapedOreRecipe(getTool(ToolType.AXE).getRegistryName(),
-							getTool(ToolType.AXE), "II", "IS", " S", 'I', ingotName, 'S', "stickWood"));
+							getTool(ToolType.AXE), "II", "IS", " S", 'I', ingotName, 'S', "stickWood")
+					.setRegistryName(getTool(ToolType.AXE).getRegistryName()));
 			GameRegistry.register(
 					new ShapedOreRecipe(getTool(ToolType.SHOVEL).getRegistryName(),
-							getTool(ToolType.SHOVEL), "I", "S", "S", 'I', ingotName, 'S', "stickWood"));
+							getTool(ToolType.SHOVEL), "I", "S", "S", 'I', ingotName, 'S', "stickWood")
+					.setRegistryName(getTool(ToolType.SHOVEL).getRegistryName()));
 			GameRegistry.register(
 					new ShapedOreRecipe(getTool(ToolType.HOE).getRegistryName(),
-							getTool(ToolType.HOE), "II", " S", " S", 'I', ingotName, 'S', "stickWood"));
+							getTool(ToolType.HOE), "II", " S", " S", 'I', ingotName, 'S', "stickWood")
+					.setRegistryName(getTool(ToolType.HOE).getRegistryName()));
 		}
 	}
 	

@@ -314,20 +314,23 @@ public class LandCraft {
 				LandCraftContent.landia_tower,
 				" K ", "GLM", "FLR", 'K', "blockKelline", 'G', "blockGarfax",
 				'M', "blockMorganine", 'R', "blockRacheline", 'F', "blockFriscion",
-				'L', "blockLandium"));
+				'L', "blockLandium")
+				.setRegistryName(LandCraftContent.landia_tower.getRegistryName()));
 		
 		GameRegistry.register(new ShapedOreRecipe(LandCraftContent.landia_portal_marker.getRegistryName(),
 				LandCraftContent.landia_portal_marker,
 				" d ", "lnl", "aea",
 				'd', "gemDiamond", 'l', "ingotLandium",
 				'n', Items.ENDER_PEARL, 'a', "ingotGold",
-				'e', "gemEmerald"));
+				'e', "gemEmerald")
+				.setRegistryName(LandCraftContent.landia_portal_marker.getRegistryName()));
 		
 		GameRegistry.register(new ShapedOreRecipe(LandCraftContent.redstone_component.getRegistryName(),
 				LandCraftContent.redstone_component,
 				"fdh",
 				'f', "ingotIron", 'd', "dustRedstone",
-				'h', "ingotThorium"));
+				'h', "ingotThorium")
+				.setRegistryName(LandCraftContent.redstone_component.getRegistryName()));
 		
 		final LandiaOreType[] values = LandiaOreType.values();
 		for (int i=0; i<values.length; ++i) {
@@ -335,14 +338,16 @@ public class LandCraft {
 			
 			GameRegistry.addSmelting(new ItemStack(LandCraftContent.landia_ore, 1, i),
 					new ItemStack(LandCraftContent.landia_ingot, 1, i), 1.25f);
-			GameRegistry.register(new ShapedOreRecipe(Tools.underscoreSuffix(LandCraftContent.landia_metal.getRegistryName(),
-					values[i]), new ItemStack(LandCraftContent.landia_metal, 1, i),
+			GameRegistry.register(new ShapedOreRecipe(LandCraftContent.landia_metal.getRegistryName(),
+					new ItemStack(LandCraftContent.landia_metal, 1, i),
 					"III", "III", "III",
-					'I', ingotName));
+					'I', ingotName)
+					.setRegistryName(Tools.underscoreSuffix(LandCraftContent.landia_metal.getRegistryName(), values[i])));
 			GameRegistry.register(new ShapelessRecipes(
-					Tools.underscoreSuffix(LandCraftContent.landia_ingot.getRegistryName(), values[i]).toString(),
+					LandCraftContent.landia_ingot.getRegistryName().toString(),
 					new ItemStack(LandCraftContent.landia_ingot, 9, i),
-					NonNullList.from(Ingredient.EMPTY, Ingredient.fromStacks(new ItemStack(LandCraftContent.landia_metal, 1, i)))));
+					NonNullList.from(Ingredient.EMPTY, Ingredient.fromStacks(new ItemStack(LandCraftContent.landia_metal, 1, i))))
+					.setRegistryName(Tools.underscoreSuffix(LandCraftContent.landia_ingot.getRegistryName(), values[i])));
 		}
 		
 		for (Utils.ToolGroup group: LandCraftContent.toolsMap.values()) {
@@ -353,27 +358,29 @@ public class LandCraft {
 	private static void initAgricultureRecipes() {
 		GameRegistry.register(new ShapelessOreRecipe(LandCraftContent.potato_onion_pastry.getRegistryName(),
 				LandCraftContent.potato_onion_pastry,
-				"cropPotato", "cropOnion", "cropWheat", "cropWheat"));
+				"cropPotato", "cropOnion", "cropWheat", "cropWheat")
+				.setRegistryName(LandCraftContent.potato_onion_pastry.getRegistryName()));
 		GameRegistry.addSmelting(new ItemStack(LandCraftContent.potato_onion_pastry),
 				new ItemStack(LandCraftContent.potato_onion_pastry, 1, 1), 0.35f);
 		
 		PotRecipes.addRecipe(PotRecipes.RecipePOredict.of(
 				"cropCinnamon", "cropOnion", "bone", new FluidStack(FluidRegistry.WATER, 1),
 				new PotRecipes.RecipeOutput(new ItemStack(LandCraftContent.pho), 4, 5, 1200)));
-		GameRegistry.register(new ShapelessOreRecipe(Tools.underscoreSuffix(LandCraftContent.pho.getRegistryName(), "full"),
+		GameRegistry.register(new ShapelessOreRecipe(LandCraftContent.pho.getRegistryName(),
 				new ItemStack(LandCraftContent.pho,1,1),
-				new ItemStack(LandCraftContent.pho), "cropRice", "cropRice", "cropRice", Items.BOWL, Items.BEEF));
+				new ItemStack(LandCraftContent.pho), "cropRice", "cropRice", "cropRice", Items.BOWL, Items.BEEF)
+				.setRegistryName(Tools.underscoreSuffix(LandCraftContent.pho.getRegistryName(), "full")));
 	}
 	
 	private static void initNatureRecipes() {
 		for (final LandiaTreeType type: LandiaTreeType.values()) {
 			final int i = type.ordinal();
-			GameRegistry.register(new ShapelessRecipes(
-					Tools.underscoreSuffix(LandCraftContent.landia_planks.getRegistryName(), type).toString(),
+			GameRegistry.register(new ShapelessRecipes(LandCraftContent.landia_planks.getRegistryName().toString(),
 					new ItemStack(LandCraftContent.landia_planks, 4, i),
-					NonNullList.from(Ingredient.EMPTY, Ingredient.fromStacks(new ItemStack(LandCraftContent.landia_log, 1, i)))));
+					NonNullList.from(Ingredient.EMPTY, Ingredient.fromStacks(new ItemStack(LandCraftContent.landia_log, 1, i))))
+					.setRegistryName(Tools.underscoreSuffix(LandCraftContent.landia_planks.getRegistryName(), type)));
 			GameRegistry.register(new ShapedRecipes(
-					Tools.underscoreSuffix(LandCraftContent.landia_wood_slab.getRegistryName(), type).toString(),
+					LandCraftContent.landia_wood_slab.getRegistryName().toString(),
 					3, 1,
 					Arrays.asList("ppp")
 					.stream()
@@ -381,10 +388,12 @@ public class LandCraft {
 					.mapToObj(c -> c == 'p' ? new ItemStack[] { new ItemStack(LandCraftContent.landia_planks, 1, i) } : new ItemStack[0])
 					.map(Ingredient::fromStacks)
 					.collect(Collectors.toCollection(NonNullList::create)),
-					new ItemStack(LandCraftContent.landia_wood_slab, 6, i)));
+					new ItemStack(LandCraftContent.landia_wood_slab, 6, i))
+					.setRegistryName(Tools.underscoreSuffix(LandCraftContent.landia_wood_slab.getRegistryName(), type)));
+			
 			final Block stairs = LandCraftContent.landia_wood_stairs.get(type);
 			GameRegistry.register(new ShapedRecipes(
-					Tools.underscoreSuffix(stairs.getRegistryName(), type).toString(),
+					stairs.getRegistryName().toString(),
 					3, 3,
 					Arrays.asList("p  ", "pp ", "ppp")
 					.stream()
@@ -392,7 +401,8 @@ public class LandCraft {
 					.mapToObj(c -> c == 'p' ? new ItemStack[] { new ItemStack(LandCraftContent.landia_planks, 1, i) } : new ItemStack[0])
 					.map(Ingredient::fromStacks)
 					.collect(Collectors.toCollection(NonNullList::create)),
-					new ItemStack(stairs, 4)));
+					new ItemStack(stairs, 4))
+					.setRegistryName(Tools.underscoreSuffix(stairs.getRegistryName(), type)));
 			
 			GameRegistry.addSmelting(new ItemStack(LandCraftContent.landia_log, 1, i), new ItemStack(Items.COAL, 1, 1), 0.15f);
 		}
@@ -405,7 +415,8 @@ public class LandCraft {
 					"wdw", "wFw", "hlh",
 					'w', "ingotTungsten", 'h', "ingotThorium",
 					'd', "gemDiamond", 'F', Blocks.FURNACE,
-					'l', "ingotLandium"));
+					'l', "ingotLandium")
+					.setRegistryName(LandCraftContent.breeder.getRegistryName()));
 		}
 		
 		if (Config.player_mime) {
@@ -414,7 +425,8 @@ public class LandCraft {
 					"rSr", "hOh", "www",
 					'S', Items.DIAMOND_SWORD, 'h', "ingotThorium",
 					'O', Blocks.OBSIDIAN, 'w', "ingotTungsten",
-					'r', LandCraftContent.redstone_component));
+					'r', LandCraftContent.redstone_component)
+					.setRegistryName(LandCraftContent.player_mime.getRegistryName()));
 		}
 		
 		if (Config.thorium_generator) {
@@ -422,7 +434,8 @@ public class LandCraft {
 					LandCraftContent.thorium_generator,
 					"rzr", "wFw", "ara",
 					'w', "ingotTungsten", 'r', LandCraftContent.redstone_component,
-					'F', Blocks.FURNACE, 'z', "gemLapis", 'a', "ingotGold"));
+					'F', Blocks.FURNACE, 'z', "gemLapis", 'a', "ingotGold")
+					.setRegistryName(LandCraftContent.thorium_generator.getRegistryName()));
 		}
 		
 		if (Config.pot) {
@@ -430,7 +443,8 @@ public class LandCraft {
 					LandCraftContent.pot,
 					"m m", "lFl", "lll",
 					'm', "ingotMorganine", 'l', "ingotLandium",
-					'F', Blocks.FURNACE));
+					'F', Blocks.FURNACE)
+					.setRegistryName(LandCraftContent.pot.getRegistryName()));
 		}
 		
 		if (Config.wrench) {
@@ -438,7 +452,8 @@ public class LandCraft {
 					LandCraftContent.wrench,
 					"w", "f", "z",
 					'w', "ingotTungsten", 'f', "ingotIron",
-					'z', "gemLapis"));
+					'z', "gemLapis")
+					.setRegistryName(LandCraftContent.wrench.getRegistryName()));
 		}
 	}
 }
