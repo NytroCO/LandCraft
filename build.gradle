@@ -18,7 +18,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
 
-version = "2.1.0.0"
+version = "2.2.0.0"
 group= "landmaster.landcraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "landcraft"
 
@@ -36,10 +36,14 @@ repositories {
 		// location of a maven mirror for JEI files, as a fallback
 		url = "modmaven.k-4u.nl"
 	}
+	maven {
+        name = "CoFH Maven"
+        url = "http://maven.covers1624.net"
+    }
 }
 
 minecraft {
-    version = "1.12-14.21.0.2330"
+    version = "1.12-14.21.1.2387"
     runDir = "run"
     
     // the mappings can be changed at any time, and must be in the following format.
@@ -73,8 +77,10 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
     
-    deobfCompile "mezz.jei:jei_1.12:4.6.0.61:api"
-    runtime "mezz.jei:jei_1.12:4.6.0.61"
+    deobfCompile "mezz.jei:jei_1.12:4.7.1.69:api"
+    runtime "mezz.jei:jei_1.12:4.7.1.69"
+    deobfCompile "cofh:RedstoneFlux:1.12-2.0.0.1:universal"
+    deobfCompile "cofh:CoFHCore:1.12-4.3.0.3:universal"
 }
 
 processResources

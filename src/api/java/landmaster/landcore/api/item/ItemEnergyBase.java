@@ -1,6 +1,5 @@
 package landmaster.landcore.api.item;
 
-import cofh.api.energy.*;
 import net.minecraft.item.*;
 import net.minecraft.nbt.*;
 import net.minecraft.util.*;

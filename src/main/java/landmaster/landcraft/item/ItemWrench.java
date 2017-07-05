@@ -11,7 +11,9 @@ import net.minecraft.item.*;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
+import net.minecraftforge.fml.common.*;
 
+@Optional.Interface(iface = "cofh.api.item.IToolHammer", modid = "cofhcore")
 public class ItemWrench extends Item implements IToolHammer {
 	public ItemWrench() {
 		this.setUnlocalizedName("item_wrench").setRegistryName("item_wrench");

@@ -70,7 +70,9 @@ public class ItemPho extends ItemFood {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		subItems.add(new ItemStack(this, 1, 0)); // broth only
-		subItems.add(new ItemStack(this, 1, 1)); // with noodles
+		if (this.isInCreativeTab(tab)) {
+			subItems.add(new ItemStack(this, 1, 0)); // broth only
+			subItems.add(new ItemStack(this, 1, 1)); // with noodles
+		}
 	}
 }

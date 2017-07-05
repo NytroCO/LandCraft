@@ -1,6 +1,5 @@
 package landmaster.landcraft.jei;
 
-import landmaster.landcraft.*;
 import landmaster.landcraft.api.*;
 import landmaster.landcraft.config.*;
 import landmaster.landcraft.container.*;
@@ -26,7 +25,7 @@ public class LandCraftJEI implements IModPlugin {
 	
 	@Override
 	public void register(IModRegistry registry) {
-		LandCraft.log.debug("Adding JEI integration for LandCraft");
+		LCLog.log.debug("Adding JEI integration for LandCraft");
 		
 		//final IIngredientRegistry ingredientRegistry = registry.getIngredientRegistry();
 		//final IJeiHelpers jeiHelpers = registry.getJeiHelpers();

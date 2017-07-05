@@ -1,15 +1,17 @@
-package cofh.api.energy;
+package landmaster.landcore.api.item;
 
+import cofh.redstoneflux.api.IEnergyContainerItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.Optional;
 
 /**
- * Reference implementation of {@link IEnergyContainerItem}. Use/extend this or implement your own.
- *
+ * King Lemming's reference implementation of an RF item, with some changes by Landmaster.
+ * 
  * @author King Lemming
- *
  */
+@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = "redstoneflux")
 public class ItemEnergyContainer extends Item implements IEnergyContainerItem {
 
 	protected int capacity;

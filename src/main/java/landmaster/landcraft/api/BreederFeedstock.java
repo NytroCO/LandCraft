@@ -5,7 +5,6 @@ import java.util.*;
 import gnu.trove.map.*;
 import gnu.trove.map.hash.*;
 import net.minecraft.item.*;
-import net.minecraftforge.fml.common.*;
 import net.minecraftforge.oredict.*;
 
 public class BreederFeedstock {
@@ -37,7 +36,7 @@ public class BreederFeedstock {
 		if (force || OreDictionary.doesOreNameExist(ore)) {
 			addOreDict(OreDictionary.getOreID(ore), mass, temp);
 		} else {
-			FMLLog.warning("OreDictionary entry "+ore+" does not exist; skipping for BreederFeedstock");
+			LCLog.log.warn("OreDictionary entry "+ore+" does not exist; skipping for BreederFeedstock");
 		}
 	}
 	

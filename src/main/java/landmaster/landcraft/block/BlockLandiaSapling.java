@@ -5,7 +5,7 @@ import java.util.*;
 import javax.annotation.*;
 
 import landmaster.landcore.api.block.*;
-import landmaster.landcraft.*;
+import landmaster.landcraft.api.*;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
 import landmaster.landcraft.world.gen.*;
@@ -116,7 +116,7 @@ public class BlockLandiaSapling extends BlockSapling implements IMetaBlockName {
 			gen = new LandiaTreeGenerator(5, 3, log, leaves, true, true);
 			break;
 		default:
-			LandCraft.log.warn("BlockLandiaLog Warning: Invalid sapling meta/foliage, "
+			LCLog.log.warn("BlockLandiaLog Warning: Invalid sapling meta/foliage, "
 					+ state.getValue(LandiaTreeType.L_TYPE) + ". Please report!");
 			break;
 		}

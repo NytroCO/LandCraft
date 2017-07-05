@@ -4,7 +4,6 @@ import org.objectweb.asm.*;
 import org.objectweb.asm.tree.*;
 
 import net.minecraft.launchwrapper.*;
-import net.minecraftforge.fml.common.*;
 import net.minecraftforge.fml.common.asm.transformers.deobf.*;
 
 public class Transform implements IClassTransformer {
@@ -32,7 +31,7 @@ public class Transform implements IClassTransformer {
 			classNode.methods.stream()
 			.filter(methodNode -> mapMethod(name, methodNode, obf).equals("func_184640_d"))
 			.forEach(methodNode -> {
-				FMLLog.info("Patching func_184640_d (getSlotForItemStack)");
+				LoadingPlugin.coreLog.info("Patching func_184640_d (getSlotForItemStack)");
 				
 				InsnList insns = new InsnList();
 				insns.add(new VarInsnNode(Opcodes.ALOAD, 0));

@@ -1,13 +1,18 @@
 package landmaster.landcraft.tile;
 
-import cofh.api.energy.*;
+import cofh.redstoneflux.api.*;
 import net.minecraft.nbt.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.energy.*;
 import net.minecraftforge.energy.EnergyStorage;
+import net.minecraftforge.fml.common.*;
 
+@Optional.InterfaceList({
+	@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyReceiver", modid = "redstoneflux"),
+	@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyProvider", modid = "redstoneflux")
+})
 public class TEEnergy extends TileEntity implements IEnergyReceiver, IEnergyProvider {
 	public static class Storage extends EnergyStorage {
 		public Storage(int capacity) {

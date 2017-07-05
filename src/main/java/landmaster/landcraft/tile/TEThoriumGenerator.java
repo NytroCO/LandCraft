@@ -1,6 +1,7 @@
 package landmaster.landcraft.tile;
 
-import java.util.stream.IntStream;
+import java.util.*;
+import java.util.stream.*;
 
 import org.apache.commons.lang3.*;
 
@@ -10,8 +11,10 @@ import net.minecraft.entity.player.*;
 import net.minecraft.inventory.*;
 import net.minecraft.item.*;
 import net.minecraft.nbt.*;
+import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.*;
+import net.minecraftforge.energy.*;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.*;
 import net.minecraftforge.items.*;
@@ -89,30 +92,49 @@ implements ITickable, RedstoneControl.Provider<TEThoriumGenerator>, IInventory {
 
 	@Override
 	public void update() {
-		if (getWorld().isRemote || !this.isEnabled(this)) return;
-		if (progress < 0) {
-			ItemStack is = ish.extractItem(0, 1, true);
-			if (!is.isEmpty() && ArrayUtils.contains(OreDictionary.getOreIDs(is), OreDictionary.getOreID("ingotThorium"))) {
-				ish.extractItem(0, 1, false);
-				++progress;
+		if (getWorld().isRemote) return;
+		if (this.isEnabled(this)) {
+			if (progress < 0) {
+				ItemStack is = ish.extractItem(0, 1, true);
+				if (!is.isEmpty() && ArrayUtils.contains(OreDictionary.getOreIDs(is), OreDictionary.getOreID("ingotThorium"))) {
+					ish.extractItem(0, 1, false);
+					++progress;
+					markDirty();
+				}
+			}
+			if (progress >= 0) {
+				FluidStack fs = ft.drain(new FluidStack(FluidRegistry.WATER, WATER_PER_TICK),
+						false);
+				if (this.receiveEnergy(null, ENERGY_PER_TICK, true) >= ENERGY_PER_TICK
+						&& fs != null && fs.amount >= WATER_PER_TICK) {
+					ft.drain(new FluidStack(FluidRegistry.WATER, WATER_PER_TICK), true);
+					this.receiveEnergy(null, ENERGY_PER_TICK, false);
+					++progress;
+					markDirty();
+				}
+			}
+			if (progress >= THORIUM_BURN_TIME) {
+				progress = -1;
 				markDirty();
 			}
 		}
-		if (progress >= 0) {
-			FluidStack fs = ft.drain(new FluidStack(FluidRegistry.WATER, WATER_PER_TICK),
-					false);
-			if (this.receiveEnergy(null, ENERGY_PER_TICK, true) >= ENERGY_PER_TICK
-					&& fs != null && fs.amount >= WATER_PER_TICK) {
-				ft.drain(new FluidStack(FluidRegistry.WATER, WATER_PER_TICK), true);
-				this.receiveEnergy(null, ENERGY_PER_TICK, false);
-				++progress;
-				markDirty();
+		
+		EnumMap<EnumFacing, IEnergyStorage> outputs = new EnumMap<>(EnumFacing.class);
+		for (final EnumFacing facing: EnumFacing.VALUES) {
+			final TileEntity te = world.getTileEntity(pos.offset(facing));
+			if (te != null
+					&& te.hasCapability(CapabilityEnergy.ENERGY, facing.getOpposite())) {
+				final IEnergyStorage storage = te.getCapability(CapabilityEnergy.ENERGY, facing.getOpposite());
+				if (storage.canReceive()) {
+					outputs.put(facing, storage);
+				}
 			}
 		}
-		if (progress >= THORIUM_BURN_TIME) {
-			progress = -1;
-			markDirty();
-		}
+		outputs.forEach((facing, storage) -> {
+			int energyToSend = storage.receiveEnergy(ENERGY_PER_TICK / outputs.size(), true);
+			int obtainedEnergy = this.extractEnergy(facing, energyToSend, false);
+			storage.receiveEnergy(obtainedEnergy, false);
+		});
 	}
 	
 	public FluidStack getFluid() {

@@ -13,12 +13,13 @@ import landmaster.landcraft.*;
 import landmaster.landcraft.item.*;
 import net.minecraft.entity.*;
 import net.minecraft.item.*;
+import net.minecraft.item.crafting.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 import net.minecraftforge.fluids.*;
-import net.minecraftforge.fml.common.registry.*;
 import net.minecraftforge.oredict.*;
+import net.minecraftforge.registries.*;
 
 public class Utils {
 	// thanks Tinkers Construct
@@ -175,33 +176,33 @@ public class Utils {
 			return tools.get(type.ordinal());
 		}
 		
-		public void initRecipes() {
+		public void initRecipes(IForgeRegistry<IRecipe> registry) {
 			final String ingotName = "ingot" + StringUtils.capitalize(metal.toString());
 			
-			GameRegistry.register(
+			registry.register(
 					new ShapedOreRecipe(getTool(ToolType.SWORD).getRegistryName(),
 							getTool(ToolType.SWORD), "I", "I", "S", 'I', ingotName, 'S', "stickWood")
 					.setRegistryName(getTool(ToolType.SWORD).getRegistryName()));
-			GameRegistry.register(
+			registry.register(
 					new ShapedOreRecipe(getTool(ToolType.PICKAXE).getRegistryName(),
 							getTool(ToolType.PICKAXE), "III", " S ", " S ", 'I', ingotName, 'S', "stickWood")
 					.setRegistryName(getTool(ToolType.PICKAXE).getRegistryName()));
-			GameRegistry.register(
+			registry.register(
 					new ShapedOreRecipe(getTool(ToolType.AXE).getRegistryName(),
 							getTool(ToolType.AXE), "II", "IS", " S", 'I', ingotName, 'S', "stickWood")
 					.setRegistryName(getTool(ToolType.AXE).getRegistryName()));
-			GameRegistry.register(
+			registry.register(
 					new ShapedOreRecipe(getTool(ToolType.SHOVEL).getRegistryName(),
 							getTool(ToolType.SHOVEL), "I", "S", "S", 'I', ingotName, 'S', "stickWood")
 					.setRegistryName(getTool(ToolType.SHOVEL).getRegistryName()));
-			GameRegistry.register(
+			registry.register(
 					new ShapedOreRecipe(getTool(ToolType.HOE).getRegistryName(),
 							getTool(ToolType.HOE), "II", " S", " S", 'I', ingotName, 'S', "stickWood")
 					.setRegistryName(getTool(ToolType.HOE).getRegistryName()));
 		}
 	}
 	
-	public static ToolGroup registerTools(LandiaOreType metal, Item.ToolMaterial material, float axeDamage,
+	public static ToolGroup registerTools(IForgeRegistry<Item> registry, LandiaOreType metal, Item.ToolMaterial material, float axeDamage,
 			float axeSpeed) {
 		Item[] items = new Item[] { new ItemModSword(material, metal + "_" + ToolType.SWORD),
 				new ItemModPickaxe(material, metal + "_" + ToolType.PICKAXE),
@@ -212,7 +213,7 @@ public class Utils {
 		final ToolType[] values = ToolType.values();
 		
 		for (int i = 0; i < items.length; ++i) {
-			GameRegistry.register(items[i]);
+			registry.register(items[i]);
 			LandCraft.proxy.registerItemRenderer(items[i], 0, "tool/" + metal + "_" + values[i]);
 		}
 		

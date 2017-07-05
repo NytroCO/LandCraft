@@ -44,7 +44,9 @@ public class ItemPotatoOnionPastry extends ItemFood {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		subItems.add(new ItemStack(this, 1, 0)); // raw
-		subItems.add(new ItemStack(this, 1, 1)); // cooked
+		if (this.isInCreativeTab(tab)) {
+			subItems.add(new ItemStack(this, 1, 0)); // raw
+			subItems.add(new ItemStack(this, 1, 1)); // cooked
+		}
 	}
 }

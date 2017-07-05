@@ -22,8 +22,10 @@ public class ItemLandiaIngot extends Item {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		for (int i=0; i<LandiaOreType.values().length; ++i) {
-			subItems.add(new ItemStack(this, 1, i));
+		if (this.isInCreativeTab(tab)) {
+			for (int i=0; i<LandiaOreType.values().length; ++i) {
+				subItems.add(new ItemStack(this, 1, i));
+			}
 		}
 	}
 }
