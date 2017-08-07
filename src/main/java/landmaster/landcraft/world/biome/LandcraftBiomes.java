@@ -1,13 +1,13 @@
 package landmaster.landcraft.world.biome;
 
-import landmaster.landcraft.*;
+import landmaster.landcraft.api.*;
 import net.minecraft.world.biome.*;
 import net.minecraftforge.common.*;
 import net.minecraftforge.event.*;
 import net.minecraftforge.fml.common.*;
 import net.minecraftforge.fml.common.eventhandler.*;
 
-@Mod.EventBusSubscriber(modid = LandCraft.MODID)
+@Mod.EventBusSubscriber(modid = ModInfo.MODID)
 public class LandcraftBiomes {
 	private static final Biome.BiomeProperties dunans_properties = new Biome.BiomeProperties("dunans");
 	

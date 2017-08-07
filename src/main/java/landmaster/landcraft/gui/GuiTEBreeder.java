@@ -2,7 +2,7 @@ package landmaster.landcraft.gui;
 
 import java.text.*;
 
-import landmaster.landcraft.*;
+import landmaster.landcraft.api.*;
 import landmaster.landcraft.container.*;
 import net.minecraft.client.*;
 import net.minecraft.client.gui.inventory.*;
@@ -10,7 +10,7 @@ import net.minecraft.client.resources.*;
 import net.minecraft.util.*;
 
 public class GuiTEBreeder extends GuiContainer {
-	private static final ResourceLocation background = new ResourceLocation(LandCraft.MODID, "textures/gui/breeder.png");
+	private static final ResourceLocation background = new ResourceLocation(ModInfo.MODID, "textures/gui/breeder.png");
 	
 	private ContTEBreeder cont;
 	

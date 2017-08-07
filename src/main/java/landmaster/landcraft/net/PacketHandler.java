@@ -4,14 +4,14 @@ import java.util.*;
 
 import gnu.trove.map.hash.*;
 import io.netty.buffer.*;
-import landmaster.landcraft.*;
+import landmaster.landcraft.api.*;
 import net.minecraft.tileentity.*;
 import net.minecraftforge.fml.common.network.*;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 import net.minecraftforge.fml.relauncher.*;
 
 public class PacketHandler {
-	public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(LandCraft.MODID);
+	public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(ModInfo.MODID);
 	
 	private static final Map<Class<? extends TileEntity>, Handle<?, ?, ?>> messageMap = new THashMap<>();
 	

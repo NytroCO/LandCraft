@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.function.*;
 
 import landmaster.landcraft.*;
+import landmaster.landcraft.api.ModInfo;
 import landmaster.landcraft.entity.*;
 import net.minecraft.block.*;
 import net.minecraft.block.properties.*;
@@ -30,9 +31,9 @@ public class CommonProxy {
 	}
 	
 	public void initEntities() {
-		EntityRegistry.registerModEntity(new ResourceLocation(LandCraft.MODID, "wizard"), EntityWizard.class, "wizard", 0, LandCraft.INSTANCE, 64, 3, true, 0x00FFFF, 0x000000);
-		EntityRegistry.registerModEntity(new ResourceLocation(LandCraft.MODID, "wizard_magic_fireball"), EntityWizardMagicFireball.class, "wizard_magic_fireball", 1, LandCraft.INSTANCE, 64, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(LandCraft.MODID, "big_brother"), EntityBigBrother.class, "big_brother", 2, LandCraft.INSTANCE, 128, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ModInfo.MODID, "wizard"), EntityWizard.class, "wizard", 0, LandCraft.INSTANCE, 64, 3, true, 0x00FFFF, 0x000000);
+		EntityRegistry.registerModEntity(new ResourceLocation(ModInfo.MODID, "wizard_magic_fireball"), EntityWizardMagicFireball.class, "wizard_magic_fireball", 1, LandCraft.INSTANCE, 64, 1, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ModInfo.MODID, "big_brother"), EntityBigBrother.class, "big_brother", 2, LandCraft.INSTANCE, 128, 2, true);
 		
 		LootTableList.register(EntityWizard.LOOT);
 		LootTableList.register(EntityBigBrother.LOOT);

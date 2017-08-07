@@ -3,7 +3,7 @@ package landmaster.landcraft.gui;
 import java.text.*;
 import java.util.*;
 
-import landmaster.landcraft.*;
+import landmaster.landcraft.api.*;
 import landmaster.landcraft.container.*;
 import landmaster.landcraft.tile.*;
 import net.minecraft.client.*;
@@ -13,7 +13,7 @@ import net.minecraft.util.*;
 import net.minecraftforge.fluids.*;
 
 public class GuiTEPot extends GuiEnergy {
-	private static final ResourceLocation background = new ResourceLocation(LandCraft.MODID, "textures/gui/pot.png");
+	private static final ResourceLocation background = new ResourceLocation(ModInfo.MODID, "textures/gui/pot.png");
 	
 	private static final int fluid_x = 80, fluid_y = 5;
 	private static final int energy_x = 150, energy_y = 5;

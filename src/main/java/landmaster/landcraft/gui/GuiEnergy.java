@@ -2,13 +2,13 @@ package landmaster.landcraft.gui;
 
 import java.util.*;
 
-import landmaster.landcraft.*;
+import landmaster.landcraft.api.*;
 import landmaster.landcraft.container.*;
 import net.minecraft.client.gui.inventory.*;
 import net.minecraft.util.*;
 
 public abstract class GuiEnergy extends GuiContainer {
-	private static final ResourceLocation bar = new ResourceLocation(LandCraft.MODID, "textures/gui/energy_bar.png");
+	private static final ResourceLocation bar = new ResourceLocation(ModInfo.MODID, "textures/gui/energy_bar.png");
 	
 	private ContEnergy cont;
 	

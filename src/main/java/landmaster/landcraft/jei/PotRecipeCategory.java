@@ -1,6 +1,6 @@
 package landmaster.landcraft.jei;
 
-import landmaster.landcraft.*;
+import landmaster.landcraft.api.*;
 import mezz.jei.api.*;
 import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.*;
@@ -10,7 +10,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.text.*;
 
 public class PotRecipeCategory implements IRecipeCategory<PotRecipeJEI> {
-	public static final ResourceLocation background_rl = new ResourceLocation(LandCraft.MODID, "textures/gui/pot.png");
+	public static final ResourceLocation background_rl = new ResourceLocation(ModInfo.MODID, "textures/gui/pot.png");
 	
 	private final IDrawable background;
 	private final IDrawable fluidOverlay;
@@ -62,6 +62,6 @@ public class PotRecipeCategory implements IRecipeCategory<PotRecipeJEI> {
 
 	@Override
 	public String getModName() {
-		return LandCraft.NAME;
+		return ModInfo.NAME;
 	}
 }

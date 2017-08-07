@@ -2,7 +2,7 @@ package landmaster.landcraft.content;
 
 import java.util.*;
 
-import landmaster.landcraft.*;
+import landmaster.landcraft.api.*;
 import landmaster.landcraft.block.*;
 import landmaster.landcraft.item.*;
 import landmaster.landcraft.util.*;
@@ -11,7 +11,7 @@ import net.minecraft.item.*;
 
 public class LandCraftContent {
 
-	public static final CreativeTabs creativeTab = new CreativeTabs(LandCraft.MODID) {
+	public static final CreativeTabs creativeTab = new CreativeTabs(ModInfo.MODID) {
 		@Override
 		public ItemStack getTabIconItem() {
 			return new ItemStack(LandCraftContent.redstone_component);

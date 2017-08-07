@@ -58,8 +58,8 @@ item.onion.name=Onion
 tile.rice_crop.name=Rice
 tile.wild_rice.name=Wild Rice
 item.rice.name=Rice
-item.potato_onion_pastry.name=Uncooked Potato Onion Pastry
-item.potato_onion_pastry.cooked.name=Cooked Potato Onion Pastry
+item.potato_onion_pastry.name=Uncooked Pierogi
+item.potato_onion_pastry.cooked.name=Pierogi
 item.pho.name=Pho Broth
 item.pho.full.name=Pho
 

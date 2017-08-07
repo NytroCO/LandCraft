@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
-import landmaster.landcraft.*;
+import landmaster.landcraft.api.*;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.entity.*;
 import landmaster.landcraft.entity.render.*;
@@ -37,7 +37,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void registerItemRenderer(Item item, int meta, String id, String variant) {
-		ModelResourceLocation rl = new ModelResourceLocation(LandCraft.MODID + ":" + id, variant);
+		ModelResourceLocation rl = new ModelResourceLocation(ModInfo.MODID + ":" + id, variant);
 		if (meta >= 0)  {
 			ModelLoader.setCustomModelResourceLocation(item, meta, rl);
 		} else {

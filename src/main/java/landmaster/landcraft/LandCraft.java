@@ -37,16 +37,10 @@ import net.minecraftforge.fml.common.network.*;
 import net.minecraftforge.fml.common.registry.*;
 import net.minecraftforge.oredict.*;
 
-@Mod(modid = LandCraft.MODID, name = LandCraft.NAME, version = LandCraft.VERSION, dependencies = LandCraft.DEPENDS, useMetadata = true)
+@Mod(modid = ModInfo.MODID, name = ModInfo.NAME, version = ModInfo.VERSION, dependencies = ModInfo.DEPENDS, useMetadata = true)
 @EventBusSubscriber
 public class LandCraft {
-	public static final String MODID = "landcraft";
-	public static final String NAME = "Land Craft";
-	public static final String VERSION = "2.2.0.0";
-	public static final String DEPENDS = "required-after:landcore@[1.5.0.0,);"
-			+ "after:jei;after:cofhcore";
-	
-	@Instance(MODID)
+	@Instance(ModInfo.MODID)
 	public static LandCraft INSTANCE;
 	
 	public static Config config;
@@ -57,10 +51,10 @@ public class LandCraft {
 	@SubscribeEvent
 	public static void addBlocks(RegistryEvent.Register<Block> event) {
 		event.getRegistry().register(LandCraftContent.landia_portal_marker);
-		GameRegistry.registerTileEntity(TELandiaPortalMarker.class, MODID+"_landia_portal_marker");
+		GameRegistry.registerTileEntity(TELandiaPortalMarker.class, ModInfo.MODID+"_landia_portal_marker");
 		
 		event.getRegistry().register(LandCraftContent.landia_tower);
-		GameRegistry.registerTileEntity(TELandiaTower.class, MODID+"_landia_tower");
+		GameRegistry.registerTileEntity(TELandiaTower.class, ModInfo.MODID+"_landia_tower");
 		
 		event.getRegistry().register(LandCraftContent.wild_onion);
 		event.getRegistry().register(LandCraftContent.onion_crop);
@@ -221,28 +215,28 @@ public class LandCraft {
 			ItemBlock breeder_item = new ItemBlock(LandCraftContent.breeder);
 			event.getRegistry().register(breeder_item.setRegistryName(LandCraftContent.breeder.getRegistryName()));
 			proxy.registerItemRenderer(breeder_item, 0, "breeder");
-			GameRegistry.registerTileEntity(TEBreeder.class, MODID+"_breeder_reactor");
+			GameRegistry.registerTileEntity(TEBreeder.class, ModInfo.MODID+"_breeder_reactor");
 		}
 		
 		if (Config.player_mime) {
 			ItemBlock player_mime_item = new ItemBlock(LandCraftContent.player_mime);
 			event.getRegistry().register(player_mime_item.setRegistryName(LandCraftContent.player_mime.getRegistryName()));
 			proxy.registerItemRenderer(player_mime_item, 0, "player_mime");
-			GameRegistry.registerTileEntity(TEPlayerMime.class, MODID+"_player_mime");
+			GameRegistry.registerTileEntity(TEPlayerMime.class, ModInfo.MODID+"_player_mime");
 		}
 		
 		if (Config.thorium_generator) {
 			ItemBlock thorium_generator_item = new ItemBlock(LandCraftContent.thorium_generator);
 			event.getRegistry().register(thorium_generator_item.setRegistryName(LandCraftContent.thorium_generator.getRegistryName()));
 			proxy.registerItemRenderer(thorium_generator_item, 0, "thorium_generator");
-			GameRegistry.registerTileEntity(TEThoriumGenerator.class, MODID+"_thorium_generator");
+			GameRegistry.registerTileEntity(TEThoriumGenerator.class, ModInfo.MODID+"_thorium_generator");
 		}
 		
 		if (Config.pot) {
 			ItemBlock pot_item = new ItemBlock(LandCraftContent.pot);
 			event.getRegistry().register(pot_item.setRegistryName(LandCraftContent.pot.getRegistryName()));
 			proxy.registerItemRenderer(pot_item, 0, "pot");
-			GameRegistry.registerTileEntity(TEPot.class, MODID+"_pot");
+			GameRegistry.registerTileEntity(TEPot.class, ModInfo.MODID+"_pot");
 		}
 		
 		if (Config.wrench) {

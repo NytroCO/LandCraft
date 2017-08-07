@@ -1,12 +1,12 @@
 package landmaster.landcraft.world.save;
 
-import landmaster.landcraft.*;
+import landmaster.landcraft.api.*;
 import net.minecraft.nbt.*;
 import net.minecraft.world.*;
 import net.minecraft.world.storage.*;
 
 public class LandiaWeather extends WorldSavedData {
-	public static final String NAME = LandCraft.MODID + "_landia_weather";
+	public static final String NAME = ModInfo.MODID + "_landia_weather";
 	
 	private boolean clear = false;
 	

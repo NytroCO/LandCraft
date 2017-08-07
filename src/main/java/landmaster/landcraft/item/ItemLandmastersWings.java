@@ -5,7 +5,7 @@ import java.util.*;
 import org.lwjgl.opengl.*;
 
 import landmaster.landcore.api.item.*;
-import landmaster.landcraft.*;
+import landmaster.landcraft.api.*;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
 import net.minecraft.client.*;
@@ -127,7 +127,7 @@ public class ItemLandmastersWings extends ItemEnergyBase {
 	}
 	
 	public static class ProxyClient extends Proxy {
-		public static final ResourceLocation LASER_LOC = new ResourceLocation(LandCraft.MODID, "textures/effects/laserbeam.png");
+		public static final ResourceLocation LASER_LOC = new ResourceLocation(ModInfo.MODID, "textures/effects/laserbeam.png");
 		
 		@Override
 		public void initEvents() {

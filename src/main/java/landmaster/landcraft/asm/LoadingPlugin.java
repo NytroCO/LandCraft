@@ -5,10 +5,10 @@ import java.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import landmaster.landcraft.*;
+import landmaster.landcraft.api.*;
 import net.minecraftforge.fml.relauncher.*;
 
-@IFMLLoadingPlugin.Name(LandCraft.NAME)
+@IFMLLoadingPlugin.Name(ModInfo.NAME)
 @IFMLLoadingPlugin.TransformerExclusions("landmaster.landcraft.asm")
 public class LoadingPlugin implements IFMLLoadingPlugin {
 	public static final Logger coreLog = LogManager.getLogger("LandCraft coremod");
