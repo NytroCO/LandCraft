@@ -1,9 +1,8 @@
 package landmaster.landcraft.entity;
 
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import landmaster.landcraft.api.*;
-import landmaster.landcraft.config.*;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
 import net.minecraft.entity.*;
@@ -65,16 +64,6 @@ public class EntityZombieCrabman extends EntityZombie {
 	public static void summonReinforcements(ZombieEvent.SummonAidEvent event) {
 		if (event.getSummoner() instanceof EntityZombieCrabman) {
 			event.setCustomSummonedAid(new EntityZombieCrabman(event.getWorld()));
-		}
-	}
-	
-	@SubscribeEvent
-	public static void replaceZombieWithCrabman(LivingSpawnEvent.CheckSpawn event) {
-		if (event.getWorld().provider.getDimension() == Config.landiaDimensionID
-				&& event.getEntityLiving().getClass() == EntityZombie.class
-				&& event.getEntityLiving().getRNG().nextFloat() < 0.27f) {
-			event.setResult(Event.Result.DENY);
-			event.getWorld().spawnEntity(new EntityZombieCrabman(event.getWorld())); // replace regular zombies
 		}
 	}
 	

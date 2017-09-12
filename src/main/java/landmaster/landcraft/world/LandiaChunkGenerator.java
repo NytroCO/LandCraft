@@ -26,7 +26,8 @@ public class LandiaChunkGenerator implements IChunkGenerator {
 	
 	private static final List<Biome.SpawnListEntry> mobs = ImmutableList.of(
 			new Biome.SpawnListEntry(EntityLandlord.class, 40, 1, 3),
-			new Biome.SpawnListEntry(EntityWizard.class, 27, 1, 3));
+			new Biome.SpawnListEntry(EntityWizard.class, 27, 1, 3),
+			new Biome.SpawnListEntry(EntityZombieCrabman.class, 46, 2, 5));
 	
 	private MapGenBase caveGenerator = new MapGenCaves();
 	private MapGenBase ravineGenerator = new MapGenRavine();
