@@ -6,8 +6,12 @@ import landmaster.landcraft.api.*;
 import landmaster.landcraft.block.*;
 import landmaster.landcraft.item.*;
 import landmaster.landcraft.util.*;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.*;
 import net.minecraft.creativetab.*;
 import net.minecraft.item.*;
+import net.minecraft.world.*;
+import net.minecraftforge.fml.relauncher.*;
 
 public class LandCraftContent {
 
@@ -49,6 +53,20 @@ public class LandCraftContent {
 	public static final ItemRice rice = new ItemRice();
 	public static final ItemPho pho = new ItemPho();
 	public static final ItemOlive olive = new ItemOlive();
+	public static final ItemLandiaCrabFlesh landia_crab_flesh = new ItemLandiaCrabFlesh();
+	public static final ItemBunRieu bun_rieu = new ItemBunRieu();
+	public static final BlockTomatoCrop tomato_crop = new BlockTomatoCrop();
+	public static final ItemBlockSpecial tomato_crop_item = (ItemBlockSpecial)new ItemBlockSpecial(tomato_crop) {
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag) {
+			tooltip.add(I18n.format(""));
+		}
+	}
+	.setUnlocalizedName("tomato_crop")
+	.setRegistryName("tomato_crop")
+	.setCreativeTab(creativeTab);
+	public static final ItemTomato tomato = new ItemTomato();
 	
 	// TECH ITEMS
 	public static final ItemWrench wrench = new ItemWrench();

@@ -5,7 +5,6 @@ import landmaster.landcraft.util.*;
 import net.minecraft.creativetab.*;
 import net.minecraft.item.*;
 import net.minecraft.util.*;
-import net.minecraftforge.fml.relauncher.*;
 
 public class ItemLandiaIngot extends Item {
 	public ItemLandiaIngot() {
@@ -19,7 +18,6 @@ public class ItemLandiaIngot extends Item {
 		return super.getUnlocalizedName(stack) + "." + LandiaOreType.values()[stack.getMetadata()];
 	}
 	
-	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		if (this.isInCreativeTab(tab)) {

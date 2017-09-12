@@ -4,7 +4,6 @@ import landmaster.landcraft.content.*;
 import net.minecraft.creativetab.*;
 import net.minecraft.item.*;
 import net.minecraft.util.*;
-import net.minecraftforge.fml.relauncher.*;
 
 public class ItemPotatoOnionPastry extends ItemFood {
 	public ItemPotatoOnionPastry() {
@@ -41,7 +40,6 @@ public class ItemPotatoOnionPastry extends ItemFood {
 		return baseName;
 	}
 	
-	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		if (this.isInCreativeTab(tab)) {

@@ -13,7 +13,6 @@ import net.minecraft.item.*;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
-import net.minecraftforge.fml.relauncher.*;
 
 public class BlockLandiaMetal extends Block implements IMetaBlockName {
 	public static final PropertyEnum<LandiaOreType> TYPE = PropertyEnum.create("type", LandiaOreType.class);
@@ -53,7 +52,6 @@ public class BlockLandiaMetal extends Block implements IMetaBlockName {
 	    return getMetaFromState(state);
 	}
 	
-	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (int i=0; i<LandiaOreType.values().length; ++i) {

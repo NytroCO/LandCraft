@@ -34,9 +34,11 @@ public class CommonProxy {
 		EntityRegistry.registerModEntity(new ResourceLocation(ModInfo.MODID, "wizard"), EntityWizard.class, "wizard", 0, LandCraft.INSTANCE, 64, 3, true, 0x00FFFF, 0x000000);
 		EntityRegistry.registerModEntity(new ResourceLocation(ModInfo.MODID, "wizard_magic_fireball"), EntityWizardMagicFireball.class, "wizard_magic_fireball", 1, LandCraft.INSTANCE, 64, 1, true);
 		EntityRegistry.registerModEntity(new ResourceLocation(ModInfo.MODID, "big_brother"), EntityBigBrother.class, "big_brother", 2, LandCraft.INSTANCE, 128, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ModInfo.MODID, "zombie_crabman"), EntityZombieCrabman.class, "zombie_crabman", 3, LandCraft.INSTANCE, 64, 3, true, 0x4286F4, 0xFF9000);
 		
 		LootTableList.register(EntityWizard.LOOT);
 		LootTableList.register(EntityBigBrother.LOOT);
+		LootTableList.register(EntityZombieCrabman.LOOT);
 	}
 	
 	public void setCustomStateMapper(Block block, Function<Block, Collection<Map.Entry<IBlockState, String>>> mapper) {

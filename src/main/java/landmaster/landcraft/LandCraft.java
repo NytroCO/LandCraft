@@ -62,6 +62,9 @@ public class LandCraft {
 		event.getRegistry().register(LandCraftContent.wild_rice);
 		event.getRegistry().register(LandCraftContent.rice_crop);
 		
+		event.getRegistry().register(LandCraftContent.tomato_crop);
+		proxy.setCustomStateMapper(LandCraftContent.tomato_crop, BlockTomatoCrop.AGE);
+		
 		event.getRegistry().register(LandCraftContent.landia_sapling);
 		proxy.setCustomStateMapper(LandCraftContent.landia_sapling, BlockSapling.STAGE, BlockSapling.TYPE);
 		
@@ -276,6 +279,20 @@ public class LandCraft {
 							type.getEfficiency(), type.getDamage(), type.getEnchantability()),
 					type.getAxeDamage(), type.getAxeSpeed()));
 		}
+		
+		event.getRegistry().register(LandCraftContent.landia_crab_flesh);
+		proxy.registerItemRenderer(LandCraftContent.landia_crab_flesh, 0, "landia_crab_flesh");
+		OreDictionary.registerOre("foodCrab", LandCraftContent.landia_crab_flesh);
+		OreDictionary.registerOre("foodCrabLandia", LandCraftContent.landia_crab_flesh);
+		
+		event.getRegistry().register(LandCraftContent.bun_rieu);
+		proxy.registerItemRenderer(LandCraftContent.bun_rieu, 0, "bun_rieu");
+		proxy.registerItemRenderer(LandCraftContent.bun_rieu, 1, "bun_rieu_full");
+		
+		event.getRegistry().registerAll(LandCraftContent.tomato_crop_item, LandCraftContent.tomato);
+		proxy.registerItemRenderer(LandCraftContent.tomato_crop_item, 0, "tomato_crop");
+		proxy.registerItemRenderer(LandCraftContent.tomato, 0, "tomato");
+		OreDictionary.registerOre("cropTomato", LandCraftContent.tomato);
 	}
 	
 	@EventHandler
@@ -366,6 +383,14 @@ public class LandCraft {
 				new ItemStack(LandCraftContent.pho,1,1),
 				new ItemStack(LandCraftContent.pho), "cropRice", "cropRice", "cropRice", Items.BOWL, Items.BEEF)
 				.setRegistryName(Tools.underscoreSuffix(LandCraftContent.pho.getRegistryName(), "full")));
+		
+		PotRecipes.addRecipe(PotRecipes.RecipePOredict.of("cropTomato", "foodCrabLandia", "cropOnion", new FluidStack(FluidRegistry.WATER, 1),
+				new PotRecipes.RecipeOutput(new ItemStack(LandCraftContent.bun_rieu), 10, 100, 200)));
+		event.getRegistry().register(new ShapelessOreRecipe(LandCraftContent.bun_rieu.getRegistryName(),
+				new ItemStack(LandCraftContent.bun_rieu,1,1),
+				new ItemStack(LandCraftContent.bun_rieu), "cropRice", "cropRice", "cropRice", Items.BOWL)
+				.setRegistryName(Tools.underscoreSuffix(LandCraftContent.bun_rieu.getRegistryName(), "full")));
+		
 		
 		for (final LandiaTreeType type: LandiaTreeType.values()) {
 			final int i = type.ordinal();

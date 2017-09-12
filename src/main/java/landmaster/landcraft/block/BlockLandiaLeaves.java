@@ -35,7 +35,6 @@ public class BlockLandiaLeaves extends BlockLeaves implements IMetaBlockName {
 		super.updateTick(worldIn, pos, state, rand);
 	}
 	
-	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (LandiaTreeType type : LandiaTreeType.values()) {

@@ -10,10 +10,9 @@ import net.minecraft.creativetab.*;
 import net.minecraft.entity.player.*;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
-import net.minecraftforge.fml.relauncher.*;
 
 public class BlockLandiaPlanks extends Block implements IMetaBlockName {
 	public BlockLandiaPlanks() {
@@ -48,7 +47,6 @@ public class BlockLandiaPlanks extends Block implements IMetaBlockName {
 	    return getMetaFromState(state);
 	}
 	
-	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (int i=0; i<LandiaTreeType.values().length; ++i) {

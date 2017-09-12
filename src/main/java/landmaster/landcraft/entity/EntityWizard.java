@@ -2,6 +2,7 @@ package landmaster.landcraft.entity;
 
 import javax.annotation.*;
 
+import landmaster.landcraft.api.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.effect.*;
@@ -15,7 +16,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.*;
 
 public class EntityWizard extends EntityMob implements IRangedAttackMob {
-	public static final ResourceLocation LOOT = new ResourceLocation("landcraft:entities/wizard");
+	public static final ResourceLocation LOOT = new ResourceLocation(ModInfo.MODID, "entities/wizard");
 	
 	public EntityWizard(World worldIn) {
 		super(worldIn);

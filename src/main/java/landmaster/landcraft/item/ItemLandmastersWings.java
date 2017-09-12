@@ -47,7 +47,6 @@ public class ItemLandmastersWings extends ItemEnergyBase {
 		return EnumRarity.EPIC;
 	}
 	
-	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		if (this.isInCreativeTab(tab)) {

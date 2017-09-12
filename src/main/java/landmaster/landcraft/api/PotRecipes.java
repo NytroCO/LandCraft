@@ -102,9 +102,6 @@ public class PotRecipes {
 		/**
 		 * Creates a new {@link RecipeOutput}
 		 * @param out Output stack
-		 * @param in1N Amount of items to take from first input stack
-		 * @param in2N Amount of items to take from second input stack
-		 * @param in3N Amount of items to take from third input stack
 		 * @param fluidPerTick Fluid consumed per tick
 		 * @param energyPerTick Energy consumed per tick
 		 * @param time in ticks for the recipe to process

@@ -4,7 +4,7 @@
         "model": "crop"
     },
     "variants": {
-    	"age": {
+    		"age": {
 			"0": {
 				"textures": {
 					"crop": "landcraft:blocks/onion_crop/0"

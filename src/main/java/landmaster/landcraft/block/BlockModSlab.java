@@ -10,8 +10,6 @@ import net.minecraft.block.state.*;
 import net.minecraft.creativetab.*;
 import net.minecraft.item.*;
 import net.minecraft.util.*;
-import net.minecraftforge.fml.relauncher.*;
-
 
 public abstract class BlockModSlab<E extends Enum<E> & IStringSerializable> extends BlockSlab implements IMetaBlockName {
 	
@@ -34,7 +32,6 @@ public abstract class BlockModSlab<E extends Enum<E> & IStringSerializable> exte
 		return material;
 	}
 	
-	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (E type : values) {
