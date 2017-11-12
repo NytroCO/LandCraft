@@ -18,6 +18,7 @@ import landmaster.landcraft.util.*;
 import net.minecraft.block.state.*;
 import net.minecraft.init.*;
 import net.minecraft.nbt.*;
+import net.minecraft.server.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
@@ -32,6 +33,11 @@ public class TELandiaTower extends TileEntity {
 	public static final int SUB_HEIGHT = 2;
 	
 	private @Nullable UUID targetEntity;
+	
+	/**
+	 * Client-only field
+	 */
+	private boolean entExists = false;
 	
 	static {
 		MinecraftForge.EVENT_BUS.register(TELandiaTower.class);
@@ -71,8 +77,10 @@ public class TELandiaTower extends TileEntity {
 	}
 	
 	public boolean isActive() {
-		return targetEntity != null && FMLCommonHandler.instance().getMinecraftServerInstance()
-				.getEntityFromUuid(targetEntity) != null;
+		final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+		return targetEntity != null && server != null
+				? server.getEntityFromUuid(targetEntity) != null
+				: entExists;
 	}
 	
 	public UUID getTargetEntity() {
@@ -164,6 +172,14 @@ public class TELandiaTower extends TileEntity {
 	
 	public void setTargetEntity(UUID uuid) {
 		this.targetEntity = uuid;
+	}
+	
+	/**
+	 * Client only.
+	 * @param entExists
+	 */
+	public void setEntExists(boolean entExists) {
+		this.entExists = entExists;
 	}
 	
 	private void syncTE() {
