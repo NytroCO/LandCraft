@@ -103,7 +103,7 @@ public class EntityWizard extends EntityMob implements IRangedAttackMob {
 	public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
 		float rv = rand.nextFloat();
 		if (rv < 0.8f) {
-			double d0 = this.getDistanceSqToEntity(target);
+			double d0 = this.getDistanceSq(target);
 			double d1 = target.posX - this.posX;
 	        double d2 = target.getEntityBoundingBox().minY + (double)(this.height / 2.0F) - (this.posY + (double)(this.height / 2.0F));
 	        double d3 = target.posZ - this.posZ;

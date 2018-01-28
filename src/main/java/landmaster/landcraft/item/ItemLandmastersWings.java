@@ -44,6 +44,11 @@ public class ItemLandmastersWings extends ItemEnergyBase {
 	}
 	
 	@Override
+	public EntityEquipmentSlot getEquipmentSlot(ItemStack stack) {
+		return EntityEquipmentSlot.CHEST;
+	}
+	
+	@Override
 	public EnumRarity getRarity(ItemStack stack) {
 		return EnumRarity.EPIC;
 	}

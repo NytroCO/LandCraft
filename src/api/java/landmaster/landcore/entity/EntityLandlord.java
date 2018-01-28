@@ -168,7 +168,7 @@ public class EntityLandlord extends EntityMob {
         {
             --this.attackTime;
             EntityLivingBase entitylivingbase = this.landlord.getAttackTarget();
-            double d0 = this.landlord.getDistanceSqToEntity(entitylivingbase);
+            double d0 = this.landlord.getDistanceSq(entitylivingbase);
 
             if (d0 < 4.0D)
             {
@@ -224,7 +224,7 @@ public class EntityLandlord extends EntityMob {
             }
             else
             {
-                this.landlord.getNavigator().clearPathEntity();
+                this.landlord.getNavigator().clearPath();
                 this.landlord.getMoveHelper().setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
             }
 

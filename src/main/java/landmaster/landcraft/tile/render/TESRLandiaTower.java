@@ -18,7 +18,7 @@ public class TESRLandiaTower extends TileEntitySpecialRenderer<TELandiaTower> {
 	public static final ResourceLocation LASER_LOC = new ResourceLocation(ModInfo.MODID, "textures/effects/laserbeam.png");
 	
 	@Override
-	public void renderTileEntityAt(TELandiaTower te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+	public void render(TELandiaTower te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		if (te.isActive()) {
 			GlStateManager.depthMask(false);
             GlStateManager.enableBlend();

@@ -44,7 +44,7 @@ public class EntityAISummonHenchmen extends EntityAIBase {
 		countdown = 240 + owner.getRNG().nextInt(260);
 		if (!owner.getEntityWorld().isRemote) {
 			owner.getEntityWorld().playerEntities.stream()
-			.filter(player -> owner.getDistanceSqToEntity(player) < EntityBigBrother.ATK_RANGE*EntityBigBrother.ATK_RANGE)
+			.filter(player -> owner.getDistanceSq(player) < EntityBigBrother.ATK_RANGE*EntityBigBrother.ATK_RANGE)
 			.forEach(player -> player.sendMessage(new TextComponentTranslation("msg.big_brother.henchmen.summon")));
 		}
 	}
