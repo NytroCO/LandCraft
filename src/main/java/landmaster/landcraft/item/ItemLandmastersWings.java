@@ -27,6 +27,7 @@ import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.*;
 import net.minecraftforge.fml.common.*;
 import net.minecraftforge.fml.common.eventhandler.*;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.*;
 
 public class ItemLandmastersWings extends ItemEnergyBase {
@@ -95,34 +96,47 @@ public class ItemLandmastersWings extends ItemEnergyBase {
 		return new ActionResult<>(EnumActionResult.FAIL, stack);
 	}
 	
-	@Override
-	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
-		if (world.isRemote) return;
+	static { MinecraftForge.EVENT_BUS.register(ItemLandmastersWings.class); }
+	
+	private static final Set<EntityPlayer> playersThatHadWornArmor = Collections.newSetFromMap(new WeakHashMap<>());
+	
+	@SubscribeEvent
+	public static void renderPlayerLasers(TickEvent.PlayerTickEvent event) {
+		if (event.player.getEntityWorld().isRemote) return;
+		final EntityPlayer player = event.player;
+		final ItemStack stack = player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+		boolean isCurrentlyWearingArmor = stack.getItem() instanceof ItemLandmastersWings;
 		if (!player.isCreative() && !player.isSpectator()
-				&& player.getItemStackFromSlot(EntityLiving.getSlotForItemStack(itemStack)) == itemStack) {
-			if (this.extractEnergy(itemStack, ENERGY_PER_TICK, true) >= ENERGY_PER_TICK) {
+				&& isCurrentlyWearingArmor) {
+			playersThatHadWornArmor.add(player);
+			if (((ItemLandmastersWings)stack.getItem()).extractEnergy(stack, ENERGY_PER_TICK, true) >= ENERGY_PER_TICK) {
 				player.capabilities.allowFlying = true;
 				if (player.capabilities.isFlying) {
-					this.extractEnergy(itemStack, ENERGY_PER_TICK, false);
+					((ItemLandmastersWings)stack.getItem()).extractEnergy(stack, ENERGY_PER_TICK, false);
 				}
 			} else {
 				player.capabilities.allowFlying = false;
 				player.capabilities.isFlying = false;
 			}
-			player.sendPlayerAbilities();
+		}
+		if (!player.isCreative() && !player.isSpectator()
+				&& !isCurrentlyWearingArmor && playersThatHadWornArmor.contains(player)) {
+			playersThatHadWornArmor.remove(player);
+			player.capabilities.allowFlying = false;
+			player.capabilities.isFlying = false;
 		}
 		if (player.isCreative() || player.isSpectator()) {
 			player.capabilities.allowFlying = true;
-			player.sendPlayerAbilities();
 		}
+		//if (player.ticksExisted % 5 == 0) System.out.println(player.capabilities.allowFlying);
+		player.sendPlayerAbilities();
 	}
 	
 	@SidedProxy(serverSide = "landmaster.landcraft.item.ItemLandmastersWings$Proxy", clientSide = "landmaster.landcraft.item.ItemLandmastersWings$ProxyClient")
 	public static Proxy proxy;
 	
 	public static class Proxy {
-		public void initEvents() {
-		}
+		public void initEvents() {}
 	}
 	
 	public static class ProxyClient extends Proxy {

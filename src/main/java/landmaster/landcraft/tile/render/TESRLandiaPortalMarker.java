@@ -19,7 +19,8 @@ public class TESRLandiaPortalMarker extends TileEntitySpecialRenderer<TELandiaPo
 	
 	@Override
 	public void renderTileEntityAt(TELandiaPortalMarker te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
-		if (te.getWorld().getBlockState(te.getPos()).getValue(BlockLandiaPortalMarker.ACTIVATED)) {
+		if (te.getWorld().getBlockState(te.getPos()).getBlock() instanceof BlockLandiaPortalMarker
+				&& te.getWorld().getBlockState(te.getPos()).getValue(BlockLandiaPortalMarker.ACTIVATED)) {
 			GlStateManager.depthMask(false);
             GlStateManager.enableBlend();
 			GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
