@@ -13,17 +13,17 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 
 public class LandiaTreeGenerator extends TreeGenerator {
-	public final int minTreeHeight;
+	private final int minTreeHeight;
 	
-	public final int treeHeightRange;
+	private final int treeHeightRange;
 	
-	public final IBlockState log;
+	private final IBlockState log;
 	
-	public final IBlockState leaves;
+	private final IBlockState leaves;
 	
-	public final boolean seekHeight;
+	private final boolean seekHeight;
 	
-	public final boolean isSapling;
+	private final boolean isSapling;
 	
 	public LandiaTreeGenerator(int treeHeight, int treeRange, IBlockState log, IBlockState leaves, boolean seekHeight,
 			boolean isSapling) {
@@ -69,10 +69,11 @@ public class LandiaTreeGenerator extends TreeGenerator {
 	}
 	
 	private boolean checkIfCanGrow(BlockPos position, int heightRange, World worldIn) {
+		//TODO: actually check if can grow
 		return true;
 	}
 	
-	BlockPos findGround(World world, BlockPos pos) {
+	private BlockPos findGround(World world, BlockPos pos) {
 		int returnHeight = 0;
 		
 		int height = pos.getY();
@@ -119,7 +120,7 @@ public class LandiaTreeGenerator extends TreeGenerator {
 		}
 	}
 	
-	protected void placeCanopy(World world, Random random, BlockPos pos, int height) {
+	private void placeCanopy(World world, Random random, BlockPos pos, int height) {
 		for (int y = pos.getY() - 3 + height; y <= pos.getY() + height; ++y) {
 			int subract = y - (pos.getY() + height);
 			int subract2 = 1 - subract / 2;
@@ -145,7 +146,7 @@ public class LandiaTreeGenerator extends TreeGenerator {
 		}
 	}
 	
-	protected void placeTrunk(World world, BlockPos pos, int height) {
+	private void placeTrunk(World world, BlockPos pos, int height) {
 		for (int localHeight = 0; localHeight < height; ++localHeight) {
 			BlockPos blockpos = new BlockPos(pos.getX(), pos.getY() + localHeight, pos.getZ());
 			IBlockState state = world.getBlockState(blockpos);

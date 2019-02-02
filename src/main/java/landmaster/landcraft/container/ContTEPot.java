@@ -14,7 +14,7 @@ import net.minecraftforge.items.*;
 public class ContTEPot extends ContEnergy {
 	private int energy = 0, progress = 0, time = 0;
 	private FluidStack fs;
-	private TEPot te;
+	private final TEPot te;
 	
 	public ContTEPot(EntityPlayer player, TEPot te) {
 		super(player, te);

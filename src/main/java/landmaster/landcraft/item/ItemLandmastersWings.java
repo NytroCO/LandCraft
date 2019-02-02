@@ -2,10 +2,10 @@ package landmaster.landcraft.item;
 
 import java.util.*;
 
+import landmaster.landcraft.api.ModInfo;
 import org.lwjgl.opengl.*;
 
 import landmaster.landcore.api.item.*;
-import landmaster.landcraft.api.*;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
 import net.minecraft.client.*;
@@ -31,8 +31,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.*;
 
 public class ItemLandmastersWings extends ItemEnergyBase {
-	public static final int ENERGY_PER_TICK = 100;
-	public static final int MAX_ENERGY = 3000000;
+	private static final int ENERGY_PER_TICK = 100;
+	private static final int MAX_ENERGY = 3000000;
 	
 	public ItemLandmastersWings() {
 		super(MAX_ENERGY, MAX_ENERGY, MAX_ENERGY);
@@ -138,14 +138,14 @@ public class ItemLandmastersWings extends ItemEnergyBase {
 	}
 	
 	@SidedProxy(serverSide = "landmaster.landcraft.item.ItemLandmastersWings$Proxy", clientSide = "landmaster.landcraft.item.ItemLandmastersWings$ProxyClient")
-	public static Proxy proxy;
+	private static Proxy proxy;
 	
 	public static class Proxy {
-		public void initEvents() {}
+		void initEvents() {}
 	}
 	
 	public static class ProxyClient extends Proxy {
-		public static final ResourceLocation LASER_LOC = new ResourceLocation(ModInfo.MODID, "textures/effects/laserbeam.png");
+		static final ResourceLocation LASER_LOC = new ResourceLocation(ModInfo.MODID, "textures/effects/laserbeam.png");
 		
 		@Override
 		public void initEvents() {

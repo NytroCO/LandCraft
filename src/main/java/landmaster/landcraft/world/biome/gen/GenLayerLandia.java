@@ -3,8 +3,8 @@ package landmaster.landcraft.world.biome.gen;
 import net.minecraft.world.*;
 import net.minecraft.world.gen.layer.*;
 
-public abstract class GenLayerLandia extends GenLayer {
-	public GenLayerLandia(long seed) {
+abstract class GenLayerLandia extends GenLayer {
+	GenLayerLandia(long seed) {
 		super(seed);
 	}
 	

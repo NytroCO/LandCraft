@@ -9,7 +9,7 @@ import net.minecraft.world.biome.*;
 import net.minecraft.world.chunk.*;
 import net.minecraft.world.gen.*;
 
-public class NormalTerrainGenerator {
+class NormalTerrainGenerator {
     private World world;
     private Random random;
 
@@ -72,11 +72,11 @@ public class NormalTerrainGenerator {
     }
 
 
-    private void generateHeightmap(int chunkX4, int chunkY4, int chunkZ4) {
+    private void generateHeightmap(int chunkX4, int chunkZ4) {
         this.depthRegion = this.depthNoise.generateNoiseOctaves(this.depthRegion, chunkX4, chunkZ4, 5, 5, 200.0D, 200.0D, 0.5D);
-        this.mainNoiseRegion = this.mainPerlinNoise.generateNoiseOctaves(this.mainNoiseRegion, chunkX4, chunkY4, chunkZ4, 5, 33, 5, 8.55515D, 4.277575D, 8.55515D);
-        this.minLimitRegion = this.minLimitPerlinNoise.generateNoiseOctaves(this.minLimitRegion, chunkX4, chunkY4, chunkZ4, 5, 33, 5, 684.412D, 684.412D, 684.412D);
-        this.maxLimitRegion = this.maxLimitPerlinNoise.generateNoiseOctaves(this.maxLimitRegion, chunkX4, chunkY4, chunkZ4, 5, 33, 5, 684.412D, 684.412D, 684.412D);
+        this.mainNoiseRegion = this.mainPerlinNoise.generateNoiseOctaves(this.mainNoiseRegion, chunkX4, 0, chunkZ4, 5, 33, 5, 8.55515D, 4.277575D, 8.55515D);
+        this.minLimitRegion = this.minLimitPerlinNoise.generateNoiseOctaves(this.minLimitRegion, chunkX4, 0, chunkZ4, 5, 33, 5, 684.412D, 684.412D, 684.412D);
+        this.maxLimitRegion = this.maxLimitPerlinNoise.generateNoiseOctaves(this.maxLimitRegion, chunkX4, 0, chunkZ4, 5, 33, 5, 684.412D, 684.412D, 684.412D);
         int l = 0;
         int i1 = 0;
 
@@ -162,7 +162,7 @@ public class NormalTerrainGenerator {
 
 
     public void generate(int chunkX, int chunkZ, ChunkPrimer primer) {
-        generateHeightmap(chunkX * 4, 0, chunkZ * 4);
+        generateHeightmap(chunkX * 4, chunkZ * 4);
 
         //byte waterLevel = 63;
         for (int x4 = 0; x4 < 4; ++x4) {

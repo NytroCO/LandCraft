@@ -2,7 +2,7 @@ package landmaster.landcraft.entity;
 
 import javax.annotation.*;
 
-import landmaster.landcraft.api.*;
+import landmaster.landcraft.api.ModInfo;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.util.*;
 import net.minecraft.entity.*;

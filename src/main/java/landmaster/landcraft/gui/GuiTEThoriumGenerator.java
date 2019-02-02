@@ -3,7 +3,7 @@ package landmaster.landcraft.gui;
 import java.text.*;
 import java.util.*;
 
-import landmaster.landcraft.api.*;
+import landmaster.landcraft.api.ModInfo;
 import landmaster.landcraft.container.*;
 import landmaster.landcraft.tile.*;
 import net.minecraft.client.*;
@@ -14,10 +14,8 @@ import net.minecraftforge.fluids.*;
 
 public class GuiTEThoriumGenerator extends GuiEnergy {
 	private static final ResourceLocation background = new ResourceLocation(ModInfo.MODID, "textures/gui/thorium_generator.png");
-	
-	private int fheight = 0;
-	
-	private ContTEThoriumGenerator cont;
+
+	private final ContTEThoriumGenerator cont;
 	
 	public GuiTEThoriumGenerator(ContTEThoriumGenerator cont) {
 		super(cont);
@@ -28,7 +26,7 @@ public class GuiTEThoriumGenerator extends GuiEnergy {
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		mc.renderEngine.bindTexture(background);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-		fheight = 0;
+		int fheight = 0;
 		
 		FluidStack fs = ((TEThoriumGenerator)cont.getTE()).getFluid();
 		
@@ -37,7 +35,7 @@ public class GuiTEThoriumGenerator extends GuiEnergy {
 					fs.getFluid().getStill().toString());
 			mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 			fheight = fs.amount * 50 / 8000;
-			drawTexturedModalRect(guiLeft+60, guiTop+15+(50-fheight), ftex, 64, fheight);
+			drawTexturedModalRect(guiLeft+60, guiTop+15+(50- fheight), ftex, 64, fheight);
 		}
 		mc.renderEngine.bindTexture(background);
 		drawTexturedModalRect(guiLeft+60, guiTop+15, 176, 0, 64, 50);

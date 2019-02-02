@@ -18,7 +18,7 @@ public class BlockMachineBase extends Block {
         super(blockMaterialIn, blockMapColorIn);
     }
 
-    public BlockMachineBase(Material materialIn) {
+    BlockMachineBase(Material materialIn) {
         super(materialIn);
     }
     

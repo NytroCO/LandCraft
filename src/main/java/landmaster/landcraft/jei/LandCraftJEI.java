@@ -10,7 +10,7 @@ import mezz.jei.api.recipe.transfer.*;
 import net.minecraft.item.*;
 
 @JEIPlugin
-public class LandCraftJEI implements IModPlugin {
+class LandCraftJEI implements IModPlugin {
 	@Override
 	public void registerCategories(IRecipeCategoryRegistration registry) {
 		final IJeiHelpers jeiHelpers = registry.getJeiHelpers();

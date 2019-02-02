@@ -1,6 +1,6 @@
 package landmaster.landcraft.jei;
 
-import landmaster.landcraft.api.*;
+import landmaster.landcraft.api.ModInfo;
 import mezz.jei.api.*;
 import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.*;
@@ -8,8 +8,8 @@ import mezz.jei.api.recipe.*;
 import net.minecraft.client.resources.*;
 import net.minecraft.util.*;
 
-public class BreederFeedstockCategory implements IRecipeCategory<BreederFeedstockJEI> {
-	public static final ResourceLocation background_rl = new ResourceLocation(ModInfo.MODID, "textures/jei/breeder_feedstock.png");
+class BreederFeedstockCategory implements IRecipeCategory<BreederFeedstockJEI> {
+	private static final ResourceLocation background_rl = new ResourceLocation(ModInfo.MODID, "textures/jei/breeder_feedstock.png");
 	
 	private final IDrawable background;
 	

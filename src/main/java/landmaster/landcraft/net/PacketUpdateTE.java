@@ -32,7 +32,7 @@ public class PacketUpdateTE implements IMessage {
 				message.storedBuf.release();
 			}
 		});
-		return null;
+		return message;
 	}
 
 	@Override

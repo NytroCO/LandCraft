@@ -1,6 +1,6 @@
 package landmaster.landcraft.gui;
 
-import landmaster.landcraft.api.*;
+import landmaster.landcraft.api.ModInfo;
 import landmaster.landcraft.container.*;
 import net.minecraft.client.resources.*;
 import net.minecraft.util.*;
@@ -8,7 +8,7 @@ import net.minecraft.util.*;
 public class GuiTEPlayerMime extends GuiEnergy {
 	private static final ResourceLocation background = new ResourceLocation(ModInfo.MODID, "textures/gui/player_mime.png");
 	
-	private ContTEPlayerMime cont;
+	private final ContTEPlayerMime cont;
 	
 	public GuiTEPlayerMime(ContTEPlayerMime cont) {
 		super(cont);

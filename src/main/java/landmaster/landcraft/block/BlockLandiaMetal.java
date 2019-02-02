@@ -43,7 +43,7 @@ public class BlockLandiaMetal extends Block implements IMetaBlockName {
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		LandiaOreType type = (LandiaOreType)state.getValue(TYPE);
+		LandiaOreType type = state.getValue(TYPE);
 		return type.ordinal();
 	}
 	

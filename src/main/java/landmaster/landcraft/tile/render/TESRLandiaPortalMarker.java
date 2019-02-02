@@ -1,8 +1,8 @@
 package landmaster.landcraft.tile.render;
 
+import landmaster.landcraft.api.ModInfo;
 import org.lwjgl.opengl.*;
 
-import landmaster.landcraft.api.*;
 import landmaster.landcraft.block.*;
 import landmaster.landcraft.tile.*;
 import landmaster.landcraft.util.*;
@@ -15,7 +15,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 
 public class TESRLandiaPortalMarker extends TileEntitySpecialRenderer<TELandiaPortalMarker> {
-	public static final ResourceLocation LASER_LOC = new ResourceLocation(ModInfo.MODID, "textures/effects/laserbeam.png");
+	private static final ResourceLocation LASER_LOC = new ResourceLocation(ModInfo.MODID, "textures/effects/laserbeam.png");
 	
 	@Override
 	public void render(TELandiaPortalMarker te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {

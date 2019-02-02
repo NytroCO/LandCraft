@@ -1,6 +1,6 @@
 package landmaster.landcraft.jei;
 
-import landmaster.landcraft.api.*;
+import landmaster.landcraft.api.ModInfo;
 import mezz.jei.api.*;
 import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.*;
@@ -9,8 +9,8 @@ import net.minecraft.client.resources.*;
 import net.minecraft.util.*;
 import net.minecraft.util.text.*;
 
-public class PotRecipeCategory implements IRecipeCategory<PotRecipeJEI> {
-	public static final ResourceLocation background_rl = new ResourceLocation(ModInfo.MODID, "textures/gui/pot.png");
+class PotRecipeCategory implements IRecipeCategory<PotRecipeJEI> {
+	private static final ResourceLocation background_rl = new ResourceLocation(ModInfo.MODID, "textures/gui/pot.png");
 	
 	private final IDrawable background;
 	private final IDrawable fluidOverlay;
@@ -52,10 +52,8 @@ public class PotRecipeCategory implements IRecipeCategory<PotRecipeJEI> {
 		
 		
 		fgroup.init(0, true, 80, 5, 64, 50, 40, false, fluidOverlay);
-		fgroup.addTooltipCallback((idx, isIn, fs, tooltip) -> {
-			tooltip.add(TextFormatting.GOLD.toString()+TextFormatting.BOLD
-					+I18n.format("tooltip.per_tick"));
-		});
+		fgroup.addTooltipCallback((idx, isIn, fs, tooltip) -> tooltip.add(TextFormatting.GOLD.toString()+TextFormatting.BOLD
+				+I18n.format("tooltip.per_tick")));
 		
 		fgroup.set(ingredients);
 	}

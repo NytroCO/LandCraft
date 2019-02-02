@@ -17,7 +17,7 @@ public class ItemBunRieu extends ItemFood {
 		this.setUnlocalizedName("bun_rieu").setRegistryName("bun_rieu");
 	}
 	
-	public static boolean hasNoodles(ItemStack stack) { return stack.getMetadata() > 0; }
+	private static boolean hasNoodles(ItemStack stack) { return stack.getMetadata() > 0; }
 	
 	@Override
 	public int getItemStackLimit(ItemStack stack) {

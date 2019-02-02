@@ -1,6 +1,6 @@
 package landmaster.landcraft.entity.render;
 
-import landmaster.landcraft.api.*;
+import landmaster.landcraft.api.ModInfo;
 import landmaster.landcraft.entity.*;
 import net.minecraft.client.model.*;
 import net.minecraft.client.renderer.*;
@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.util.*;
 
 public class RenderEntityWizard extends RenderLiving<EntityWizard> {
-	public static final ResourceLocation tex = new ResourceLocation(ModInfo.MODID, "textures/entity/wizard.png");
+	private static final ResourceLocation tex = new ResourceLocation(ModInfo.MODID, "textures/entity/wizard.png");
 
 	public RenderEntityWizard(RenderManager rendermanagerIn) {
 		super(rendermanagerIn, new ModelVillager(0), 0.5f);

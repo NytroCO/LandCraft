@@ -11,7 +11,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 
 public class BlockWildOnion extends BlockBush {
-	public static final AxisAlignedBB W_ONION_BOX = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5625D, 1.0D);
+	private static final AxisAlignedBB W_ONION_BOX = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5625D, 1.0D);
 	
 	public BlockWildOnion() {
 		this.setUnlocalizedName("wild_onion").setRegistryName("wild_onion");

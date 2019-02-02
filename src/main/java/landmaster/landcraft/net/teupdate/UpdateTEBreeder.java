@@ -15,7 +15,7 @@ public class UpdateTEBreeder implements ITEUpdatePacket {
 	public UpdateTEBreeder(TEBreeder te) {
 		this(te.getFuel(), te.getTemp(), te.getProduct());
 	}
-	public UpdateTEBreeder(int fuel, double temp, int product) {
+	private UpdateTEBreeder(int fuel, double temp, int product) {
 		this.fuel = fuel;
 		this.temp = temp;
 		this.product = product;

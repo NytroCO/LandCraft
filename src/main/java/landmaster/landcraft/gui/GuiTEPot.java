@@ -3,7 +3,7 @@ package landmaster.landcraft.gui;
 import java.text.*;
 import java.util.*;
 
-import landmaster.landcraft.api.*;
+import landmaster.landcraft.api.ModInfo;
 import landmaster.landcraft.container.*;
 import landmaster.landcraft.tile.*;
 import net.minecraft.client.*;
@@ -20,7 +20,7 @@ public class GuiTEPot extends GuiEnergy {
 	
 	private int fheight = 0;
 	
-	private ContTEPot cont;
+	private final ContTEPot cont;
 	
 	public GuiTEPot(ContTEPot cont) {
 		super(cont);

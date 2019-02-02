@@ -14,7 +14,7 @@ import net.minecraftforge.items.*;
 public class ContTEThoriumGenerator extends ContEnergy {
 	private int energy = 0, progress = 0;
 	private FluidStack fs;
-	private TEThoriumGenerator te;
+	private final TEThoriumGenerator te;
 	
 	public ContTEThoriumGenerator(EntityPlayer player, TEThoriumGenerator te) {
 		super(player, te);

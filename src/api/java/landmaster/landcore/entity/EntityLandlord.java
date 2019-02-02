@@ -24,7 +24,7 @@ public class EntityLandlord extends EntityMob {
 	private static final DataParameter<Boolean> CHARGED = EntityDataManager.createKey(
 			EntityLandlord.class, DataSerializers.BOOLEAN);
 	
-	public static final ResourceLocation LOOT = new ResourceLocation("landcore:entities/landlord");
+	private static final ResourceLocation LOOT = new ResourceLocation("landcore:entities/landlord");
 	
 	public EntityLandlord(World worldIn) {
 		super(worldIn);
@@ -99,11 +99,11 @@ public class EntityLandlord extends EntityMob {
         super.updateAITasks();
     }
 	
-	public void setCharged(boolean val) {
+	private void setCharged(boolean val) {
 		this.getDataManager().set(CHARGED, val);
 	}
 	
-	public boolean isCharged() {
+	private boolean isCharged() {
 		return this.getDataManager().get(CHARGED);
 	}
 	
@@ -130,7 +130,7 @@ public class EntityLandlord extends EntityMob {
         private int attackStep;
         private int attackTime;
 
-        public AIFireballAttack(EntityLandlord blazeIn)
+        AIFireballAttack(EntityLandlord blazeIn)
         {
             this.landlord = blazeIn;
             this.setMutexBits(3);
@@ -209,7 +209,7 @@ public class EntityLandlord extends EntityMob {
                     if (this.attackStep > 1)
                     {
                         float f = MathHelper.sqrt(MathHelper.sqrt(d0)) * 0.5F;
-                        this.landlord.getEntityWorld().playEvent((EntityPlayer)null, 1018, new BlockPos((int)this.landlord.posX, (int)this.landlord.posY, (int)this.landlord.posZ), 0);
+                        this.landlord.getEntityWorld().playEvent(null, 1018, new BlockPos((int)this.landlord.posX, (int)this.landlord.posY, (int)this.landlord.posZ), 0);
 
                         for (int i = 0; i < 1; ++i)
                         {

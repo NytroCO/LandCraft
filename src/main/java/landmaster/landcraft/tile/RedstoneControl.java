@@ -1,16 +1,14 @@
 package landmaster.landcraft.tile;
 
-import javax.annotation.*;
-
 import net.minecraft.tileentity.*;
 
 public class RedstoneControl {
-	public static enum State {
+	public enum State {
 		CONTINUOUS, PULSE, NONE
 	}
 	
-	public static interface Provider<T extends TileEntity & Provider<T>> {
-		@Nonnull RedstoneControl.State getRedstoneState();
+	public interface Provider<T extends TileEntity & Provider<T>> {
+		RedstoneControl.State getRedstoneState();
 		default boolean isEnabledPulse(T tile) {
 			return true;
 		}

@@ -14,11 +14,11 @@ import net.minecraftforge.fml.common.Optional;
 @Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = "redstoneflux")
 public class ItemEnergyContainer extends Item implements IEnergyContainerItem {
 
-	protected int capacity;
-	protected int maxReceive;
-	protected int maxExtract;
+	private int capacity;
+	private int maxReceive;
+	private int maxExtract;
 
-	public ItemEnergyContainer() {
+	ItemEnergyContainer() {
 
 	}
 
@@ -32,7 +32,7 @@ public class ItemEnergyContainer extends Item implements IEnergyContainerItem {
 		this(capacity, maxTransfer, maxTransfer);
 	}
 
-	public ItemEnergyContainer(int capacity, int maxReceive, int maxExtract) {
+	ItemEnergyContainer(int capacity, int maxReceive, int maxExtract) {
 
 		this.capacity = capacity;
 		this.maxReceive = maxReceive;
@@ -52,16 +52,14 @@ public class ItemEnergyContainer extends Item implements IEnergyContainerItem {
 		return this;
 	}
 
-	public ItemEnergyContainer setMaxReceive(int maxReceive) {
+	private void setMaxReceive(int maxReceive) {
 
 		this.maxReceive = maxReceive;
-		return this;
 	}
 
-	public ItemEnergyContainer setMaxExtract(int maxExtract) {
+	private void setMaxExtract(int maxExtract) {
 
 		this.maxExtract = maxExtract;
-		return this;
 	}
 
 	/* IEnergyContainerItem */

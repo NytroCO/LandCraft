@@ -2,7 +2,7 @@ package landmaster.landcraft.content;
 
 import java.util.*;
 
-import landmaster.landcraft.api.*;
+import landmaster.landcraft.api.ModInfo;
 import landmaster.landcraft.block.*;
 import landmaster.landcraft.item.*;
 import landmaster.landcraft.util.*;

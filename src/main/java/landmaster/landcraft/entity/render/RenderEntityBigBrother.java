@@ -1,6 +1,6 @@
 package landmaster.landcraft.entity.render;
 
-import landmaster.landcraft.api.*;
+import landmaster.landcraft.api.ModInfo;
 import landmaster.landcraft.entity.*;
 import net.minecraft.client.model.*;
 import net.minecraft.client.renderer.*;
@@ -12,7 +12,7 @@ public class RenderEntityBigBrother extends RenderLiving<EntityBigBrother> {
 	public static final ResourceLocation LASER_LOC = new ResourceLocation(ModInfo.MODID,
 			"textures/effects/laserbeam.png");
 	
-	public static final ResourceLocation tex = new ResourceLocation(ModInfo.MODID, "textures/entity/big_brother.png");
+	private static final ResourceLocation tex = new ResourceLocation(ModInfo.MODID, "textures/entity/big_brother.png");
 	
 	public RenderEntityBigBrother(RenderManager rendermanagerIn) {
 		super(rendermanagerIn, new ModelVillager(0), 0.5f);

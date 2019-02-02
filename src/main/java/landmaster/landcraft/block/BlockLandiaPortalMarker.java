@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.eventhandler.*;
 import net.minecraftforge.fml.relauncher.*;
 
 public class BlockLandiaPortalMarker extends Block {
-	public static final AxisAlignedBB LANDIA_PORTAL_MARKER_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 1.0D, 0.9375D);
+	private static final AxisAlignedBB LANDIA_PORTAL_MARKER_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 1.0D, 0.9375D);
 	
 	public static final PropertyBool ACTIVATED = PropertyBool.create("activated");
 	

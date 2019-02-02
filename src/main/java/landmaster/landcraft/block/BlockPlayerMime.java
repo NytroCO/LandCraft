@@ -58,8 +58,7 @@ public class BlockPlayerMime extends BlockMachineBase {
 						&& !event.getEntity().getEntityWorld().isBlockPowered(te.getPos())) {
 					te.extractEnergy(null, 1000, false);
 					event.getEntityLiving().recentlyHit = 100;
-					FakePlayer fake = FakePlayerFactory.getMinecraft((WorldServer)event.getEntity().getEntityWorld());
-					event.getEntityLiving().attackingPlayer = fake;
+					event.getEntityLiving().attackingPlayer = FakePlayerFactory.getMinecraft((WorldServer)event.getEntity().getEntityWorld());
 				}
 			}
 		}

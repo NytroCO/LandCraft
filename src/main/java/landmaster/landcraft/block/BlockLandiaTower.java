@@ -19,7 +19,7 @@ import net.minecraft.world.*;
 public class BlockLandiaTower extends Block {
 	public static final int MAX_POSITION = 3;
 	
-	public static final IProperty<Integer> POSITION = PropertyInteger.create("position", 0, MAX_POSITION);
+	private static final IProperty<Integer> POSITION = PropertyInteger.create("position", 0, MAX_POSITION);
 	
 	public BlockLandiaTower() {
 		super(Material.ROCK);
@@ -32,8 +32,8 @@ public class BlockLandiaTower extends Block {
 		this.setUnlocalizedName("landia_tower").setRegistryName("landia_tower");
 	}
 	
-	public static final int LANDIA_CHECK_MSG_SIZE = 7;
-	public static final int LANDIA_NEARCOMPLETE_MSG_SIZE = 2;
+	private static final int LANDIA_CHECK_MSG_SIZE = 7;
+	private static final int LANDIA_NEARCOMPLETE_MSG_SIZE = 2;
 	
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,

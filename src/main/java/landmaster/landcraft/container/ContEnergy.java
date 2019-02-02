@@ -5,10 +5,10 @@ import net.minecraft.entity.player.*;
 import net.minecraft.inventory.*;
 
 public class ContEnergy extends Container {
-	protected final TEEnergy te;
-	protected final EntityPlayer player;
+	final TEEnergy te;
+	final EntityPlayer player;
 	
-	public ContEnergy(EntityPlayer player, TEEnergy te) {
+	ContEnergy(EntityPlayer player, TEEnergy te) {
 		this.te = te;
 		this.player = player;
 	}

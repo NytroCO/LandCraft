@@ -8,7 +8,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 
-public class EntityLandlordMagicFireball extends EntityFireball {
+class EntityLandlordMagicFireball extends EntityFireball {
 	public EntityLandlordMagicFireball(World worldIn)
     {
         super(worldIn);

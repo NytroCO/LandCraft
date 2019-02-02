@@ -32,7 +32,7 @@ public class BreederFeedstock {
 		addOreDict(ore, mass, temp, false);
 	}
 	
-	public static void addOreDict(String ore, int mass, int temp, boolean force) {
+	private static void addOreDict(String ore, int mass, int temp, boolean force) {
 		if (force || OreDictionary.doesOreNameExist(ore)) {
 			addOreDict(OreDictionary.getOreID(ore), mass, temp);
 		} else {
@@ -40,7 +40,7 @@ public class BreederFeedstock {
 		}
 	}
 	
-	public static void addOreDict(int oreId, int mass, int temp) {
+	private static void addOreDict(int oreId, int mass, int temp) {
 		if (mass <= 0) {
 			throw new IllegalArgumentException("Mass must be positive");
 		} else if (temp <= 0) {
@@ -54,9 +54,9 @@ public class BreederFeedstock {
 	public static int getMass(ItemStack is) {
 		if (!is.isEmpty()) {
 			int[] arr = OreDictionary.getOreIDs(is);
-			for (int i=0; i<arr.length; ++i) {
-				if (feedstockMassDict.containsKey(arr[i])) {
-					return feedstockMassDict.get(arr[i]);
+			for (int i1 : arr) {
+				if (feedstockMassDict.containsKey(i1)) {
+					return feedstockMassDict.get(i1);
 				}
 			}
 		}
@@ -66,9 +66,9 @@ public class BreederFeedstock {
 	public static int getTemp(ItemStack is) {
 		if (!is.isEmpty()) {
 			int[] arr = OreDictionary.getOreIDs(is);
-			for (int i=0; i<arr.length; ++i) {
-				if (feedstockTempDict.containsKey(arr[i])) {
-					return feedstockTempDict.get(arr[i]);
+			for (int i1 : arr) {
+				if (feedstockTempDict.containsKey(i1)) {
+					return feedstockTempDict.get(i1);
 				}
 			}
 		}

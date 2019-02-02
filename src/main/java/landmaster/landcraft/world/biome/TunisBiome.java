@@ -2,7 +2,7 @@ package landmaster.landcraft.world.biome;
 
 import net.minecraftforge.fml.relauncher.*;
 
-public class TunisBiome extends LandiaBiome {
+class TunisBiome extends LandiaBiome {
 
 	public TunisBiome(BiomeProperties properties) {
 		super(properties);

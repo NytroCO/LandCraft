@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
-import landmaster.landcraft.api.*;
+import landmaster.landcraft.api.ModInfo;
 import landmaster.landcraft.content.*;
 import landmaster.landcraft.entity.*;
 import landmaster.landcraft.entity.render.*;

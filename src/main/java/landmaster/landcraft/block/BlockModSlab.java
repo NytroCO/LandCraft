@@ -18,7 +18,7 @@ public abstract class BlockModSlab<E extends Enum<E> & IStringSerializable> exte
 	
 	private static PropertyEnum<?> tmp;
 	
-	public BlockModSlab(Material material, PropertyEnum<E> prop) {
+	BlockModSlab(Material material, PropertyEnum<E> prop) {
 		super(preInit(material, prop));
 		this.prop = prop;
 		values = prop.getValueClass().getEnumConstants();
@@ -78,7 +78,7 @@ public abstract class BlockModSlab<E extends Enum<E> & IStringSerializable> exte
 		return state.getValue(prop).ordinal();
 	}
 	
-	protected E fromMeta(int meta) {
+	private E fromMeta(int meta) {
 		if (meta < 0 || meta >= values.length) {
 			meta = 0;
 		}

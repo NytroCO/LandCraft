@@ -10,7 +10,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 
 public class BlockOnionCrop extends BlockCrops {
-	public static final ImmutableList<AxisAlignedBB> ONION_AABB = ImmutableList.of(
+	private static final ImmutableList<AxisAlignedBB> ONION_AABB = ImmutableList.of(
 			new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D),
 			new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.1875D, 1.0D),
 			new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.25D, 1.0D),

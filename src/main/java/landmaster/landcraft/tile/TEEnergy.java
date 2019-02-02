@@ -6,7 +6,6 @@ import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.energy.*;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fml.common.*;
 
 @Optional.InterfaceList({
@@ -14,24 +13,24 @@ import net.minecraftforge.fml.common.*;
 	@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyProvider", modid = "redstoneflux")
 })
 public class TEEnergy extends TileEntity implements IEnergyReceiver, IEnergyProvider {
-	public static class Storage extends EnergyStorage {
+	static class Storage extends EnergyStorage {
 		public Storage(int capacity) {
 			super(capacity);
 		}
 		public Storage(int capacity, int maxTransfer) {
 			super(capacity, maxTransfer);
 		}
-		public Storage(int capacity, int maxReceive, int maxExtract) {
+		Storage(int capacity, int maxReceive, int maxExtract) {
 			super(capacity, maxReceive, maxExtract);
 		}
-		public void setEnergyStored(int energy) {
+		void setEnergyStored(int energy) {
 			this.energy = energy;
 		}
 	}
 	
-	Storage es;
+	private final Storage es;
 	
-	public TEEnergy(int capacity, int maxReceive, int maxExtract) {
+	TEEnergy(int capacity, int maxReceive, int maxExtract) {
 		es = new Storage(capacity, maxReceive, maxExtract);
 	}
 	

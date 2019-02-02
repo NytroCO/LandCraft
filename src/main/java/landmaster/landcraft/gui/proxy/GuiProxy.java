@@ -17,40 +17,36 @@ public class GuiProxy implements IGuiHandler {
 	
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		switch (ID) {
-		case GUI_TE_ID:
-			BlockPos pos = new BlockPos(x,y,z);
+		if (ID == GUI_TE_ID) {
+			BlockPos pos = new BlockPos(x, y, z);
 			TileEntity te = world.getTileEntity(pos);
 			if (te instanceof TEBreeder) {
-				return new ContTEBreeder(player, (TEBreeder)te);
+				return new ContTEBreeder(player, (TEBreeder) te);
 			} else if (te instanceof TEPlayerMime) {
-				return new ContTEPlayerMime(player, (TEPlayerMime)te);
+				return new ContTEPlayerMime(player, (TEPlayerMime) te);
 			} else if (te instanceof TEThoriumGenerator) {
-				return new ContTEThoriumGenerator(player, (TEThoriumGenerator)te);
+				return new ContTEThoriumGenerator(player, (TEThoriumGenerator) te);
 			} else if (te instanceof TEPot) {
-				return new ContTEPot(player, (TEPot)te);
+				return new ContTEPot(player, (TEPot) te);
 			}
-			break;
 		}
 		return null;
 	}
 	
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		switch (ID) {
-		case GUI_TE_ID:
-			BlockPos pos = new BlockPos(x,y,z);
+		if (ID == GUI_TE_ID) {
+			BlockPos pos = new BlockPos(x, y, z);
 			TileEntity te = world.getTileEntity(pos);
 			if (te instanceof TEBreeder) {
-				return new GuiTEBreeder(new ContTEBreeder(player, (TEBreeder)te));
+				return new GuiTEBreeder(new ContTEBreeder(player, (TEBreeder) te));
 			} else if (te instanceof TEPlayerMime) {
-				return new GuiTEPlayerMime(new ContTEPlayerMime(player, (TEPlayerMime)te));
+				return new GuiTEPlayerMime(new ContTEPlayerMime(player, (TEPlayerMime) te));
 			} else if (te instanceof TEThoriumGenerator) {
-				return new GuiTEThoriumGenerator(new ContTEThoriumGenerator(player, (TEThoriumGenerator)te));
+				return new GuiTEThoriumGenerator(new ContTEThoriumGenerator(player, (TEThoriumGenerator) te));
 			} else if (te instanceof TEPot) {
-				return new GuiTEPot(new ContTEPot(player, (TEPot)te));
+				return new GuiTEPot(new ContTEPot(player, (TEPot) te));
 			}
-			break;
 		}
 		return null;
 	}

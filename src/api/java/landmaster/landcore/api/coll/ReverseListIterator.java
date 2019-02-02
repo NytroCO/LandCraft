@@ -4,7 +4,7 @@ import java.util.*;
 
 import javax.annotation.*;
 
-public final class ReverseListIterator<E> implements ListIterator<E> {
+final class ReverseListIterator<E> implements ListIterator<E> {
 	private final @Nonnull ListIterator<E> original;
 	
 	public ReverseListIterator(@Nonnull ListIterator<E> original) {

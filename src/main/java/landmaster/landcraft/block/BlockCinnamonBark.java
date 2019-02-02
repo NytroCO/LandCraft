@@ -18,7 +18,7 @@ import net.minecraft.world.*;
 public class BlockCinnamonBark extends Block {
 	public static final PropertyEnum<EnumFacing> COVER = PropertyEnum.create("cover", EnumFacing.class);
 	
-	public static final List<AxisAlignedBB> AABBs = ImmutableList.of(
+	private static final List<AxisAlignedBB> AABBs = ImmutableList.of(
 			new AxisAlignedBB(0, 0, 0, 1, 0.0625, 1),
 			new AxisAlignedBB(0, 0.9375, 0, 1, 1, 1),
 			new AxisAlignedBB(0, 0, 0, 1, 1, 0.0625),
@@ -52,7 +52,7 @@ public class BlockCinnamonBark extends Block {
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		EnumFacing facing = (EnumFacing)state.getValue(COVER);
+		EnumFacing facing = state.getValue(COVER);
 		return facing.ordinal();
 	}
 	

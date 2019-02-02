@@ -30,7 +30,7 @@ implements ITickable, RedstoneControl.Provider<TEPot>, IInventory {
 	
 	private @Nonnull Pair<PotRecipes.RecipeProcess, PotRecipes.RecipeOutput> cache = PotRecipes.emptyRPair();
 	
-	public static enum Slots {
+	public enum Slots {
 		IN1, IN2, IN3, OUT
 	}
 	

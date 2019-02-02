@@ -22,10 +22,10 @@ implements ITickable, RedstoneControl.Provider<TEBreeder>, IInventory {
 	private ItemStackHandler ish;
 	private double temperature;
 	private int fuel, product;
-	public static final int MAX_FUEL = 8192;
-	public static final int THORIUM_SCALAR = 32;
+	private static final int MAX_FUEL = 8192;
+	private static final int THORIUM_SCALAR = 32;
 	
-	public static enum Slots {
+	public enum Slots {
 		FEEDSTOCK, REACTANT, OUTPUT
 	}
 	
@@ -110,11 +110,11 @@ implements ITickable, RedstoneControl.Provider<TEBreeder>, IInventory {
 		}
 	}
 	
-	public int getFuelConsumption() {
+	private int getFuelConsumption() {
 		return 8;
 	}
 	
-	public double getTempFromFuel(int fuelConsumption) {
+	private double getTempFromFuel(int fuelConsumption) {
 		return 20+700*Math.exp(-0.0001*Math.pow(temperature/200-100,2))*fuelConsumption/8.0;
 	}
 	

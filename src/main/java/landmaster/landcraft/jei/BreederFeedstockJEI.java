@@ -10,8 +10,8 @@ import net.minecraft.client.*;
 import net.minecraft.client.resources.*;
 import net.minecraft.item.*;
 
-public class BreederFeedstockJEI implements IRecipeWrapper {
-	private BreederFeedstock.OreMassTempTri omt;
+class BreederFeedstockJEI implements IRecipeWrapper {
+	private final BreederFeedstock.OreMassTempTri omt;
 	
 	public BreederFeedstockJEI(BreederFeedstock.OreMassTempTri omt) {
 		this.omt = omt;
@@ -25,7 +25,7 @@ public class BreederFeedstockJEI implements IRecipeWrapper {
 	
 	@Override
 	public void getIngredients(IIngredients ingredients) {
-		ingredients.setInputLists(ItemStack.class, Arrays.asList(Utils.getOres(omt.oid)));
+		ingredients.setInputLists(ItemStack.class, Collections.singletonList(Utils.getOres(omt.oid)));
 	}
 	
 }

@@ -16,12 +16,12 @@ import net.minecraft.world.gen.*;
 import net.minecraftforge.fml.common.*;
 
 public class OliveWorldgen implements IWorldGenerator {
-	protected static final LandiaTreeGenerator TREE_GEN = new LandiaTreeGenerator(5, 3,
+	private static final LandiaTreeGenerator TREE_GEN = new LandiaTreeGenerator(5, 3,
 			LandCraftContent.landia_log.getDefaultState().withProperty(LandiaTreeType.L_TYPE, LandiaTreeType.OLIVE),
 			LandCraftContent.landia_leaves.getDefaultState().withProperty(LandiaTreeType.L_TYPE,
 					LandiaTreeType.OLIVE));
 	
-	protected static final Set<Biome> allowedBiomes = ImmutableSet.of(LandcraftBiomes.tunis);
+	private static final Set<Biome> allowedBiomes = ImmutableSet.of(LandcraftBiomes.tunis);
 	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,

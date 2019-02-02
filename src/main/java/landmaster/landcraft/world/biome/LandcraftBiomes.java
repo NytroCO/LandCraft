@@ -1,6 +1,6 @@
 package landmaster.landcraft.world.biome;
 
-import landmaster.landcraft.api.*;
+import landmaster.landcraft.api.ModInfo;
 import net.minecraft.world.biome.*;
 import net.minecraftforge.common.*;
 import net.minecraftforge.event.*;

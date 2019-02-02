@@ -19,9 +19,9 @@ import net.minecraftforge.fml.relauncher.*;
 
 public class BlockTomatoCrop extends Block implements IPlantable, IGrowable {
 	public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 7);
-	public static final PropertyBool HAS_TOMATOES = PropertyBool.create("has_tomatoes");
+	private static final PropertyBool HAS_TOMATOES = PropertyBool.create("has_tomatoes");
 	
-	protected static final AxisAlignedBB TOMATO_AABB = new AxisAlignedBB(0.125D, 0.0D, 0.125D, 0.875D, 1.0D, 0.875D);
+	private static final AxisAlignedBB TOMATO_AABB = new AxisAlignedBB(0.125D, 0.0D, 0.125D, 0.875D, 1.0D, 0.875D);
 	
 	public BlockTomatoCrop() {
 		super(Material.PLANTS);
@@ -39,11 +39,10 @@ public class BlockTomatoCrop extends Block implements IPlantable, IGrowable {
 	
 	private int getPlantHeight(World worldIn, BlockPos pos) {
 		int i;
-		
-		for (i = 1; worldIn.getBlockState(pos.down(i)).getBlock() == this; ++i) {
-			; // nothing to do
+		i = 1;
+		while (worldIn.getBlockState(pos.down(i)).getBlock() == this) {
+			++i;
 		}
-		
 		return i;
 	}
 	
@@ -92,7 +91,7 @@ public class BlockTomatoCrop extends Block implements IPlantable, IGrowable {
 		this.checkForDrop(worldIn, pos, state);
 	}
 	
-	protected final boolean checkForDrop(World worldIn, BlockPos pos, IBlockState state) {
+	private boolean checkForDrop(World worldIn, BlockPos pos, IBlockState state) {
 		if (this.canBlockStay(worldIn, pos)) {
 			return true;
 		} else {
@@ -102,7 +101,7 @@ public class BlockTomatoCrop extends Block implements IPlantable, IGrowable {
 		}
 	}
 	
-	public boolean canBlockStay(World worldIn, BlockPos pos) {
+	private boolean canBlockStay(World worldIn, BlockPos pos) {
 		return this.canPlaceBlockAt(worldIn, pos);
 	}
 	
@@ -172,7 +171,7 @@ public class BlockTomatoCrop extends Block implements IPlantable, IGrowable {
 	}
 	
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { AGE, HAS_TOMATOES });
+		return new BlockStateContainer(this, AGE, HAS_TOMATOES);
 	}
 	
 	public BlockFaceShape getBlockFaceShape(IBlockAccess p_193383_1_, IBlockState p_193383_2_, BlockPos p_193383_3_,

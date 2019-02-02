@@ -14,7 +14,7 @@ import net.minecraft.world.*;
 import net.minecraftforge.fml.relauncher.*;
 
 public class ItemBlockSlab<T extends Enum<T> & IStringSerializable> extends ItemBlockMeta {
-	public BlockModSlab<T> slab;
+	private final BlockModSlab<T> slab;
 	
 	public ItemBlockSlab(BlockModSlab<T> block) {
 		super(block);

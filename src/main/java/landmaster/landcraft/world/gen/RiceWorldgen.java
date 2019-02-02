@@ -31,7 +31,7 @@ public class RiceWorldgen extends LandiaPlantWorldgen {
 		return 2953L;
 	}
 	
-	protected static final Set<Biome> allowedBiomes = ImmutableSet.of(LandcraftBiomes.dunans);
+	private static final Set<Biome> allowedBiomes = ImmutableSet.of(LandcraftBiomes.dunans);
 	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,

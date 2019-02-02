@@ -4,7 +4,7 @@ import java.util.*;
 
 import gnu.trove.map.hash.*;
 import io.netty.buffer.*;
-import landmaster.landcraft.api.*;
+import landmaster.landcraft.api.ModInfo;
 import net.minecraft.tileentity.*;
 import net.minecraftforge.fml.common.network.*;
 import net.minecraftforge.fml.common.network.simpleimpl.*;

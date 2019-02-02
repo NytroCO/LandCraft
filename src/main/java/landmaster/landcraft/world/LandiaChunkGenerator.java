@@ -21,7 +21,7 @@ import net.minecraftforge.event.terraingen.*;
 
 public class LandiaChunkGenerator implements IChunkGenerator {
 	private final World worldObj;
-	private Random random;
+	private final Random random;
 	private Biome[] biomesForGeneration;
 	
 	private static final List<Biome.SpawnListEntry> mobs = ImmutableList.of(
@@ -32,7 +32,7 @@ public class LandiaChunkGenerator implements IChunkGenerator {
 	private MapGenBase caveGenerator = new MapGenCaves();
 	private MapGenBase ravineGenerator = new MapGenRavine();
 	private MapGenMineshaft mineshaftGenerator = new MapGenMineshaft();
-	private NormalTerrainGenerator terraingen = new NormalTerrainGenerator();
+	private final NormalTerrainGenerator terraingen = new NormalTerrainGenerator();
 	
 	public LandiaChunkGenerator(World world) {
 		this.worldObj = world;
@@ -124,7 +124,7 @@ public class LandiaChunkGenerator implements IChunkGenerator {
 	
 	@Override
 	public void recreateStructures(Chunk chunkIn, int x, int z) {
-		this.mineshaftGenerator.generate(this.worldObj, x, z, (ChunkPrimer)null);
+		this.mineshaftGenerator.generate(this.worldObj, x, z, null);
 	}
 	
 	@Override

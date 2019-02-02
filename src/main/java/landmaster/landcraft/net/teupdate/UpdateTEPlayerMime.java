@@ -8,8 +8,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.*;
 public class UpdateTEPlayerMime implements ITEUpdatePacket {
 	private int energy;
 	
-	public UpdateTEPlayerMime() {};
-	public UpdateTEPlayerMime(int energy) {
+	public UpdateTEPlayerMime() {}
+
+    public UpdateTEPlayerMime(int energy) {
 		this.energy = energy;
 	}
 	

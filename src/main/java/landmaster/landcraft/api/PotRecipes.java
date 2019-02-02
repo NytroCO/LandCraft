@@ -1,13 +1,12 @@
 package landmaster.landcraft.api;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.annotation.*;
 
 import org.apache.commons.lang3.*;
 import org.apache.commons.lang3.tuple.*;
-
-import com.google.common.collect.*;
 
 import gnu.trove.iterator.*;
 import gnu.trove.list.*;
@@ -22,7 +21,7 @@ public class PotRecipes {
 	 * @author Landmaster
 	 */
 	@FunctionalInterface
-	public static interface RecipeProcess {
+	public interface RecipeProcess {
 		/**
 		 * Checks for a recipe match.
 		 * @param in1 First input stack
@@ -62,8 +61,7 @@ public class PotRecipes {
 			if (in1.isEmpty() || in2.isEmpty() || in3.isEmpty()) {
 				return new RecipeOutput();
 			}
-			List<int[]> stacks_ods = Lists
-					.transform(Arrays.asList(in1, in2, in3), OreDictionary::getOreIDs);
+			List<int[]> stacks_ods = Arrays.asList(in1, in2, in3).stream().map(OreDictionary::getOreIDs).collect(Collectors.toList());
 			TIntList required = TIntArrayList.wrap(new int[] {
 					OreDictionary.getOreID(s1), OreDictionary.getOreID(s2), OreDictionary.getOreID(s3)}); // list never grows
 			
@@ -115,7 +113,7 @@ public class PotRecipes {
 		/**
 		 * Creates an empty {@link RecipeOutput}
 		 */
-		public RecipeOutput() {
+        RecipeOutput() {
 			// nothing to do
 		}
 		

@@ -28,18 +28,18 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 	private final Set<UUID> already = new THashSet<>();
 	
 	static class ClRes {
-		public @Nullable TELandiaPortalMarker tile;
-		public BlockPos pos;
-		public EnumFacing facing;
+		@Nullable TELandiaPortalMarker tile;
+		BlockPos pos;
+		EnumFacing facing;
 		
 		public ClRes() {}
-		public ClRes(@Nullable TELandiaPortalMarker tile, BlockPos pos, EnumFacing facing) {
+		ClRes(@Nullable TELandiaPortalMarker tile, BlockPos pos, EnumFacing facing) {
 			this.tile = tile;
 			this.pos = pos;
 			this.facing = facing;
 		}
 		
-		public BlockPos adjustedPos() {
+		BlockPos adjustedPos() {
 			return pos.offset(facing);
 		}
 	}
@@ -106,7 +106,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 			}
 			for (Iterator<UUID> it = already.iterator(); it.hasNext(); ) {
 				UUID uuid = it.next();
-				if (!ents.stream().anyMatch(ent -> uuid.equals(ent.getUniqueID()))) {
+				if (ents.stream().noneMatch(ent -> uuid.equals(ent.getUniqueID()))) {
 					it.remove();
 					markDirty();
 				}
@@ -114,7 +114,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 		}
 	}
 	
-	public BlockPos getBottom() {
+	private BlockPos getBottom() {
 		Vec3d vec0 = new Vec3d(pos).addVector(0.5, -0.01, 0.5);
 		Vec3d vec1 = new Vec3d(pos.getX()+0.5, 0, pos.getZ()+0.5);
 		
@@ -126,7 +126,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 		return res;
 	}
 	
-	public BlockPos getSolidBottom() {
+	private BlockPos getSolidBottom() {
 		BlockPos.MutableBlockPos cand = new BlockPos.MutableBlockPos(pos);
 		for (; cand.getY() >= 0; cand.setY(cand.getY()-1)) {
 			if (getWorld().getBlockState(cand).isNormalCube()) {
@@ -136,7 +136,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 		return new BlockPos(pos.getX(), 0, pos.getZ());
 	}
 	
-	public Vec3d portalLBound() {
+	private Vec3d portalLBound() {
 		Vec3d vec0 = new Vec3d(pos).addVector(0.5, -0.01, 0.5);
 		Vec3d vec1 = new Vec3d(pos.getX()+0.5, 0, pos.getZ()+0.5);
 		
@@ -148,7 +148,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 	
 	//=============================================================================
 	
-	static ClRes searchPortal(World world, BlockPos pos) {
+	private static ClRes searchPortal(World world, BlockPos pos) {
 		world.getBlockState(pos); // load area
 		
 		List<TELandiaPortalMarker> markers = Utils.getTileEntitiesWithinAABB(world,
@@ -162,7 +162,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 				.orElse(null);
 	}
 	
-	static ClRes generateClearance(BlockPos pos, int dimID) {
+	private static ClRes generateClearance(BlockPos pos, int dimID) {
 		final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 		WorldServer world = server.getWorld(dimID);
 		ClRes search = searchPortal(world, pos);
@@ -197,7 +197,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 		return new ClRes(null, loc, facing);
 	}
 	
-	static EnumFacing checkValidClearance(World world, BlockPos pos, boolean checkGround) {
+	private static EnumFacing checkValidClearance(World world, BlockPos pos, boolean checkGround) {
 		if (checkGround && !world.getBlockState(pos).isNormalCube()) {
 			return null;
 		}
@@ -209,7 +209,7 @@ public class TELandiaPortalMarker extends TileEntity implements ITickable {
 		return null;
 	}
 	
-	static void generatePortal(World world, BlockPos pos) {
+	private static void generatePortal(World world, BlockPos pos) {
 		world.setBlockState(pos.add(0,3,0),
 				LandCraftContent.landia_portal_marker.getDefaultState()
 				.withProperty(BlockLandiaPortalMarker.ACTIVATED, true));

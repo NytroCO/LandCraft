@@ -31,8 +31,8 @@ public class Utils {
 	}
 	
 	// based on EntityRenderer.getMouseOver
-	public static RayTraceResult raytraceEntity(Entity entity, Vec3d start, Vec3d look, double range,
-			boolean ignoreCanBeCollidedWith) {
+	private static RayTraceResult raytraceEntity(Entity entity, Vec3d start, Vec3d look, double range,
+												 boolean ignoreCanBeCollidedWith) {
 		// Vec3 look = entity.getLook(partialTicks);
 		Vec3d direction = start.addVector(look.x * range, look.y * range, look.z * range);
 		
@@ -105,7 +105,7 @@ public class Utils {
 	
 	public static List<ItemStack> getOres(int id) {
 		try {
-			return (List<ItemStack>) getOresM.invoke(id);
+			return OreDictionary.getOres(String.valueOf(id));
 		} catch (Throwable e) {
 			Throwables.throwIfUnchecked(e);
 			throw new RuntimeException(e);
@@ -130,11 +130,8 @@ public class Utils {
 		
 		for (int i1 = i; i1 <= j; ++i1) {
 			for (int j1 = k; j1 <= l; ++j1) {
-				if (isChunkLoaded(world, i1, j1, true)) {
-					Iterator<TileEntity> iterator = world.getChunkFromChunkCoords(i1, j1).getTileEntityMap().values()
-							.iterator();
-					while (iterator.hasNext()) {
-						TileEntity te = iterator.next();
+				if (isChunkLoaded(world, i1, j1)) {
+					for (TileEntity te : world.getChunkFromChunkCoords(i1, j1).getTileEntityMap().values()) {
 						if (tileEntityClass.isInstance(te)) {
 							if (world.getBlockState(te.getPos()).getBoundingBox(world, te.getPos()).offset(te.getPos())
 									.intersects(aabb)) {
@@ -148,7 +145,7 @@ public class Utils {
 		return arraylist;
 	}
 	
-	public static enum ToolType {
+	public enum ToolType {
 		SWORD, PICKAXE, AXE, SHOVEL, HOE;
 		
 		@Override
@@ -158,8 +155,8 @@ public class Utils {
 	}
 	
 	public static class ToolGroup {
-		public final ImmutableList<Item> tools;
-		public final LandiaOreType metal;
+		final ImmutableList<Item> tools;
+		final LandiaOreType metal;
 		
 		ToolGroup(LandiaOreType metal, Item... items) {
 			Preconditions.checkNotNull(metal);
@@ -220,24 +217,7 @@ public class Utils {
 		return new ToolGroup(metal, items);
 	}
 	
-	private static final MethodHandle isChunkLoadedM;
-	static {
-		try {
-			final Method temp = World.class.getDeclaredMethod("func_175680_a", int.class, int.class, boolean.class);
-			temp.setAccessible(true);
-			isChunkLoadedM = MethodHandles.lookup().unreflect(temp);
-		} catch (Throwable e) {
-			Throwables.throwIfUnchecked(e);
-			throw new RuntimeException(e);
-		}
-	}
-	
-	public static boolean isChunkLoaded(World world, int x, int z, boolean allowEmpty) {
-		try {
-			return (boolean)isChunkLoadedM.invokeExact(world, x, z, allowEmpty);
-		} catch (Throwable e) {
-			Throwables.throwIfUnchecked(e);
-			throw new RuntimeException(e);
-		}
+	private static boolean isChunkLoaded(World world, int x, int z) {
+		return world.getChunkFromChunkCoords(x, z).isLoaded();
 	}
 }

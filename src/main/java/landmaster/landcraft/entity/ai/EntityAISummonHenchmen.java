@@ -9,10 +9,10 @@ import net.minecraft.entity.ai.*;
 import net.minecraft.util.text.*;
 
 public class EntityAISummonHenchmen extends EntityAIBase {
-	protected final EntityBigBrother owner;
-	protected final Function<EntityBigBrother, Iterator<? extends EntityLiving>> factory;
-	protected final float chance;
-	protected final float scatterSize;
+	private final EntityBigBrother owner;
+	private final Function<EntityBigBrother, Iterator<? extends EntityLiving>> factory;
+	private final float chance;
+	private final float scatterSize;
 	
 	private int countdown;
 	

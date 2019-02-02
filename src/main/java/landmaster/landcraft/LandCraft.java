@@ -43,7 +43,7 @@ public class LandCraft {
 	@Instance(ModInfo.MODID)
 	public static LandCraft INSTANCE;
 	
-	public static Config config;
+	private static Config config;
 	
 	@SidedProxy(serverSide = "landmaster.landcraft.proxy.CommonProxy", clientSide = "landmaster.landcraft.proxy.ClientProxy")
 	public static CommonProxy proxy;
@@ -401,8 +401,7 @@ public class LandCraft {
 			event.getRegistry().register(new ShapedRecipes(
 					LandCraftContent.landia_wood_slab.getRegistryName().toString(),
 					3, 1,
-					Arrays.asList("ppp")
-					.stream()
+					Stream.of("ppp")
 					.flatMapToInt(String::chars)
 					.mapToObj(c -> c == 'p' ? new ItemStack[] { new ItemStack(LandCraftContent.landia_planks, 1, i) } : new ItemStack[0])
 					.map(Ingredient::fromStacks)
@@ -414,8 +413,7 @@ public class LandCraft {
 			event.getRegistry().register(new ShapedRecipes(
 					stairs.getRegistryName().toString(),
 					3, 3,
-					Arrays.asList("p  ", "pp ", "ppp")
-					.stream()
+					Stream.of("p  ", "pp ", "ppp")
 					.flatMapToInt(String::chars)
 					.mapToObj(c -> c == 'p' ? new ItemStack[] { new ItemStack(LandCraftContent.landia_planks, 1, i) } : new ItemStack[0])
 					.map(Ingredient::fromStacks)

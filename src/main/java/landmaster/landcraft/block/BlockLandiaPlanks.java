@@ -38,7 +38,7 @@ public class BlockLandiaPlanks extends Block implements IMetaBlockName {
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		LandiaTreeType type = (LandiaTreeType)state.getValue(LandiaTreeType.L_TYPE);
+		LandiaTreeType type = state.getValue(LandiaTreeType.L_TYPE);
 		return type.ordinal();
 	}
 	

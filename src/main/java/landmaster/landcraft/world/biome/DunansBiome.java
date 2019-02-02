@@ -3,7 +3,7 @@ package landmaster.landcraft.world.biome;
 import net.minecraft.util.math.*;
 import net.minecraftforge.fml.relauncher.*;
 
-public class DunansBiome extends LandiaBiome {
+class DunansBiome extends LandiaBiome {
 	public DunansBiome(BiomeProperties properties) {
 		super(properties);
 		this.decorator.treesPerChunk = 6;

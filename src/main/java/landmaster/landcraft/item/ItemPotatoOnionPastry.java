@@ -13,7 +13,7 @@ public class ItemPotatoOnionPastry extends ItemFood {
 		this.setUnlocalizedName("potato_onion_pastry").setRegistryName("potato_onion_pastry");
 	}
 	
-	public static boolean isCooked(ItemStack stack) { return stack.getMetadata() > 0; }
+	private static boolean isCooked(ItemStack stack) { return stack.getMetadata() > 0; }
 	
 	@Override
 	public int getHealAmount(ItemStack stack) {

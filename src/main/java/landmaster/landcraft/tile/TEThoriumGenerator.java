@@ -28,8 +28,8 @@ implements ITickable, RedstoneControl.Provider<TEThoriumGenerator>, IInventory {
 	private int progress = -1;
 	
 	public static final int THORIUM_BURN_TIME = 400;
-	public static final int ENERGY_PER_TICK = 1000;
-	public static final int WATER_PER_TICK = 10;
+	private static final int ENERGY_PER_TICK = 1000;
+	private static final int WATER_PER_TICK = 10;
 	
 	static {
 		PacketHandler.registerTEHandler(TEThoriumGenerator.class,

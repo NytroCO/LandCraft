@@ -11,11 +11,11 @@ import net.minecraft.world.chunk.*;
 import net.minecraft.world.gen.*;
 import net.minecraftforge.fml.common.*;
 
-public abstract class LandiaPlantWorldgen implements IWorldGenerator {
+abstract class LandiaPlantWorldgen implements IWorldGenerator {
 	protected abstract IBlockState getState();
 	protected abstract int getAmount();
 	protected abstract long randomUniquifier();
-	protected boolean isBlockBelowSuitable(IBlockState state) {
+	private boolean isBlockBelowSuitable(IBlockState state) {
 		return state.getMaterial() == Material.GRASS;
 	}
 	
@@ -27,7 +27,7 @@ public abstract class LandiaPlantWorldgen implements IWorldGenerator {
 		}
 	}
 	
-	protected void genPlantNormally(World world, Random random, BlockPos pos, IBlockState state, int amount) {
+	private void genPlantNormally(World world, Random random, BlockPos pos, IBlockState state, int amount) {
 		Random frandom = new Random(random.nextLong() ^ this.randomUniquifier());
 		for (int i = 0; i < amount; i++) {
 			if (frandom.nextInt(40) == 0) {

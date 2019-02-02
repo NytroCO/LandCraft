@@ -1,7 +1,6 @@
 package landmaster.landcraft.tile;
 
 import java.util.*;
-import java.util.Optional;
 import java.util.function.*;
 
 import javax.annotation.*;
@@ -110,7 +109,7 @@ public class TELandiaTower extends TileEntity {
 		return checkTowersSpec().isPresent();
 	}
 	
-	public Optional<Set<BlockPos>> checkTowersSpec() {
+	private Optional<Set<BlockPos>> checkTowersSpec() {
 		final Set<BlockPos> removePositions = new THashSet<>();
 		
 		for (EnumFacing facing: EnumFacing.HORIZONTALS) {
@@ -155,18 +154,16 @@ public class TELandiaTower extends TileEntity {
 							event.getEntity().getPositionVector().addVector(5, 5, 5)));
 			tiles.stream()
 			.filter(tile -> tile.targetEntity == null)
-			.forEach(tile -> {
-				tile.checkTowersSpec()
-				.ifPresent(set -> {
-					set.forEach(bpos -> tile.world.setBlockState(bpos, Blocks.AIR.getDefaultState(), 0x2));
-					EntityBigBrother orwellEnemy = new EntityBigBrother(tile.getWorld()); // SUMMON THE BOSS!!
-					tile.targetEntity = orwellEnemy.getUniqueID();
-					tile.syncTE();
-					orwellEnemy.setLocationAndAngles(tile.pos.getX(), tile.pos.getY()+BlockLandiaTower.MAX_POSITION+1, tile.pos.getZ(),
-							orwellEnemy.getRNG().nextFloat()*360, 0);
-					tile.world.spawnEntity(orwellEnemy);
-				});
-			});
+			.forEach(tile -> tile.checkTowersSpec()
+			.ifPresent(set -> {
+				set.forEach(bpos -> tile.world.setBlockState(bpos, Blocks.AIR.getDefaultState(), 0x2));
+				EntityBigBrother orwellEnemy = new EntityBigBrother(tile.getWorld()); // SUMMON THE BOSS!!
+				tile.targetEntity = orwellEnemy.getUniqueID();
+				tile.syncTE();
+				orwellEnemy.setLocationAndAngles(tile.pos.getX(), tile.pos.getY()+BlockLandiaTower.MAX_POSITION+1, tile.pos.getZ(),
+						orwellEnemy.getRNG().nextFloat()*360, 0);
+				tile.world.spawnEntity(orwellEnemy);
+			}));
 		}
 	}
 	
@@ -176,7 +173,7 @@ public class TELandiaTower extends TileEntity {
 	
 	/**
 	 * Client only.
-	 * @param entExists
+	 * @param entExists the event
 	 */
 	public void setEntExists(boolean entExists) {
 		this.entExists = entExists;

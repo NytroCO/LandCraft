@@ -12,10 +12,10 @@ import net.minecraft.world.*;
 import net.minecraftforge.common.*;
 
 public class Coord4D {
-	public int xCoord;
-	public int yCoord;
-	public int zCoord;
-	public int dimensionId;
+	public final int xCoord;
+	public final int yCoord;
+	public final int zCoord;
+	public final int dimensionId;
 	
 	public Coord4D(Entity ent) {
 		xCoord = (int)ent.posX;
@@ -57,8 +57,8 @@ public class Coord4D {
 		return new Coord4D(bb.readInt(), bb.readInt(), bb.readInt(), bb.readInt());
 	}
 	
-	public ByteBuf toByteBuf(ByteBuf bb) {
-		return bb.writeInt(xCoord).writeInt(yCoord).writeInt(zCoord).writeInt(dimensionId);
+	public void toByteBuf(ByteBuf bb) {
+		bb.writeInt(xCoord).writeInt(yCoord).writeInt(zCoord).writeInt(dimensionId);
 	}
 	
 	public Coord4D add(int x, int y, int z) {

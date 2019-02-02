@@ -10,8 +10,8 @@ import net.minecraft.util.text.*;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.*;
 
-public class PotOredictRecipeJEI extends PotRecipeJEI {
-	private PotRecipes.RecipePOredict prc;
+class PotOredictRecipeJEI extends PotRecipeJEI {
+	private final PotRecipes.RecipePOredict prc;
 	
 	public PotOredictRecipeJEI(PotRecipes.RecipePOredict prc) {
 		super(prc);

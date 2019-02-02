@@ -5,12 +5,11 @@ import net.minecraft.nbt.*;
 import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.energy.*;
-import net.minecraftforge.energy.IEnergyStorage;
 
 public class ItemEnergyBase extends ItemEnergyContainer implements IEnergySetter {
 	private class Energy implements IEnergyStorage {
-		ItemStack is;
-		public Energy(ItemStack is) {
+		final ItemStack is;
+		Energy(ItemStack is) {
 			this.is = is;
 		}
 		
@@ -46,9 +45,9 @@ public class ItemEnergyBase extends ItemEnergyContainer implements IEnergySetter
 	}
 	
 	private class Provider implements ICapabilityProvider {
-		Energy energy;
+		final Energy energy;
 		
-		public Provider(ItemStack is) {
+		Provider(ItemStack is) {
 			energy = new Energy(is);
 		}
 		
@@ -67,7 +66,7 @@ public class ItemEnergyBase extends ItemEnergyContainer implements IEnergySetter
 		}
 	}
 	
-	public ItemEnergyBase(int capacity, int maxReceive, int maxExtract) {
+	protected ItemEnergyBase(int capacity, int maxReceive, int maxExtract) {
 		super(capacity, maxReceive, maxExtract);
 	}
 	

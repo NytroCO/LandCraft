@@ -16,12 +16,12 @@ import net.minecraft.world.gen.*;
 import net.minecraftforge.fml.common.*;
 
 public class CinnamonWorldgen implements IWorldGenerator {
-	protected static final LandiaTreeGenerator TREE_GEN = new LandiaTreeGenerator(9, 7,
+	private static final LandiaTreeGenerator TREE_GEN = new LandiaTreeGenerator(9, 7,
 			LandCraftContent.landia_log.getDefaultState().withProperty(LandiaTreeType.L_TYPE, LandiaTreeType.CINNAMON),
 			LandCraftContent.landia_leaves.getDefaultState().withProperty(LandiaTreeType.L_TYPE,
 					LandiaTreeType.CINNAMON));
 	
-	protected static final Set<Biome> allowedBiomes = ImmutableSet.of(LandcraftBiomes.dunans);
+	private static final Set<Biome> allowedBiomes = ImmutableSet.of(LandcraftBiomes.dunans);
 	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,

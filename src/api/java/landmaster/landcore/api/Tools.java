@@ -1,27 +1,30 @@
 package landmaster.landcore.api;
 
-import java.util.*;
+import com.google.common.base.Predicate;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.pattern.BlockMatcher;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.play.server.SPacketEntityEffect;
+import net.minecraft.network.play.server.SPacketRespawn;
+import net.minecraft.network.play.server.SPacketSetExperience;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
-import com.google.common.base.*;
-
-import net.minecraft.block.state.*;
-import net.minecraft.block.state.pattern.*;
-import net.minecraft.entity.*;
-import net.minecraft.entity.player.*;
-import net.minecraft.init.*;
-import net.minecraft.item.*;
-import net.minecraft.nbt.*;
-import net.minecraft.network.play.server.*;
-import net.minecraft.potion.*;
-import net.minecraft.server.*;
-import net.minecraft.util.*;
-import net.minecraft.util.math.*;
-import net.minecraft.world.*;
-import net.minecraft.world.gen.feature.*;
-import net.minecraftforge.fml.common.*;
+import java.util.Random;
 
 public class Tools {
-	public static ResourceLocation suffix(ResourceLocation original, Object suffix) {
+	private static ResourceLocation suffix(ResourceLocation original, Object suffix) {
 		return new ResourceLocation(original.getResourceDomain(), original.getResourcePath()+suffix);
 	}
 	
@@ -94,15 +97,13 @@ public class Tools {
 		WorldServer world = server.getWorld(coord.dimensionId);
 
 		if (entity.world.provider.getDimension() != coord.dimensionId) {
-			synchronized (entity) {
-				entity.world.removeEntity(entity);
-				entity.isDead = false;
-				entity.setWorld(world);
-				world.updateEntityWithOptionalForce(entity, false);
-				world.resetUpdateEntityTick();
-				entity.setLocationAndAngles(coord.xCoord+0.5, coord.yCoord+1, coord.zCoord+0.5, entity.rotationYaw, entity.rotationPitch);
-				world.spawnEntity(entity);
-			}
+			entity.world.removeEntity(entity);
+			entity.isDead = false;
+			entity.setWorld(world);
+			world.updateEntityWithOptionalForce(entity, false);
+			world.resetUpdateEntityTick();
+			entity.setLocationAndAngles(coord.xCoord+0.5, coord.yCoord+1, coord.zCoord+0.5, entity.rotationYaw, entity.rotationPitch);
+			world.spawnEntity(entity);
 		}
 		else {
 			entity.setLocationAndAngles(coord.xCoord+0.5, coord.yCoord+1, coord.zCoord+0.5, entity.rotationYaw, entity.rotationPitch);
@@ -113,7 +114,7 @@ public class Tools {
 		Tools.generateOre(ore, world, BlockMatcher.forBlock(Blocks.STONE), random, x, z, minY, maxY, minSize, maxSize, chances);
 	}
 
-	public static void generateOre(IBlockState ore, World world, Predicate<IBlockState> matcher, Random random, int x, int z, int minY, int maxY, int minSize, int maxSize, int chances) {
+	private static void generateOre(IBlockState ore, World world, Predicate<IBlockState> matcher, Random random, int x, int z, int minY, int maxY, int minSize, int maxSize, int chances) {
 		int deltaY = maxY - minY;
 		int deltaSize = maxSize - minSize;
 		for (int i = 0; i < chances; i++) {

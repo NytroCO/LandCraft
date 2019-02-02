@@ -43,7 +43,7 @@ public class EntityBigBrother extends EntityMob {
 	
 	/**
 	 * Prevent henchmen from targeting Big Brother.
-	 * @param event
+	 * @param event the event
 	 */
 	@SubscribeEvent
 	public static void attackTarget(LivingSetAttackTargetEvent event) {
@@ -77,7 +77,7 @@ public class EntityBigBrother extends EntityMob {
 				.collect(Collectors.toCollection(THashSet::new));
 	}
 	
-	protected void purgeHenchmen() {
+	private void purgeHenchmen() {
 		final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 		henchmen.removeIf(uuid -> server.getEntityFromUuid(uuid) == null);
 	}
@@ -121,7 +121,7 @@ public class EntityBigBrother extends EntityMob {
 	
 	@Override
 	public boolean isOnSameTeam(Entity entityIn) {
-		return entityIn == null ? false : (entityIn == this ? true : (super.isOnSameTeam(entityIn) ? true : this.fetchHenchmen().contains(entityIn)));
+		return entityIn != null && (entityIn == this || (super.isOnSameTeam(entityIn) || this.fetchHenchmen().contains(entityIn)));
 	}
 	
 	@Override
@@ -137,7 +137,7 @@ public class EntityBigBrother extends EntityMob {
 	
 	/**
 	 * Make the items dropped from this mob invulnerable.
-	 * @param event
+	 * @param event the event
 	 */
 	@SubscribeEvent
 	public static void onLivingDrops(LivingDropsEvent event) {

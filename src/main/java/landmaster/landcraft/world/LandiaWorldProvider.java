@@ -9,7 +9,7 @@ import net.minecraft.world.storage.*;
 import net.minecraftforge.common.*;
 
 public class LandiaWorldProvider extends WorldProvider {
-	public static DimensionType DIMENSION_TYPE;
+	private static DimensionType DIMENSION_TYPE;
 	
 	public static void register() {
 		DIMENSION_TYPE = DimensionType.register("landia", "landia", Config.landiaDimensionID, LandiaWorldProvider.class,
